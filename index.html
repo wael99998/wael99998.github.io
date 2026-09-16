@@ -1034,13 +1034,11 @@
       <span id="nav_lbl_withdraw">السحب</span>
     </div>
   </nav>
-
   <script>
-        // 1. إعدادات الاتصال الآمن بـ Supabase (بدون تجميد الشاشة)
+    // 1. إعدادات الاتصال الآمن بـ Supabase (بدون تجميد الشاشة)
     const SUPABASE_URL = "https://tvypczferwkqnehhynwd.supabase.co";
     const SUPABASE_ANON_KEY = "sb_publishable_8M4imxTpGpHK9y4sZjJhjQ_0ZEk3fZb";
     let supabase = null;
-
     try {
       if (window.supabase && typeof window.supabase.createClient === 'function') {
         supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
@@ -1066,8 +1064,7 @@
           splash.style.pointerEvents = 'none';
           setTimeout(() => { splash.remove(); }, 500);
         }
-      }, 1500);
-      
+      }, 1500);  
       initLanguage();
       renderSocialTasks();
       render25Ads();
