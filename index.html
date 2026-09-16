@@ -1380,6 +1380,79 @@
     function connectWalletDemo(){showToast('ربط المحفظة في النسخة الحالية تجريبي فقط.')}
     function renderWeeklyReferral(){const c=document.getElementById('weeklyReferralBoard');if(c)c.innerHTML='<b>لوحة الأسبوع الحالية</b><br>1. مستخدم #A — 320 نقطة<br>2. مستخدم #B — 275 نقطة<br>3. مستخدم #C — 210 نقطة<br><span style="color:var(--primary-green)">تُحسب نقاطك من الإحالات المؤهلة على الحساب.</span>'}
 
+    // --- 6. المهام اليومية: بيانات فعلية داخل واجهة الاختبار وليست حاويات فارغة ---
+    const SOCIAL_TASKS = [
+      {id:'yt1',icon:'▶️',title:'متابعة قناة YouTube الرسمية',desc:'افتح القناة وشاهد المحتوى التعليمي.',points:25,url:'https://www.youtube.com/'},
+      {id:'x1',icon:'𝕏',title:'متابعة الحساب الرسمي على X',desc:'افتح الحساب وتحقق من آخر المنشورات.',points:20,url:'https://x.com/'},
+      {id:'tg1',icon:'✈️',title:'الانضمام إلى قناة Telegram',desc:'افتح قناة Telegram الرسمية.',points:25,url:'https://telegram.org/'},
+      {id:'yt2',icon:'🎬',title:'مشاهدة فيديو تعليمي',desc:'شاهد فيديو قصير عن حماية الحساب.',points:30,url:'https://www.youtube.com/'},
+      {id:'x2',icon:'📰',title:'قراءة آخر تحديث',desc:'افتح آخر تحديث على X.',points:15,url:'https://x.com/'},
+      {id:'tg2',icon:'📢',title:'قراءة إعلان القناة',desc:'افتح Telegram واقرأ آخر إعلان.',points:15,url:'https://telegram.org/'}
+    ];
+
+    function todayTaskKey(id){ return `sc_daily_task_${getDayKey()}_${id}`; }
+    function addTestPoints(n){
+      const cur=Number(localStorage.getItem('sc_test_points')||0)+Number(n||0);
+      localStorage.setItem('sc_test_points',String(cur));
+      return cur;
+    }
+    function renderSocialTasks(){
+      const c=document.getElementById('socialTasksContainer');
+      if(!c)return;
+      c.innerHTML='';
+      SOCIAL_TASKS.forEach(t=>{
+        const done=localStorage.getItem(todayTaskKey(t.id))==='1';
+        const e=document.createElement('div');
+        e.className='mining-hub-card';
+        e.style='padding:12px;display:flex;align-items:center;gap:10px;justify-content:space-between;';
+        e.innerHTML=`<div style="display:flex;gap:10px;align-items:center;min-width:0"><div style="font-size:26px">${t.icon}</div><div><b style="font-size:12px">${t.title}</b><div style="font-size:10px;color:var(--text-muted);margin-top:3px">${t.desc}</div><div style="font-size:10px;color:#0284c7;margin-top:4px">+${t.points} نقطة تجريبية</div></div></div><button class="btn-official-green" style="width:auto;padding:9px 12px;font-size:10px" ${done?'disabled':''} onclick="completeSocialTask('${t.id}',${t.points},'${t.url}')">${done?'✓ مكتملة':'فتح المهمة'}</button>`;
+        c.appendChild(e);
+      });
+    }
+    function completeSocialTask(id,points,url){
+      if(localStorage.getItem(todayTaskKey(id))==='1')return;
+      window.open(url,'_blank');
+      localStorage.setItem(todayTaskKey(id),'1');
+      const total=addTestPoints(points);
+      renderSocialTasks();
+      showToast(`تم تسجيل المهمة. رصيد نقاط الاختبار: ${total}`);
+    }
+
+    function render25Ads(){
+      const c=document.getElementById('adsContainer25');
+      if(!c)return;
+      c.innerHTML='';
+      for(let i=1;i<=25;i++){
+        const key=todayTaskKey('ad'+i),done=localStorage.getItem(key)==='1';
+        const e=document.createElement('div');
+        e.className='service-card';
+        e.style='display:flex;align-items:center;justify-content:space-between;gap:8px;padding:11px 12px;';
+        e.innerHTML=`<div><b style="font-size:12px">📺 مهمة فيديو ${i}</b><div style="font-size:9px;color:var(--text-muted);margin-top:3px">مكافأة: +10 نقاط تجريبية</div></div><button class="btn-official-green" style="width:auto;padding:8px 11px;font-size:10px" ${done?'disabled':''} onclick="completeDailyAd(${i})">${done?'✓ مكتملة':'بدء المهمة'}</button>`;
+        c.appendChild(e);
+      }
+    }
+    function completeDailyAd(i){
+      const key=todayTaskKey('ad'+i);
+      if(localStorage.getItem(key)==='1')return;
+      openAdModal(`فيديو المهمة ${i}`,()=>{
+        localStorage.setItem(key,'1');
+        const total=addTestPoints(10);
+        render25Ads();
+        showToast(`تمت المهمة ${i}. نقاط الاختبار: ${total}`);
+      });
+    }
+
+    // أزرار التعدين في الواجهة: تشغيل/إيقاف حالة الجلسة التجريبية فقط.
+    function clickMiningCircle(){
+      localStorage.setItem('sc_usdt_start',String(Date.now()));
+      showToast('تم تشغيل جلسة الاحتساب التجريبية.');
+    }
+    function clickSycStation(){
+      localStorage.setItem('sc_syc_start',String(Date.now()));
+      showToast('تم تشغيل جلسة SYC التجريبية.');
+    }
+    function clickCounterBox(){ showToast('العداد محفوظ محليًا ولا يتأثر بإغلاق التطبيق.'); }
+
     function saveBalances() {
       localStorage.setItem('sc_tot', totalBal.toString());
       localStorage.setItem('sc_syc_tot', sycTotal.toString());
