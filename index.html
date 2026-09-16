@@ -1036,6 +1036,17 @@
   </nav>
 
   <script>
+        // 1. إعدادات الاتصال بـ Supabase
+    const SUPABASE_URL = "https://tvypczferwkqnehhynwd.supabase.co";
+    const SUPABASE_ANON_KEY = "sb_publishable_8M4imxTpGpHK9y4sZjJhjQ_0ZEk3fZb";
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    // 2. معالج معرّف المستخدم
+    let currentUserId = localStorage.getItem('sc_user_id');
+    if (!currentUserId) {
+      currentUserId = 'user_' + Math.random().toString(36).substr(2, 9);
+      localStorage.setItem('sc_user_id', currentUserId);
+    }
     let totalBal = parseFloat(localStorage.getItem('sc_tot') || '0.2366');
     let sycTotal = parseFloat(localStorage.getItem('sc_syc_tot') || '240.50');
 
