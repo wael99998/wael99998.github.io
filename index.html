@@ -1036,11 +1036,18 @@
   </nav>
 
   <script>
-        // 1. إعدادات الاتصال بـ Supabase
+        // 1. إعدادات الاتصال الآمن بـ Supabase (بدون تجميد الشاشة)
     const SUPABASE_URL = "https://tvypczferwkqnehhynwd.supabase.co";
     const SUPABASE_ANON_KEY = "sb_publishable_8M4imxTpGpHK9y4sZjJhjQ_0ZEk3fZb";
-    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    let supabase = null;
 
+    try {
+      if (window.supabase && typeof window.supabase.createClient === 'function') {
+        supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+      }
+    } catch (err) {
+      console.warn("تنبيه: جاري تحميل مكتبة Supabase في الخلفية...");
+    }
     // 2. معالج معرّف المستخدم
     let currentUserId = localStorage.getItem('sc_user_id');
     if (!currentUserId) {
