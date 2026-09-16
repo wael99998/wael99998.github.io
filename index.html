@@ -1035,19 +1035,31 @@
     </div>
   </nav>
   <script>
-        // 1. كود طوارئ لإخفاء الشاشة التمهيدية تلقائياً (Fail-Safe)
+  <script>
+    // 1. كود طوارئ لإخفاء الشاشة التمهيدية تلقائياً (Fail-Safe)
     function forceHideSplash() {
-      const splash = document.getElementById('splash') || document.querySelector('[class*="splash"]');
+      const splash = document.getElementById('appSplashScreen');
       if (splash) {
         splash.style.transition = 'opacity 0.5s ease';
         splash.style.opacity = '0';
         splash.style.pointerEvents = 'none';
-        setTimeout(() => splash.remove(), 500);
+        setTimeout(() => { try { splash.remove(); } catch(e){} }, 500);
       }
     }
-    setTimeout(forceHideSplash, 1500);
+    setTimeout(forceHideSplash, 1600);
 
-    // 2. إعدادات الاتصال بـ Supabase
+    // 2. مراقبة حالة الاتصال بالإنترنت
+    window.addEventListener('online', () => {
+      const b = document.getElementById('offline-banner');
+      if (b) b.style.display = 'none';
+      showToast('تم استعادة الاتصال بالإنترنت بنجاح! 🟢');
+    });
+    window.addEventListener('offline', () => {
+      const b = document.getElementById('offline-banner');
+      if (b) b.style.display = 'block';
+    });
+
+    // 3. إعدادات الاتصال الآمن بـ Supabase
     const SUPABASE_URL = "https://tvypczferwkqnehhynwd.supabase.co";
     const SUPABASE_ANON_KEY = "sb_publishable_8M4imxTpGpHK9y4sZjJhjQ_0ZEk3fZb";
     let supabase = null;
@@ -1057,10 +1069,10 @@
         supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
       }
     } catch (e) {
-      console.warn("Supabase init deferred");
+      console.warn("Supabase init deferred:", e);
     }
 
-    // 3. معالج معرّف المستخدم
+    // 4. معالج معرّف المستخدم
     let currentUserId = localStorage.getItem('sc_user_id');
     if (!currentUserId) {
       currentUserId = 'user_' + Math.random().toString(36).substr(2, 9);
@@ -1068,7 +1080,7 @@
     }
     let totalBal = parseFloat(localStorage.getItem('sc_tot') || '0.2366');
     let sycTotal = parseFloat(localStorage.getItem('sc_syc_tot') || '240.50');
-
+    
     // --- 1. الشاشة التمهيدية والحالة العامة ---
     window.addEventListener('load', () => {
       setTimeout(() => {
