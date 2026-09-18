@@ -4,643 +4,195 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>Syria Cash | المنصة الرقمية</title>
-
-  <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#00462a">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
-
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" onerror="window.__sbFailed=true"></script>
 
   <style>
-    :root {
-      --bg-light: #f4f6f9;
-      --card-bg: #ffffff;
-      --primary-green: #005a36;
-      --primary-dark: #00462a;
-      --accent-gold: #c59b27;
-      --accent-gold-light: #fef3c7;
-      --text-dark: #0f172a;
-      --text-muted: #64748b;
-      --border-color: #e2e8f0;
-      --danger-red: #ef4444;
-      --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
-      --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.06);
+    :root{
+      --bg-light:#f4f6f9;--card-bg:#fff;--primary-green:#005a36;--primary-dark:#00462a;
+      --accent-gold:#c59b27;--accent-gold-light:#fef3c7;--text-dark:#0f172a;--text-muted:#64748b;
+      --border-color:#e2e8f0;--danger-red:#ef4444;--shadow-sm:0 2px 8px rgba(0,0,0,.04);
+      --shadow-md:0 8px 24px rgba(0,0,0,.06);
     }
+    *{box-sizing:border-box;margin:0;padding:0;
+      font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Noto Kufi Arabic',sans-serif;
+      -webkit-tap-highlight-color:transparent;user-select:none;}
+    body{background-color:var(--bg-light);background-image:radial-gradient(#e2e8f0 1px,transparent 1px);
+      background-size:20px 20px;color:var(--text-dark);padding-bottom:95px;overflow-x:hidden;min-height:100vh;}
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Kufi Arabic', sans-serif;
-      -webkit-tap-highlight-color: transparent;
-      user-select: none;
-    }
+    /* ============ SPLASH ============ */
+    #appSplashScreen{position:fixed;inset:0;background:radial-gradient(circle at center,#00462a 0%,#001a10 100%);
+      display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:999999;
+      transition:opacity .6s ease;pointer-events:auto;}
+    #appSplashScreen.hide{opacity:0;pointer-events:none;}
+    .splash-container{text-align:center;display:flex;flex-direction:column;align-items:center;
+      animation:splashPop .8s ease-out forwards;}
+    .splash-flag-badge{width:95px;height:60px;border-radius:8px;overflow:hidden;display:flex;flex-direction:column;
+      border:2px solid rgba(255,255,255,.3);
+      box-shadow:0 10px 25px rgba(0,0,0,.5),0 0 20px rgba(0,245,160,.2);
+      margin-bottom:16px;animation:floatFlag 2.4s ease-in-out infinite alternate;}
+    .splash-flag-green{background:#007a3d;height:33.3%;}
+    .splash-flag-white{background:#fff;height:33.3%;display:flex;justify-content:space-evenly;align-items:center;padding:0 8px;}
+    .splash-flag-black{background:#000;height:33.4%;}
+    .splash-star{color:#ce1126;font-size:13px;line-height:1;}
+    .splash-app-title{font-size:26px;font-weight:900;color:#fff;letter-spacing:1.5px;margin-bottom:4px;}
+    .splash-app-title span{color:var(--accent-gold);}
+    .splash-sub-title{font-size:11px;color:#a7f3d0;font-weight:600;margin-bottom:24px;letter-spacing:.5px;}
+    .splash-loader-bar-bg{width:170px;height:5px;background:rgba(255,255,255,.15);border-radius:10px;overflow:hidden;}
+    .splash-loader-bar-fill{width:0%;height:100%;
+      background:linear-gradient(90deg,#38bdf8,var(--accent-gold),#00f5a0);border-radius:10px;
+      animation:splashFill 5s linear forwards;}
+    @keyframes splashPop{0%{opacity:0;transform:scale(.85);}100%{opacity:1;transform:scale(1);}}
+    @keyframes floatFlag{0%{transform:translateY(0) scale(1);}100%{transform:translateY(-6px) scale(1.03);}}
+    @keyframes splashFill{0%{width:0%;}100%{width:100%;}}
 
-    body {
-      background-color: var(--bg-light);
-      background-image: radial-gradient(#e2e8f0 1px, transparent 1px);
-      background-size: 20px 20px;
-      color: var(--text-dark);
-      padding-bottom: 95px;
-      overflow-x: hidden;
-      min-height: 100vh;
-    }
+    #offline-banner{display:none;position:fixed;top:0;left:0;right:0;background:var(--danger-red);color:#fff;
+      text-align:center;padding:8px;font-size:12px;font-weight:bold;z-index:10000;}
 
-    #appSplashScreen {
-      position: fixed;
-      inset: 0;
-      background: radial-gradient(circle at center, #00462a 0%, #001a10 100%);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      z-index: 999999;
-      transition: opacity 0.5s ease;
-    }
+    .top-header{background:#fff;border-bottom:1px solid var(--border-color);padding:10px 14px;
+      display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:50;box-shadow:var(--shadow-sm);}
+    .header-icons{display:flex;align-items:center;gap:6px;}
+    .icon-btn-outline{width:36px;height:36px;border-radius:10px;border:1px solid #cbd5e1;background:#fff;
+      display:flex;align-items:center;justify-content:center;color:var(--primary-green);cursor:pointer;transition:all .15s;}
+    .icon-btn-outline:active{background:#f1f5f9;transform:scale(.95);}
+    .lang-dropdown{border:1px solid #cbd5e1;background:#fff;border-radius:8px;padding:6px 8px;font-size:11px;
+      font-weight:bold;color:var(--primary-green);outline:none;cursor:pointer;}
+    .official-brand{display:flex;flex-direction:column;align-items:flex-end;}
+    body[dir="ltr"] .official-brand{align-items:flex-start;}
+    .brand-row{display:flex;align-items:center;gap:8px;}
+    .syria-eagle{font-size:20px;color:var(--accent-gold);line-height:1;}
+    .brand-name{font-size:16px;font-weight:900;color:var(--primary-green);letter-spacing:.5px;}
+    .brand-sub{font-size:9px;color:var(--text-muted);font-weight:600;margin-top:-2px;}
+    .syria-flag-badge{width:22px;height:14px;border-radius:2px;overflow:hidden;display:inline-flex;flex-direction:column;border:1px solid #cbd5e1;}
+    .flag-green{background:#007a3d;height:33.3%;}
+    .flag-white{background:#fff;height:33.3%;display:flex;justify-content:space-around;align-items:center;}
+    .flag-black{background:#000;height:33.4%;}
+    .star{width:2.5px;height:2.5px;background:#ce1126;border-radius:50%;}
 
-    .splash-container {
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      animation: splashPop 0.8s ease-out forwards;
-    }
+    .ticker-bar{background:#fff;border-bottom:1px solid #e2e8f0;padding:6px 0;overflow:hidden;white-space:nowrap;font-size:11px;color:var(--text-muted);}
+    .ticker-content{display:inline-block;animation:tickerRun 25s linear infinite;}
+    @keyframes tickerRun{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
 
-    .splash-flag-badge {
-      width: 95px;
-      height: 60px;
-      border-radius: 8px;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      border: 2px solid rgba(255, 255, 255, 0.3);
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 245, 160, 0.2);
-      margin-bottom: 16px;
-      animation: floatFlag 2.4s ease-in-out infinite alternate;
-    }
+    .container{padding:14px;max-width:480px;margin:0 auto;}
 
-    .splash-flag-green { background: #007a3d; height: 33.3%; }
-    .splash-flag-white { 
-      background: #ffffff; 
-      height: 33.3%; 
-      display: flex; 
-      justify-content: space-evenly; 
-      align-items: center; 
-      padding: 0 8px;
-    }
-    .splash-flag-black { background: #000000; height: 33.4%; }
-    .splash-star { color: #ce1126; font-size: 13px; line-height: 1; }
+    .airdrop-hero-banner{background:linear-gradient(135deg,#1e1b4b 0%,#0f172a 100%);color:#fff;
+      border:2px solid #818cf8;border-radius:20px;padding:20px;margin-bottom:16px;
+      box-shadow:0 10px 25px rgba(99,102,241,.25);position:relative;}
+    .airdrop-badge-top{position:absolute;top:14px;left:14px;background:#6366f1;color:#fff;font-size:10px;
+      font-weight:900;padding:3px 10px;border-radius:8px;}
+    body[dir="ltr"] .airdrop-badge-top{left:auto;right:14px;}
+    .airdrop-balance-big{font-size:34px;font-weight:900;color:#38bdf8;margin:6px 0;display:flex;align-items:baseline;gap:6px;}
+    .airdrop-timer-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;text-align:center;margin:12px 0 10px 0;}
+    .time-slot{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:6px 2px;}
+    .time-num{font-size:17px;font-weight:900;color:#fde047;}
+    .time-lbl{font-size:9px;color:#cbd5e1;}
+    .airdrop-progress-bar-bg{width:100%;height:8px;background:rgba(255,255,255,.15);border-radius:10px;overflow:hidden;margin-top:8px;}
+    .airdrop-progress-fill{width:18%;height:100%;background:linear-gradient(90deg,#38bdf8,#00f5a0);border-radius:10px;transition:width .3s;}
 
-    .splash-app-title {
-      font-size: 26px;
-      font-weight: 900;
-      color: #ffffff;
-      letter-spacing: 1.5px;
-      margin-bottom: 4px;
-    }
+    .hero-banner{background:linear-gradient(135deg,#005a36 0%,#003822 100%);color:#fff;border-radius:18px;
+      padding:18px;margin-bottom:14px;position:relative;overflow:hidden;box-shadow:0 10px 25px rgba(0,90,54,.22);}
+    .hero-banner::after{content:"SYRIA CASH";position:absolute;left:-20px;bottom:-15px;font-size:40px;
+      font-weight:900;color:rgba(255,255,255,.05);letter-spacing:2px;}
+    .hero-title{font-size:12px;color:#a7f3d0;font-weight:700;margin-bottom:4px;}
+    .hero-balance{font-size:32px;font-weight:900;display:flex;align-items:baseline;gap:6px;}
+    .hero-balance small{font-size:16px;color:var(--accent-gold);}
+    .hero-meta{font-size:11px;color:#d1fae5;margin-top:6px;display:flex;justify-content:space-between;}
 
-    .splash-app-title span { color: var(--accent-gold); }
+    .section-header{font-size:13px;font-weight:800;color:var(--text-dark);margin-bottom:10px;display:flex;align-items:center;gap:6px;}
+    .section-header::before{content:"";width:4px;height:14px;background:var(--primary-green);border-radius:2px;display:inline-block;}
 
-    .splash-sub-title {
-      font-size: 11px;
-      color: #a7f3d0;
-      font-weight: 600;
-      margin-bottom: 24px;
-      letter-spacing: 0.5px;
-    }
+    .services-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;}
+    .service-card{background:#fff;border:1px solid #e2e8f0;border-radius:16px;padding:14px 10px;text-align:center;
+      cursor:pointer;box-shadow:var(--shadow-sm);transition:all .2s;display:flex;flex-direction:column;align-items:center;gap:8px;}
+    .service-card:active{transform:scale(.96);border-color:var(--primary-green);}
+    .service-icon-wrap{width:48px;height:48px;border-radius:14px;background:#f0fdf4;border:1px solid #bbf7d0;
+      display:flex;align-items:center;justify-content:center;color:var(--primary-green);}
+    .service-icon-wrap svg{width:24px;height:24px;stroke-width:1.8;}
+    .service-title{font-size:12px;font-weight:800;color:var(--text-dark);}
+    .service-badge{font-size:9px;font-weight:700;color:var(--primary-green);background:#e6f4ea;padding:2px 8px;border-radius:10px;}
 
-    .splash-loader-bar-bg {
-      width: 170px;
-      height: 5px;
-      background: rgba(255, 255, 255, 0.15);
-      border-radius: 10px;
-      overflow: hidden;
-      position: relative;
-    }
+    .mining-hub-card{background:#fff;border:1px solid #e2e8f0;border-radius:18px;padding:18px;text-align:center;
+      margin-bottom:16px;box-shadow:var(--shadow-sm);}
+    .circle-mining-outer{width:136px;height:136px;border-radius:50%;border:4px dashed var(--primary-green);
+      margin:12px auto;display:flex;align-items:center;justify-content:center;
+      animation:spinBorder 12s linear infinite;cursor:pointer;}
+    .circle-mining-inner{width:106px;height:106px;border-radius:50%;
+      background:linear-gradient(135deg,#005a36,#003620);display:flex;flex-direction:column;
+      align-items:center;justify-content:center;color:#fff;box-shadow:0 6px 16px rgba(0,90,54,.3);
+      animation:cancelSpin 12s linear infinite;}
+    .circle-syc-outer{border-color:#6366f1;}
+    .circle-syc-inner{background:linear-gradient(135deg,#4f46e5,#312e81);box-shadow:0 6px 16px rgba(79,70,229,.35);}
+    @keyframes spinBorder{100%{transform:rotate(360deg);}}
+    @keyframes cancelSpin{100%{transform:rotate(-360deg);}}
+    .live-unclaimed-txt{font-size:20px;font-weight:900;color:var(--primary-green);margin-top:8px;}
 
-    .splash-loader-bar-fill {
-      width: 0%;
-      height: 100%;
-      background: linear-gradient(90deg, #38bdf8, var(--accent-gold), #00f5a0);
-      border-radius: 10px;
-      animation: splashFill 2.5s ease-in-out forwards;
-    }
+    .btn-official-green{width:100%;background:linear-gradient(180deg,#005a36 0%,#004328 100%);color:#fff;border:none;
+      padding:13px;border-radius:12px;font-size:13px;font-weight:800;display:flex;align-items:center;justify-content:center;
+      gap:6px;cursor:pointer;box-shadow:0 4px 12px rgba(0,90,54,.2);transition:all .15s;}
+    .btn-official-green:active{transform:translateY(2px);}
+    .btn-official-green:disabled{background:#64748b !important;cursor:not-allowed;}
 
-    @keyframes splashPop {
-      0% { opacity: 0; transform: scale(0.85); }
-      100% { opacity: 1; transform: scale(1); }
-    }
+    .games-grid{display:grid;grid-template-columns:1fr;gap:16px;margin-bottom:16px;}
+    .game-card-modern{background:#fff;border:1px solid #e2e8f0;border-radius:20px;padding:18px;
+      box-shadow:0 4px 14px rgba(0,0,0,.03);text-align:center;position:relative;overflow:hidden;transition:all .2s;}
+    .game-card-modern:hover{border-color:var(--primary-green);transform:translateY(-2px);}
+    .game-badge-status{position:absolute;top:12px;right:12px;font-size:10px;font-weight:800;padding:4px 10px;border-radius:12px;}
+    body[dir="ltr"] .game-badge-status{right:auto;left:12px;}
+    .status-free{background:#dcfce7;color:#15803d;border:1px solid #86efac;}
+    .status-locked{background:#fee2e2;color:#b91c1c;border:1px solid #fca5a5;}
 
-    @keyframes floatFlag {
-      0% { transform: translateY(0) scale(1); }
-      100% { transform: translateY(-6px) scale(1.03); }
-    }
+    .jackpot-card{background:linear-gradient(135deg,#1e1b4b 0%,#0f172a 100%);color:#fff;border:2px solid var(--accent-gold);
+      border-radius:20px;padding:18px;text-align:center;margin-bottom:16px;box-shadow:0 8px 24px rgba(197,155,39,.25);}
+    .jackpot-val{font-size:28px;font-weight:900;color:#fbbf24;margin:6px 0;}
 
-    @keyframes splashFill {
-      0% { width: 0%; }
-      60% { width: 75%; }
-      100% { width: 100%; }
-    }
+    .official-bottom-nav{position:fixed;bottom:0;left:0;right:0;height:70px;background:var(--primary-dark);
+      border-top-left-radius:22px;border-top-right-radius:22px;display:flex;justify-content:space-around;align-items:center;
+      z-index:100;max-width:480px;margin:0 auto;box-shadow:0 -8px 24px rgba(0,70,42,.25);padding:0 2px;}
+    .nav-link-btn{display:flex;flex-direction:column;align-items:center;justify-content:center;color:#94b8a3;
+      font-size:9px;font-weight:700;cursor:pointer;gap:2px;flex:1;transition:all .15s;}
+    .nav-link-btn svg{width:19px;height:19px;stroke-width:1.8;}
+    .nav-link-btn.active{color:#fff;transform:translateY(-2px);}
+    .nav-link-btn.active svg{stroke:#a7f3d0;}
 
-    #offline-banner {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      background: var(--danger-red);
-      color: white;
-      text-align: center;
-      padding: 8px;
-      font-size: 12px;
-      font-weight: bold;
-      z-index: 10000;
-    }
+    .tab-view{display:none;}
+    .tab-view.active{display:block;}
 
-    .top-header {
-      background: #ffffff;
-      border-bottom: 1px solid var(--border-color);
-      padding: 10px 14px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      position: sticky;
-      top: 0;
-      z-index: 50;
-      box-shadow: var(--shadow-sm);
-    }
-
-    .header-icons { display: flex; align-items: center; gap: 6px; }
-
-    .icon-btn-outline {
-      width: 36px;
-      height: 36px;
-      border-radius: 10px;
-      border: 1px solid #cbd5e1;
-      background: #ffffff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--primary-green);
-      cursor: pointer;
-      transition: all 0.15s;
-    }
-    .icon-btn-outline:active { background: #f1f5f9; transform: scale(0.95); }
-
-    .lang-dropdown {
-      border: 1px solid #cbd5e1;
-      background: #ffffff;
-      border-radius: 8px;
-      padding: 6px 8px;
-      font-size: 11px;
-      font-weight: bold;
-      color: var(--primary-green);
-      outline: none;
-      cursor: pointer;
-    }
-
-    .official-brand { display: flex; flex-direction: column; align-items: flex-end; }
-    body[dir="ltr"] .official-brand { align-items: flex-start; }
-
-    .brand-row { display: flex; align-items: center; gap: 8px; }
-    .syria-eagle { font-size: 20px; color: var(--accent-gold); line-height: 1; }
-
-    .brand-name {
-      font-size: 16px;
-      font-weight: 900;
-      color: var(--primary-green);
-      letter-spacing: 0.5px;
-    }
-
-    .brand-sub { font-size: 9px; color: var(--text-muted); font-weight: 600; margin-top: -2px; }
-
-    .syria-flag-badge {
-      width: 22px;
-      height: 14px;
-      border-radius: 2px;
-      overflow: hidden;
-      display: inline-flex;
-      flex-direction: column;
-      border: 1px solid #cbd5e1;
-    }
-    .flag-green { background: #007a3d; height: 33.3%; }
-    .flag-white { background: #ffffff; height: 33.3%; position: relative; display: flex; justify-content: space-around; align-items: center; }
-    .flag-black { background: #000000; height: 33.4%; }
-    .star { width: 2.5px; height: 2.5px; background: #ce1126; border-radius: 50%; }
-
-    .ticker-bar {
-      background: #ffffff;
-      border-bottom: 1px solid #e2e8f0;
-      padding: 6px 0;
-      overflow: hidden;
-      white-space: nowrap;
-      font-size: 11px;
-      color: var(--text-muted);
-    }
-    .ticker-content { display: inline-block; animation: tickerRun 25s linear infinite; }
-    @keyframes tickerRun { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-
-    .container { padding: 14px; max-width: 480px; margin: 0 auto; }
-
-    .airdrop-hero-banner {
-      background: linear-gradient(135deg, #1e1b4b 0%, #0f172a 100%);
-      color: #ffffff;
-      border: 2px solid #818cf8;
-      border-radius: 20px;
-      padding: 20px;
-      margin-bottom: 16px;
-      box-shadow: 0 10px 25px rgba(99, 102, 241, 0.25);
-      position: relative;
-    }
-    .airdrop-badge-top {
-      position: absolute;
-      top: 14px;
-      left: 14px;
-      background: #6366f1;
-      color: #fff;
-      font-size: 10px;
-      font-weight: 900;
-      padding: 3px 10px;
-      border-radius: 8px;
-    }
-    body[dir="ltr"] .airdrop-badge-top { left: auto; right: 14px; }
-
-    .airdrop-balance-big {
-      font-size: 34px;
-      font-weight: 900;
-      color: #38bdf8;
-      margin: 6px 0;
-      display: flex;
-      align-items: baseline;
-      gap: 6px;
-    }
-
-    .airdrop-timer-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 6px;
-      text-align: center;
-      margin: 12px 0 10px 0;
-    }
-    .time-slot { background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 10px; padding: 6px 2px; }
-    .time-num { font-size: 17px; font-weight: 900; color: #fde047; }
-    .time-lbl { font-size: 9px; color: #cbd5e1; }
-
-    .airdrop-progress-bar-bg { width: 100%; height: 8px; background: rgba(255, 255, 255, 0.15); border-radius: 10px; overflow: hidden; margin-top: 8px; }
-    .airdrop-progress-fill { width: 18%; height: 100%; background: linear-gradient(90deg, #38bdf8, #00f5a0); border-radius: 10px; transition: width 0.3s; }
-
-    .hero-banner {
-      background: linear-gradient(135deg, #005a36 0%, #003822 100%);
-      color: #ffffff;
-      border-radius: 18px;
-      padding: 18px;
-      margin-bottom: 14px;
-      position: relative;
-      overflow: hidden;
-      box-shadow: 0 10px 25px rgba(0, 90, 54, 0.22);
-    }
-    .hero-banner::after {
-      content: "SYRIA CASH";
-      position: absolute;
-      left: -20px;
-      bottom: -15px;
-      font-size: 40px;
-      font-weight: 900;
-      color: rgba(255, 255, 255, 0.05);
-      letter-spacing: 2px;
-    }
-    .hero-title { font-size: 12px; color: #a7f3d0; font-weight: 700; margin-bottom: 4px; }
-    .hero-balance { font-size: 32px; font-weight: 900; display: flex; align-items: baseline; gap: 6px; }
-    .hero-balance small { font-size: 16px; color: var(--accent-gold); }
-    .hero-meta { font-size: 11px; color: #d1fae5; margin-top: 6px; display: flex; justify-content: space-between; }
-
-    .section-header {
-      font-size: 13px;
-      font-weight: 800;
-      color: var(--text-dark);
-      margin-bottom: 10px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .section-header::before {
-      content: "";
-      width: 4px;
-      height: 14px;
-      background: var(--primary-green);
-      border-radius: 2px;
-      display: inline-block;
-    }
-
-    .services-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
-
-    .service-card {
-      background: #ffffff;
-      border: 1px solid #e2e8f0;
-      border-radius: 16px;
-      padding: 14px 10px;
-      text-align: center;
-      cursor: pointer;
-      box-shadow: var(--shadow-sm);
-      transition: all 0.2s;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 8px;
-    }
-    .service-card:active { transform: scale(0.96); border-color: var(--primary-green); }
-
-    .service-icon-wrap {
-      width: 48px;
-      height: 48px;
-      border-radius: 14px;
-      background: #f0fdf4;
-      border: 1px solid #bbf7d0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--primary-green);
-    }
-    .service-icon-wrap svg { width: 24px; height: 24px; stroke-width: 1.8; }
-
-    .service-title { font-size: 12px; font-weight: 800; color: var(--text-dark); }
-    .service-badge { font-size: 9px; font-weight: 700; color: var(--primary-green); background: #e6f4ea; padding: 2px 8px; border-radius: 10px; }
-
-    .mining-hub-card {
-      background: #ffffff;
-      border: 1px solid #e2e8f0;
-      border-radius: 18px;
-      padding: 18px;
-      text-align: center;
-      margin-bottom: 16px;
-      box-shadow: var(--shadow-sm);
-    }
-
-    .circle-mining-outer {
-      width: 136px;
-      height: 136px;
-      border-radius: 50%;
-      border: 4px dashed var(--primary-green);
-      margin: 12px auto;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      animation: spinBorder 12s linear infinite;
-      cursor: pointer;
-    }
-    .circle-mining-inner {
-      width: 106px;
-      height: 106px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #005a36, #003620);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      color: #ffffff;
-      box-shadow: 0 6px 16px rgba(0, 90, 54, 0.3);
-      animation: cancelSpin 12s linear infinite;
-    }
-
-    .circle-syc-outer { border-color: #6366f1; }
-    .circle-syc-inner {
-      background: linear-gradient(135deg, #4f46e5, #312e81);
-      box-shadow: 0 6px 16px rgba(79, 70, 229, 0.35);
-    }
-
-    @keyframes spinBorder { 100% { transform: rotate(360deg); } }
-    @keyframes cancelSpin { 100% { transform: rotate(-360deg); } }
-
-    .live-unclaimed-txt { font-size: 20px; font-weight: 900; color: var(--primary-green); margin-top: 8px; }
-
-    .btn-official-green {
-      width: 100%;
-      background: linear-gradient(180deg, #005a36 0%, #004328 100%);
-      color: #ffffff;
-      border: none;
-      padding: 13px;
-      border-radius: 12px;
-      font-size: 13px;
-      font-weight: 800;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      cursor: pointer;
-      box-shadow: 0 4px 12px rgba(0, 90, 54, 0.2);
-      transition: all 0.15s;
-    }
-    .btn-official-green:active { transform: translateY(2px); }
-
-    .games-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 16px;
-      margin-bottom: 16px;
-    }
-
-    .game-card-modern {
-      background: #ffffff;
-      border: 1px solid #e2e8f0;
-      border-radius: 20px;
-      padding: 18px;
-      box-shadow: 0 4px 14px rgba(0,0,0,0.03);
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-      transition: all 0.2s;
-    }
-    .game-card-modern:hover { border-color: var(--primary-green); transform: translateY(-2px); }
-
-    .game-badge-status {
-      position: absolute;
-      top: 12px;
-      right: 12px;
-      font-size: 10px;
-      font-weight: 800;
-      padding: 4px 10px;
-      border-radius: 12px;
-    }
-    body[dir="ltr"] .game-badge-status { right: auto; left: 12px; }
-    
-    .status-free { background: #dcfce7; color: #15803d; border: 1px solid #86efac; }
-    .status-locked { background: #fee2e2; color: #b91c1c; border: 1px solid #fca5a5; }
-
-    .jackpot-card {
-      background: linear-gradient(135deg, #1e1b4b 0%, #0f172a 100%);
-      color: #ffffff;
-      border: 2px solid var(--accent-gold);
-      border-radius: 20px;
-      padding: 18px;
-      text-align: center;
-      margin-bottom: 16px;
-      box-shadow: 0 8px 24px rgba(197, 155, 39, 0.25);
-    }
-    .jackpot-val { font-size: 28px; font-weight: 900; color: #fbbf24; margin: 6px 0; }
-
-    .official-bottom-nav {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      height: 70px;
-      background: var(--primary-dark);
-      border-top-left-radius: 22px;
-      border-top-right-radius: 22px;
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-      z-index: 100;
-      max-width: 480px;
-      margin: 0 auto;
-      box-shadow: 0 -8px 24px rgba(0, 70, 42, 0.25);
-      padding: 0 2px;
-    }
-
-    .nav-link-btn {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      color: #94b8a3;
-      font-size: 9px;
-      font-weight: 700;
-      cursor: pointer;
-      gap: 2px;
-      flex: 1;
-      transition: all 0.15s;
-    }
-    .nav-link-btn svg { width: 19px; height: 19px; stroke-width: 1.8; }
-    .nav-link-btn.active { color: #ffffff; transform: translateY(-2px); }
-    .nav-link-btn.active svg { stroke: #a7f3d0; }
-
-    .tab-view { display: none; }
-    .tab-view.active { display: block; }
-
-    .modal-backdrop-clean {
-      position: fixed;
-      inset: 0;
-      background: rgba(15, 23, 42, 0.75);
-      backdrop-filter: blur(5px);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 999;
-      padding: 16px;
-    }
-    .modal-box-clean {
-      background: #ffffff;
-      border-radius: 20px;
-      width: 100%;
-      max-width: 360px;
-      padding: 20px;
-      text-align: center;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.25);
-      max-height: 85vh;
-      overflow-y: auto;
-    }
-
-    .input-clean {
-      width: 100%;
-      padding: 11px;
-      border-radius: 10px;
-      border: 1px solid #cbd5e1;
-      background: #f8fafc;
-      font-size: 12px;
-      color: #0f172a;
-      outline: none;
-      margin-top: 4px;
-    }
-    .input-clean:focus { border-color: var(--primary-green); background: #ffffff; }
-
-    .toast-clean {
-      position: fixed;
-      top: 65px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: var(--primary-green);
-      color: #ffffff;
-      padding: 8px 18px;
-      border-radius: 20px;
-      font-size: 12px;
-      font-weight: 700;
-      display: none;
-      z-index: 1000;
-      box-shadow: 0 4px 14px rgba(0,0,0,0.15);
-    }
-
-    .ad-player-box {
-      background: #000;
-      border-radius: 12px;
-      padding: 20px;
-      color: #fff;
-      margin: 12px 0;
-    }
-    .ad-sim-video {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-    }
-    .ad-progress-bar-wrap {
-      width: 100%;
-      height: 6px;
-      background: rgba(255,255,255,0.2);
-      border-radius: 4px;
-      margin-top: 12px;
-      overflow: hidden;
-    }
-    .ad-progress-bar-fill {
-      width: 0%;
-      height: 100%;
-      background: #00f5a0;
-      transition: width 1s linear;
-    }
-    
-    .vip-benefit-card {
-      background: #ffffff;
-      border: 1px solid #e2e8f0;
-      border-radius: 16px;
-      padding: 14px;
-      margin-bottom: 12px;
-      box-shadow: var(--shadow-sm);
-    }
-    .vip-benefit-title {
-      font-size: 13px;
-      font-weight: 900;
-      color: var(--primary-green);
-      margin-bottom: 6px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .vip-benefit-desc {
-      font-size: 11px;
-      color: var(--text-dark);
-      line-height: 1.6;
-    }
+    .modal-backdrop-clean{position:fixed;inset:0;background:rgba(15,23,42,.75);backdrop-filter:blur(5px);
+      display:none;align-items:center;justify-content:center;z-index:999;padding:16px;}
+    .modal-box-clean{background:#fff;border-radius:20px;width:100%;max-width:360px;padding:20px;text-align:center;
+      box-shadow:0 20px 40px rgba(0,0,0,.25);max-height:85vh;overflow-y:auto;}
+    .input-clean{width:100%;padding:11px;border-radius:10px;border:1px solid #cbd5e1;background:#f8fafc;
+      font-size:12px;color:#0f172a;outline:none;margin-top:4px;}
+    .input-clean:focus{border-color:var(--primary-green);background:#fff;}
+    .toast-clean{position:fixed;top:65px;left:50%;transform:translateX(-50%);background:var(--primary-green);color:#fff;
+      padding:8px 18px;border-radius:20px;font-size:12px;font-weight:700;display:none;z-index:1000;box-shadow:0 4px 14px rgba(0,0,0,.15);}
+    .ad-player-box{background:#000;border-radius:12px;padding:20px;color:#fff;margin:12px 0;}
+    .ad-sim-video{display:flex;flex-direction:column;align-items:center;justify-content:center;}
+    .ad-progress-bar-wrap{width:100%;height:6px;background:rgba(255,255,255,.2);border-radius:4px;margin-top:12px;overflow:hidden;}
+    .ad-progress-bar-fill{width:0%;height:100%;background:#00f5a0;transition:width 1s linear;}
+    .vip-benefit-card{background:#fff;border:1px solid #e2e8f0;border-radius:16px;padding:14px;margin-bottom:12px;box-shadow:var(--shadow-sm);}
+    .vip-benefit-title{font-size:13px;font-weight:900;color:var(--primary-green);margin-bottom:6px;display:flex;align-items:center;gap:6px;}
+    .vip-benefit-desc{font-size:11px;color:var(--text-dark);line-height:1.6;}
     @media (max-width:480px){.games-grid{grid-template-columns:1fr !important}.hero-meta{flex-wrap:wrap;gap:6px}.section-header{font-size:14px}}
   </style>
 </head>
 <body>
 
+  <!-- ===== شاشة البداية (5 ثواني) ===== -->
   <div id="appSplashScreen">
     <div class="splash-container">
       <div class="splash-flag-badge">
         <div class="splash-flag-green"></div>
         <div class="splash-flag-white">
-          <span class="splash-star">★</span>
-          <span class="splash-star">★</span>
-          <span class="splash-star">★</span>
+          <span class="splash-star">★</span><span class="splash-star">★</span><span class="splash-star">★</span>
         </div>
         <div class="splash-flag-black"></div>
       </div>
       <h1 class="splash-app-title">SYRIA <span>CASH</span></h1>
-      <p class="splash-sub-title" id="lbl_splash_sub">المنظومة الرقمية للمعاملات والتعدين السحابي</p>
-      <div class="splash-loader-bar-bg">
-        <div class="splash-loader-bar-fill"></div>
-      </div>
+      <p class="splash-sub-title">المنظومة الرقمية للمعاملات والتعدين السحابي</p>
+      <div class="splash-loader-bar-bg"><div class="splash-loader-bar-fill"></div></div>
     </div>
   </div>
 
@@ -672,18 +224,13 @@
         <option value="fr">Français</option>
       </select>
     </div>
-
     <div class="official-brand">
       <div class="brand-row">
         <span class="syria-eagle">🦅</span>
         <span class="brand-name">SYRIA CASH</span>
         <div class="syria-flag-badge">
           <div class="flag-green"></div>
-          <div class="flag-white">
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-          </div>
+          <div class="flag-white"><div class="star"></div><div class="star"></div><div class="star"></div></div>
           <div class="flag-black"></div>
         </div>
       </div>
@@ -691,59 +238,50 @@
     </div>
   </header>
 
-  <div class="ticker-bar">
-    <div class="ticker-content" id="payoutTicker"></div>
-  </div>
+  <div class="ticker-bar"><div class="ticker-content" id="payoutTicker"></div></div>
 
   <div class="container">
 
+    <!-- ====== تبويب الإنزال ====== -->
     <main id="tab-airdrop" class="tab-view active">
       <div class="airdrop-hero-banner">
         <span class="airdrop-badge-top" id="lbl_air_season">الموسم الأول (60 يوماً) 💎</span>
-        <div style="font-size:12px; color:#c7d2fe; font-weight:bold;" id="lbl_air_bal">رصيدك الإجمالي من عملة المنصة:</div>
+        <div style="font-size:12px;color:#c7d2fe;font-weight:bold;" id="lbl_air_bal">رصيدك الإجمالي من عملة المنصة:</div>
         <div class="airdrop-balance-big">
           <span id="sycTotalBal">240.50</span>
-          <small style="font-size:16px; color:#fbbf24;">$SYC</small>
+          <small style="font-size:16px;color:#fbbf24;">$SYC</small>
         </div>
-        <div style="font-size:11px; color:#e0e7ff; margin-bottom:8px;" id="lbl_air_conv">
+        <div style="font-size:11px;color:#e0e7ff;margin-bottom:8px;" id="lbl_air_conv">
           يتم تحويل وتوزيع رصيد عملة $SYC إلى USDT فور انتهاء الموسم وفق آلية الإنزال الجوي المعتمدة:
         </div>
-
         <div class="airdrop-timer-grid">
           <div class="time-slot"><div class="time-num" id="airDays">59</div><div class="time-lbl" id="lbl_days">يوم</div></div>
           <div class="time-slot"><div class="time-num" id="airHours">23</div><div class="time-lbl" id="lbl_hours">ساعة</div></div>
           <div class="time-slot"><div class="time-num" id="airMins">59</div><div class="time-lbl" id="lbl_mins">دقيقة</div></div>
           <div class="time-slot"><div class="time-num" id="airSecs">59</div><div class="time-lbl" id="lbl_secs">ثانية</div></div>
         </div>
-
-        <div style="display:flex; justify-content:space-between; font-size:10px; color:#a5b4fc; margin-top:6px;">
+        <div style="display:flex;justify-content:space-between;font-size:10px;color:#a5b4fc;margin-top:6px;">
           <span id="lbl_air_prog">تقدم موسم الإنزال الجوي:</span>
-          <span id="airdropProgressText">18.5%</span>
+          <span id="airdropProgressText">0.0%</span>
         </div>
-        <div class="airdrop-progress-bar-bg">
-          <div class="airdrop-progress-fill" id="airdropProgressBar"></div>
-        </div>
+        <div class="airdrop-progress-bar-bg"><div class="airdrop-progress-fill" id="airdropProgressBar"></div></div>
       </div>
 
       <div class="mining-hub-card">
-        <div style="font-size:12px; color:#4f46e5; font-weight:800;" id="lbl_syc_hub">محطة تعدين عملة الإنزال ($SYC Node 1) ⚡</div>
+        <div style="font-size:12px;color:#4f46e5;font-weight:800;" id="lbl_syc_hub">محطة تعدين عملة الإنزال ($SYC Node 1) ⚡</div>
         <div class="circle-mining-outer circle-syc-outer" onclick="clickSycStation()">
           <div class="circle-mining-inner circle-syc-inner">
             <span style="font-size:24px;">💎</span>
-            <span style="font-size:10px; font-weight:800; margin-top:2px;">تعدين $SYC</span>
+            <span style="font-size:10px;font-weight:800;margin-top:2px;">تعدين $SYC</span>
           </div>
         </div>
-        
-        <div class="live-unclaimed-txt" style="color:#4f46e5;">
-          $SYC +<span id="unclaimedSyc">0.00</span>
-        </div>
-        <div style="font-size:11px; color:var(--text-muted); margin-top:3px;" id="sycMiningTimer">مؤقت دورة الـ 4 ساعات: 04:00:00 ⏱</div>
-
-        <div style="display:flex; gap:8px; margin-top:12px;">
-          <button class="btn-official-green" style="background:linear-gradient(180deg,#4f46e5,#3730a3); flex:1;" onclick="collectSycReward()">
+        <div class="live-unclaimed-txt" style="color:#4f46e5;">$SYC +<span id="unclaimedSyc">0.00</span></div>
+        <div style="font-size:11px;color:var(--text-muted);margin-top:3px;" id="sycMiningTimer">مؤقت دورة الـ 4 ساعات: 04:00:00 ⏱</div>
+        <div style="display:flex;gap:8px;margin-top:12px;">
+          <button class="btn-official-green" style="background:linear-gradient(180deg,#4f46e5,#3730a3);flex:1;" onclick="collectSycReward()">
             <span id="lbl_collect_syc">جمع الأرباح</span>
           </button>
-          <button class="btn-official-green" id="sycBoostBtn" style="background:#0284c7; width:auto; padding:10px; font-size:11px;" onclick="triggerSycBoost()">
+          <button class="btn-official-green" style="background:#0284c7;width:auto;padding:10px;font-size:11px;" onclick="triggerSycBoost()">
             مضاعفة 2X (إعلان 🎬)
           </button>
         </div>
@@ -751,7 +289,7 @@
 
       <div class="section-header" id="lbl_air_tasks">مهام الإنزال الجوي الحصرية</div>
       <div id="airdropTasksContainer" style="display:flex;flex-direction:column;gap:8px;"></div>
-      
+
       <div class="section-header" style="margin-top:14px;">خارطة الطريق والورقة البيضاء</div>
       <div class="mining-hub-card" style="text-align:right;">
         <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px;">
@@ -771,10 +309,11 @@
           المرحلة 3: إدماج بوابات الدفع المحلية والسحب الفوري P2P<br>
           المرحلة 4: إدراج العملة في المنصات العالمية وتفعيل حرق العملات الدوري
         </div>
-        <button class="btn-official-green" style="margin-top:10px;background:#475569;" onclick="connectWalletDemo()">🔗 ربط المحفظة الرقمية (Web3)</button>
+        <button class="btn-official-green" style="margin-top:10px;background:#475569;" onclick="showToast('جاري الاتصال بمحفظة Web3 الرقمية...')">🔗 ربط المحفظة الرقمية (Web3)</button>
       </div>
     </main>
 
+    <!-- ====== تبويب تعدين USDT ====== -->
     <section id="tab-mining" class="tab-view">
       <div class="hero-banner">
         <div class="hero-title" id="lbl_usdt_bal_title">الرصيد الكلي القابل للسحب</div>
@@ -799,30 +338,29 @@
           <div class="service-title" id="lbl_withdraw_btn">سحب الأرباح</div>
           <span class="service-badge">شام كاش / بنوك / TRC20</span>
         </div>
-
         <div class="service-card" onclick="triggerBoost()">
-          <div class="service-icon-wrap" style="background:#fef3c7; border-color:#fde68a; color:var(--accent-gold);">
+          <div class="service-icon-wrap" style="background:#fef3c7;border-color:#fde68a;color:var(--accent-gold);">
             <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
           </div>
           <div class="service-title" id="lbl_boost_btn">مضاعفة السرعة 2X</div>
-          <span class="service-badge" id="boostBadge" style="background:#fef3c7; color:#b45309;">متاح الآن</span>
+          <span class="service-badge" id="boostBadge" style="background:#fef3c7;color:#b45309;">0/10 اليوم</span>
         </div>
       </div>
 
       <div class="mining-hub-card">
-        <div style="font-size:12px; color:var(--text-muted); font-weight:700;" id="lbl_server_status">خادم تعدين الدولار (USDT Cloud Node 1) 🟢</div>
+        <div style="font-size:12px;color:var(--text-muted);font-weight:700;" id="lbl_server_status">خادم تعدين الدولار (USDT Cloud Node 1) 🟢</div>
         <div class="circle-mining-outer" onclick="clickMiningCircle()">
           <div class="circle-mining-inner">
             <span style="font-size:26px;">⚡</span>
-            <span style="font-size:10px; font-weight:800; margin-top:2px;" id="lbl_active_mining">التعدين السحابي نشط</span>
+            <span style="font-size:10px;font-weight:800;margin-top:2px;" id="lbl_active_mining">التعدين السحابي نشط</span>
           </div>
         </div>
-        
-        <div onclick="clickCounterBox()" style="cursor:pointer;">
+        <div onclick="showToast('مؤقت الاحتساب يعمل تلقائياً وبشكل مستمر.')" style="cursor:pointer;">
           <div class="live-unclaimed-txt">USDT +<span id="unclaimedBal">0.000000</span></div>
-          <div style="font-size:12px; color:var(--text-muted); margin-top:3px;"><span id="lbl_cycle_timer">مؤقت الدورة (4 ساعات)</span>: <span id="liveSessionTimer">04:00:00</span> ⏱</div>
+          <div style="font-size:12px;color:var(--text-muted);margin-top:3px;">
+            <span id="lbl_cycle_timer">مؤقت الدورة (4 ساعات)</span>: <span id="liveSessionTimer">04:00:00</span> ⏱
+          </div>
         </div>
-
         <button class="btn-official-green" style="margin-top:14px;" onclick="collectUsdtReward()">
           <span id="lbl_collect_usdt">جمع وتأكيد أرباح الدولار (USDT)</span>
           <span>👛</span>
@@ -830,85 +368,80 @@
       </div>
     </section>
 
+    <!-- ====== تبويب VIP ====== -->
     <section id="tab-vip" class="tab-view">
       <div class="section-header" id="lbl_vip_header">عقود التعدين السحابي والباقات المتقدمة 👑</div>
-      
-      <div style="background:linear-gradient(145deg, #064e3b 0%, #022c22 100%); border-radius:18px; padding:16px; margin-bottom:16px; color:#fff; border:1px solid rgba(52,211,153,.3); box-shadow:var(--shadow-md);">
-        <h3 style="margin:0 0 8px; font-size:15px; color:#fde047; font-weight:900;">💡 كيف تستفيد من إيداع وتفعيل عقود VIP؟</h3>
-        <p style="font-size:11px; line-height:1.7; margin:0; color:#d1fae5;">
+      <div style="background:linear-gradient(145deg,#064e3b 0%,#022c22 100%);border-radius:18px;padding:16px;margin-bottom:16px;color:#fff;border:1px solid rgba(52,211,153,.3);box-shadow:var(--shadow-md);">
+        <h3 style="margin:0 0 8px;font-size:15px;color:#fde047;font-weight:900;">💡 كيف تستفيد من إيداع وتفعيل عقود VIP؟</h3>
+        <p style="font-size:11px;line-height:1.7;margin:0;color:#d1fae5;">
           عند تفعيل أي من الباقات الاستثمارية تكتسب الحسابات المزايا التنافسية التالية فوراً:
         </p>
       </div>
-
       <div class="vip-benefit-card">
         <div class="vip-benefit-title">🚀 1. مضاعفة سرعة التعدين والإنتاج اليومي</div>
         <div class="vip-benefit-desc">ترفع باقات VIP قدرة التعدين السحابية لحسابك ليصل إنتاجك اليومي إلى أكثر من 42.00$ يومياً تُضاف مباشرة لرصيدك القابل للسحب.</div>
       </div>
-
       <div class="vip-benefit-card">
         <div class="vip-benefit-title">🎁 2. بونص ضخم فوري من عملة الإنزال ($SYC)</div>
         <div class="vip-benefit-desc">فور تفعيلك للعقد يُصرف لحسابك بونص مباشر يصل حتى +11,000 $SYC تُضاف لمحفظة الإنزال الجوي لتستفيد منها عند تحويل العملة.</div>
       </div>
-
       <div class="vip-benefit-card">
         <div class="vip-benefit-title">⚡ 3. سحب فوري معفي تماماً من الرسوم (0% Fee)</div>
         <div class="vip-benefit-desc">يتمتع المشتركون بأولوية المعالجة الفورية لجميع طلبات السحب دون اقتطاع أي رسوم تحويل عبر الشبكات أو البنوك المحلية.</div>
       </div>
-
       <div class="section-header" style="margin-top:16px;">الباقات والعقود المتاحة للتفعيل</div>
-      <div id="vipPlansContainer" style="display:flex; flex-direction:column; gap:12px;"></div>
+      <div id="vipPlansContainer" style="display:flex;flex-direction:column;gap:12px;"></div>
     </section>
 
+    <!-- ====== تبويب الألعاب ====== -->
     <section id="tab-games" class="tab-view">
       <div class="section-header" id="lbl_games_header">مركز الألعاب المهارية والتفاعلية 🎮</div>
       <div class="jackpot-card">
-        <div style="font-size:12px; color:#fbbf24; font-weight:900;" id="lbl_jackpot_title">🔥 السحب الشهري على الخزنة الكبرى ($350.00 USDT)</div>
+        <div style="font-size:12px;color:#fbbf24;font-weight:900;" id="lbl_jackpot_title">🔥 السحب الشهري على الخزنة الكبرى ($350.00 USDT)</div>
         <div class="jackpot-val">$350.00 USDT</div>
-        <div style="font-size:11px; color:#cbd5e1; margin-bottom:8px;">
+        <div style="font-size:11px;color:#cbd5e1;margin-bottom:8px;">
           <span id="lbl_ads_seen">إعلاناتك المشاهدة للتذكرة:</span> <b id="jackpotAdsProgress">0</b> / 10
         </div>
-        <button onclick="enterMonthlyVault()" class="btn-official-green" style="background:#fbbf24; color:#000;" id="btn_jackpot_action">مشاهدة إعلان للدخول بالسحب الشهري 🎟️</button>
+        <button onclick="enterMonthlyVault()" class="btn-official-green" style="background:#fbbf24;color:#000;" id="btn_jackpot_action">مشاهدة إعلان للدخول بالسحب الشهري 🎟️</button>
       </div>
-      
       <div class="games-grid" id="skillGamesContainer"></div>
     </section>
 
+    <!-- ====== تبويب الإعلانات ====== -->
     <section id="tab-ads" class="tab-view">
       <div class="section-header" id="lbl_tasks_header">المهام الاجتماعية ومشاهدة الفيديوهات 🎬</div>
       <div id="socialTasksContainer" style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px;"></div>
-      
       <div class="section-header" id="lbl_ads_25">25 مهمة فيديو يومية مأجورة 📺</div>
-      <div style="font-size:11px; color:var(--text-muted); margin-bottom:10px; line-height:1.6;">تُضاف المكافآت مباشرة لرصيدك المالي فور اكتمال مشاهدة الإعلان.</div>
+      <div style="font-size:11px;color:var(--text-muted);margin-bottom:10px;line-height:1.6;">تُضاف المكافآت مباشرة لرصيدك المالي فور اكتمال مشاهدة الإعلان.</div>
       <div id="adsContainer25" style="display:flex;flex-direction:column;gap:8px;"></div>
     </section>
 
+    <!-- ====== تبويب الإحالة ====== -->
     <section id="tab-ref" class="tab-view">
       <div class="section-header" id="lbl_ref_header">برنامج دعوة الأصدقاء والوكالة 🤝</div>
       <div class="mining-hub-card" style="text-align:right;">
-        <div style="background:#f0fdf4; border:1px solid #bbf7d0; padding:12px; border-radius:12px; margin-bottom:12px; font-size:12px; line-height:1.8;">
+        <div style="background:#f0fdf4;border:1px solid #bbf7d0;padding:12px;border-radius:12px;margin-bottom:12px;font-size:12px;line-height:1.8;">
           <div>💰 <b>0.50 USDT كاش + 50 $SYC</b> مكافأة تُصرف لك فور إتمام صديقك <b>5 مهام</b>!</div>
           <div>⚡ عمولة تعدين <b>10%</b> مدى الحياة من أرباح أصدقائك دون خصم أي شيء من أرباحهم.</div>
-          <div style="color:var(--primary-green); font-weight:bold; margin-top:4px;">🛡️ نظام التحقق مفعل تلقائياً لمنع الإحالات الوهمية.</div>
+          <div style="color:var(--primary-green);font-weight:bold;margin-top:4px;">🛡️ نظام التحقق مفعل تلقائياً لمنع الإحالات الوهمية.</div>
         </div>
-        <div style="background:#f8fafc; border:1px solid #cbd5e1; padding:10px; border-radius:10px; font-size:12px; text-align:center; word-break:break-all;" id="myReferralLinkDisplay">https://t.me/SyriaCash_Bot?start=ref_102938</div>
-        <button onclick="copyLink()" class="btn-official-green" id="btn_copy_link" style="margin-top:10px;">نسخ رابط الإحالة الرسمي 📋</button>
+        <div style="background:#f8fafc;border:1px solid #cbd5e1;padding:10px;border-radius:10px;font-size:12px;text-align:center;word-break:break-all;" id="myReferralLinkDisplay">https://t.me/SyriaCash_Bot?start=ref_102938</div>
+        <button onclick="copyLink()" class="btn-official-green" style="margin-top:10px;">نسخ رابط الإحالة الرسمي 📋</button>
       </div>
-      
       <div class="section-header" style="margin-top:14px;">المسابقة الأسبوعية لأعلى الإحالات</div>
       <div class="mining-hub-card"><div id="weeklyReferralBoard" style="font-size:11px;line-height:1.9;"></div></div>
     </section>
 
+    <!-- ====== تبويب السحب ====== -->
     <section id="tab-withdraw" class="tab-view">
       <div class="section-header" id="lbl_withdraw_header">طلب سحب الأرباح المالي</div>
-      
       <div class="mining-hub-card" style="text-align:right;">
-        <div style="background:#f0fdf4; border:1px solid #bbf7d0; padding:12px; border-radius:12px; font-size:11.5px; color:#166534; margin-bottom:14px; line-height:1.7;" id="lbl_withdraw_rules">
+        <div style="background:#f0fdf4;border:1px solid #bbf7d0;padding:12px;border-radius:12px;font-size:11.5px;color:#166534;margin-bottom:14px;line-height:1.7;">
           • الحد الأدنى المسموح به للسحب هو <b>10.00 USDT</b> أو ما يعادلها.<br>
           • <b>أعضاء عقود VIP:</b> سحب فوري تلقائي <b style="color:var(--primary-green);">بدون أي رسوم اقتطاع (0% Fee)</b>.<br>
           • <b>الحسابات العادية:</b> رسوم تحويل شبكة موحدة بقيمة 1.0 USDT.
         </div>
-
-        <label style="font-size:11px; font-weight:700; color:var(--text-muted);" id="lbl_pay_method">طريقة استلام الأرباح:</label>
+        <label style="font-size:11px;font-weight:700;color:var(--text-muted);" id="lbl_pay_method">طريقة استلام الأرباح:</label>
         <select id="withdrawMethodSelect" class="input-clean" onchange="updateWithdrawFields(this.value)">
           <option value="usdt">💎 عملة USDT (شبكة TRC20)</option>
           <option value="google_play">🎁 بطاقة غوغل بلاي TR (Google Play)</option>
@@ -916,44 +449,36 @@
           <option value="telegram_stars">⭐ نجوم تلجرام (Telegram Stars)</option>
           <option value="sham_cash">🟢 شام كاش (Sham Cash)</option>
         </select>
-
         <div id="dynamicWithdrawFields" style="margin:10px 0;"></div>
-
-        <label style="font-size:11px; font-weight:700; color:var(--text-muted);" id="lbl_pay_amount">المبلغ المطلوب سحبه:</label>
+        <label style="font-size:11px;font-weight:700;color:var(--text-muted);" id="lbl_pay_amount">المبلغ المطلوب سحبه:</label>
         <input type="number" id="withdrawAmount" placeholder="الحد الأدنى 10 USDT" class="input-clean" style="margin-bottom:14px;">
-
         <button id="withdrawSubmitBtn" onclick="requestWithdrawal()" class="btn-official-green">تأكيد طلب السحب المالي 🚀</button>
       </div>
     </section>
 
   </div>
 
+  <!-- ====== مودالات ====== -->
   <div class="modal-backdrop-clean" id="verifiedAdModal">
     <div class="modal-box-clean">
-      <h3 style="color:var(--primary-green); font-size:16px; margin-bottom:4px;" id="adPlayerTitle">مشاهدة إعلان مدعوم</h3>
-      <p style="color:var(--text-muted); font-size:11px; margin-bottom:12px;" id="adPlayerDesc">يجب متابعة الإعلان للنهاية لتأكيد استحقاق المكافأة...</p>
-
+      <h3 style="color:var(--primary-green);font-size:16px;margin-bottom:4px;" id="adPlayerTitle">مشاهدة إعلان مدعوم</h3>
+      <p style="color:var(--text-muted);font-size:11px;margin-bottom:12px;">يجب متابعة الإعلان للنهاية لتأكيد استحقاق المكافأة...</p>
       <div class="ad-player-box">
         <div class="ad-sim-video">
           <div style="font-size:24px;">🎬</div>
-          <div style="font-size:11px; font-weight:bold; margin-top:4px;" id="adSimStatusText">جاري تشغيل الفيديو الإعلاني...</div>
-          <div style="font-size:18px; font-weight:900; color:#00f5a0; margin-top:4px;" id="adCountdownVal">8s</div>
+          <div style="font-size:11px;font-weight:bold;margin-top:4px;">جاري تشغيل الفيديو الإعلاني...</div>
+          <div style="font-size:18px;font-weight:900;color:#00f5a0;margin-top:4px;" id="adCountdownVal">8s</div>
         </div>
-        <div class="ad-progress-bar-wrap">
-          <div class="ad-progress-bar-fill" id="adProgressBarFill"></div>
-        </div>
+        <div class="ad-progress-bar-wrap"><div class="ad-progress-bar-fill" id="adProgressBarFill"></div></div>
       </div>
-
-      <button id="claimAdRewardBtn" class="btn-official-green" style="background:#64748b; cursor:not-allowed;" disabled>
-        انتظر اكتمال الإعلان (8ث)...
-      </button>
+      <button id="claimAdRewardBtn" class="btn-official-green" disabled>انتظر اكتمال الإعلان (8ث)...</button>
     </div>
   </div>
 
   <div class="modal-backdrop-clean" id="aboutModal">
     <div class="modal-box-clean" style="text-align:right;">
-      <h3 style="color:var(--primary-green); font-size:17px; margin-bottom:4px;">عن منصة Syria Cash</h3>
-      <p style="font-size:11.5px; color:var(--text-dark); line-height:1.7; margin:12px 0;" id="lbl_about_txt">
+      <h3 style="color:var(--primary-green);font-size:17px;margin-bottom:4px;">عن منصة Syria Cash</h3>
+      <p style="font-size:11.5px;color:var(--text-dark);line-height:1.7;margin:12px 0;">
         منصة <b>Syria Cash</b> هي المنظومة الرقمية الرائدة في التعدين السحابي بالدولار والإنزال الجوي، مع إتاحة سحب الأرباح بسهولة عبر وسائل دفع متعددة ومحمية.
       </p>
       <button class="btn-official-green" onclick="closeModal('aboutModal')">إغلاق</button>
@@ -962,944 +487,866 @@
 
   <div class="modal-backdrop-clean" id="supportModal">
     <div class="modal-box-clean" style="text-align:right;">
-      <h3 style="color:var(--primary-green); font-size:16px; margin-bottom:6px;">💬 الدعم الفني والإبلاغ عن مشكلة</h3>
+      <h3 style="color:var(--primary-green);font-size:16px;margin-bottom:6px;">💬 الدعم الفني والإبلاغ عن مشكلة</h3>
       <input type="text" id="supUser" placeholder="اسم المستخدم أو المعرف" class="input-clean" style="margin-bottom:8px;">
       <textarea id="supMsg" rows="3" placeholder="اشرح لنا المشكلة بالتفصيل..." class="input-clean" style="margin-bottom:12px;"></textarea>
       <button class="btn-official-green" onclick="sendSupport()">إرسال التذكرة 📩</button>
-      <button class="btn-official-green" style="background:#0284c7; margin-top:6px;" onclick="window.open('https://t.me/SyriaCash_Support', '_blank')">مراسلتنا عبر تيليجرام ✈️</button>
-      <button style="background:transparent; border:none; color:var(--text-muted); font-size:11px; margin-top:10px; cursor:pointer; width:100%;" onclick="closeModal('supportModal')">إلغاء</button>
+      <button class="btn-official-green" style="background:#0284c7;margin-top:6px;" onclick="window.open('https://t.me/SyriaCash_Support','_blank')">مراسلتنا عبر تيليجرام ✈️</button>
+      <button style="background:transparent;border:none;color:var(--text-muted);font-size:11px;margin-top:10px;cursor:pointer;width:100%;" onclick="closeModal('supportModal')">إلغاء</button>
     </div>
   </div>
 
+  <!-- ====== شريط سفلي ====== -->
   <nav class="official-bottom-nav">
     <div class="nav-link-btn active" onclick="navigate('tab-airdrop', this)">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
-      </svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path></svg>
       <span id="nav_lbl_airdrop">إنزال $SYC</span>
     </div>
     <div class="nav-link-btn" onclick="navigate('tab-mining', this)">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-      </svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
       <span id="nav_lbl_mining">تعدين USDT</span>
     </div>
     <div class="nav-link-btn" onclick="navigate('tab-vip', this)">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-      </svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
       <span style="color:#fde047;" id="nav_lbl_vip">عقود VIP</span>
     </div>
     <div class="nav-link-btn" onclick="navigate('tab-games', this)">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-        <rect x="2" y="6" width="20" height="12" rx="2"></rect>
-        <path d="M6 12h4m-2-2v4m10-2h.01m-3 0h.01"></path>
-      </svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="2" y="6" width="20" height="12" rx="2"></rect><path d="M6 12h4m-2-2v4m10-2h.01m-3 0h.01"></path></svg>
       <span id="nav_lbl_games">الألعاب</span>
     </div>
     <div class="nav-link-btn" onclick="navigate('tab-ads', this)">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-        <circle cx="12" cy="12" r="10"></circle>
-        <circle cx="12" cy="12" r="6"></circle>
-        <circle cx="12" cy="12" r="2"></circle>
-      </svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg>
       <span id="nav_lbl_ads">الإعلانات</span>
     </div>
     <div class="nav-link-btn" onclick="navigate('tab-ref', this)">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-        <circle cx="9" cy="7" r="4"></circle>
-      </svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg>
       <span id="nav_lbl_ref">الإحالة</span>
     </div>
     <div class="nav-link-btn" onclick="navigate('tab-withdraw', this)">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-        <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
-        <line x1="1" y1="10" x2="23" y2="10"></line>
-      </svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
       <span id="nav_lbl_withdraw">السحب</span>
     </div>
   </nav>
 
   <script>
-    /* ==========================================================
-       SYRIA CASH — طبقة البيانات + منطق التطبيق
-       ========================================================== */
-    'use strict';
+  /* =========================================================
+     Syria Cash — منطق التطبيق (بدون أخطاء)
+     ========================================================= */
+  'use strict';
 
-    /* ---------- 1) الثوابت ---------- */
-    const SUPABASE_URL = "https://tvypczferwkqnehhynwd.supabase.co";
-    const SUPABASE_ANON_KEY = "sb_publishable_8M4imxTpGpHK9y4sZjJhjQ_0ZEk3fZb";
+  /* ========== 1) ثوابت ========== */
+  var SUPABASE_URL = "https://tvypczferwkqnehhynwd.supabase.co";
+  var SUPABASE_ANON_KEY = "sb_publishable_8M4imxTpGpHK9y4sZjJhjQ_0ZEk3fZb";
+  var CYCLE_MS = 4 * 60 * 60 * 1000;
+  var BOOST_MS = 10 * 60 * 1000;
+  var SEASON_MS = 60 * 24 * 60 * 60 * 1000;
+  var MIN_WITHDRAW = 10;
+  var BOOST_LIMIT = 10;
+  var AD_SECONDS = 8;
+  var LS_KEY = 'sc_state_v3';
+  var SPLASH_MS = 5000;
 
-    const CYCLE_MS = 4 * 60 * 60 * 1000;
-    const BOOST_MS = 10 * 60 * 1000;
-    const SEASON_MS = 60 * 24 * 60 * 60 * 1000;
-    const MIN_WITHDRAW = 10;
-    const BOOST_LIMIT = 10;
-    const AD_SECONDS = 8;
-    const MIN_COLLECT_SEC = 60;
-    const LS_KEY = 'sc_state_v2';
+  /* ========== 2) حالة التطبيق ========== */
+  var App = { sb: null, user: null, cloud: false, tasks: [], plans: [], doneToday: {}, ready: false };
 
-    /* ---------- 2) الحالة ---------- */
-    const App = { sb: null, user: null, cloud: false, tasks: [], plans: [], doneToday: new Set(), ready: false };
+  var P = {
+    usdt: 0.2366, syc: 240.50,
+    usdtStart: Date.now(), sycStart: Date.now(),
+    boostUsdtUntil: 0, boostSycUntil: 0,
+    vipLevel: 0, vipExpiresAt: 0,
+    vaultAds: 0, referralCode: '', referredBy: null,
+    username: '', createdAt: Date.now()
+  };
 
-    const P = {
-      usdt: 0.2366,
-      syc: 240.50,
-      usdtStart: Date.now(),
-      sycStart: Date.now(),
-      boostUsdtUntil: 0,
-      boostSycUntil: 0,
-      vipLevel: 0,
-      vipExpiresAt: 0,
-      vaultAds: 0,
-      referralCode: '',
-      referredBy: null,
-      username: '',
-      createdAt: Date.now()
+  /* ========== 3) أدوات ========== */
+  function $(id){ return document.getElementById(id); }
+  function todayKey(){ return new Date().toISOString().slice(0,10); }
+  function pad2(n){ return String(n).padStart(2,'0'); }
+  function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g,function(c){
+    return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+  }); }
+
+  function saveLocal(){ try{ localStorage.setItem(LS_KEY, JSON.stringify(P)); }catch(e){} }
+  function loadLocal(){ try{ var r=localStorage.getItem(LS_KEY); if(r) Object.assign(P, JSON.parse(r)); }catch(e){} }
+
+  function localDone(id){ return localStorage.getItem('sc_t_'+todayKey()+'_'+id) === '1'; }
+  function markLocalDone(id){ try{ localStorage.setItem('sc_t_'+todayKey()+'_'+id,'1'); }catch(e){} }
+
+  function showToast(msg){
+    var t = $('toastBox'); if(!t) return;
+    t.innerText = msg; t.style.display='block';
+    clearTimeout(t._tm);
+    t._tm = setTimeout(function(){ t.style.display='none'; }, 3000);
+  }
+  window.showToast = showToast;
+
+  function openModal(id){ var el=$(id); if(el) el.style.display='flex'; }
+  function closeModal(id){ var el=$(id); if(el) el.style.display='none'; }
+  window.openModal = openModal;
+  window.closeModal = closeModal;
+
+  function setBanner(txt, show){
+    var b = $('offline-banner'); if(!b) return;
+    if(txt) b.innerText = txt;
+    b.style.display = show ? 'block' : 'none';
+  }
+
+  /* ========== 4) شاشة البداية — 5 ثوانٍ ========== */
+  var splashHidden = false;
+  function hideSplash(){
+    if(splashHidden) return; splashHidden = true;
+    var s = $('appSplashScreen'); if(!s) return;
+    s.classList.add('hide');
+    setTimeout(function(){ try{ s.remove(); }catch(e){} }, 700);
+  }
+  window.hideSplash = hideSplash;
+
+  // جدولة الإخفاء عند الـ 5 ثواني + شبكة أمان
+  setTimeout(hideSplash, SPLASH_MS);
+  // شبكة أمان إضافية: لو فشل شيء ما لأي سبب، لا نترك الشاشة عالقة أبداً
+  setTimeout(hideSplash, SPLASH_MS + 3000);
+
+  /* ========== 5) اتصال Supabase (خلفي، لا يعطّل التطبيق) ========== */
+  function fromRow(r){
+    return {
+      usdt: Number(r.usdt_balance!=null?r.usdt_balance:0),
+      syc: Number(r.syc_balance!=null?r.syc_balance:0),
+      usdtStart: r.usdt_session_start ? Date.parse(r.usdt_session_start) : Date.now(),
+      sycStart: r.syc_session_start ? Date.parse(r.syc_session_start) : Date.now(),
+      boostUsdtUntil: r.boost_usdt_until ? Date.parse(r.boost_usdt_until) : 0,
+      boostSycUntil: r.boost_syc_until ? Date.parse(r.boost_syc_until) : 0,
+      vipLevel: r.vip_level||0,
+      vipExpiresAt: r.vip_expires_at ? Date.parse(r.vip_expires_at) : 0,
+      vaultAds: r.ads_watched_vault||0,
+      referralCode: r.referral_code||'',
+      referredBy: r.referred_by||null,
+      username: r.username||'',
+      createdAt: r.created_at ? Date.parse(r.created_at) : Date.now()
     };
+  }
+  function applyRemote(row){
+    if(!row) return;
+    Object.assign(P, fromRow(row));
+    saveLocal(); renderAll();
+  }
 
-    /* ---------- 3) أدوات محلية ---------- */
-    const $ = (id) => document.getElementById(id);
-    const todayKey = () => new Date().toISOString().slice(0, 10);
-    const pad2 = (n) => String(n).padStart(2, '0');
-
-    function saveLocal() { try { localStorage.setItem(LS_KEY, JSON.stringify(P)); } catch (e) {} }
-    function loadLocal() { try { const r = localStorage.getItem(LS_KEY); if (r) Object.assign(P, JSON.parse(r)); } catch (e) {} }
-
-    function localDone(id) { return localStorage.getItem('sc_t_' + todayKey() + '_' + id) === '1'; }
-    function markLocalDone(id) { localStorage.setItem('sc_t_' + todayKey() + '_' + id, '1'); }
-
-    function showToast(msg) {
-      const t = $('toastBox');
-      if (!t) return;
-      t.innerText = msg;
-      t.style.display = 'block';
-      clearTimeout(t._tm);
-      t._tm = setTimeout(() => { t.style.display = 'none'; }, 3000);
-    }
-
-    function openModal(id) { const el = $(id); if (el) el.style.display = 'flex'; }
-    function closeModal(id) { const el = $(id); if (el) el.style.display = 'none'; }
-
-    function setBanner(txt, show) {
-      const b = $('offline-banner');
-      if (!b) return;
-      b.innerText = txt;
-      b.style.display = show ? 'block' : 'none';
-    }
-
-    /* ---------- 4) طبقة Supabase ---------- */
-    function fromRow(r) {
-      return {
-        usdt: Number(r.usdt_balance ?? 0),
-        syc: Number(r.syc_balance ?? 0),
-        usdtStart: r.usdt_session_start ? Date.parse(r.usdt_session_start) : Date.now(),
-        sycStart: r.syc_session_start ? Date.parse(r.syc_session_start) : Date.now(),
-        boostUsdtUntil: r.boost_usdt_until ? Date.parse(r.boost_usdt_until) : 0,
-        boostSycUntil: r.boost_syc_until ? Date.parse(r.boost_syc_until) : 0,
-        vipLevel: r.vip_level ?? 0,
-        vipExpiresAt: r.vip_expires_at ? Date.parse(r.vip_expires_at) : 0,
-        vaultAds: r.ads_watched_vault ?? 0,
-        referralCode: r.referral_code ?? '',
-        referredBy: r.referred_by ?? null,
-        username: r.username ?? '',
-        createdAt: r.created_at ? Date.parse(r.created_at) : Date.now()
-      };
-    }
-
-    function applyRemote(row) {
-      if (!row) return;
-      Object.assign(P, fromRow(row));
-      saveLocal();
-      renderAll();
-    }
-
-    async function ensureAuth() {
-      const { data: s1 } = await App.sb.auth.getSession();
-      let session = s1.session;
-      if (!session) {
-        const { data, error } = await App.sb.auth.signInAnonymously();
-        if (error) throw error;
-        session = data.session;
-      }
-      App.user = session.user;
-      return App.user;
-    }
-
-    async function ensureProfileRow() {
-      const uid = App.user.id;
-      const { data, error } = await App.sb.from('profiles').select('*').eq('id', uid).maybeSingle();
-      if (error) throw error;
-      if (data) return data;
-
-      const code = 'SC' + Math.random().toString(36).slice(2, 8).toUpperCase();
-      const { data: created, error: e2 } = await App.sb
-        .from('profiles')
-        .insert({ id: uid, referral_code: code, username: 'مستخدم-' + uid.slice(0, 5) })
-        .select()
-        .single();
-      if (e2) throw e2;
-      return created;
-    }
-
-    async function loadTasksAndPlans() {
-      try {
-        const [t, v] = await Promise.all([
-          App.sb.from('tasks').select('*').eq('active', true).order('sort'),
-          App.sb.from('vip_plans').select('*').order('level')
-        ]);
-        App.tasks = t.data || [];
-        App.plans = v.data || [];
-      } catch (e) { console.warn('loadTasksAndPlans', e); }
-    }
-
-    async function loadTodayLogs() {
-      try {
-        const { data } = await App.sb
-          .from('user_task_logs')
-          .select('task_id')
-          .eq('user_id', App.user.id)
-          .eq('day', todayKey());
-        App.doneToday = new Set((data || []).map(x => x.task_id));
-      } catch (e) { console.warn('loadTodayLogs', e); }
-    }
-
-    function subscribeRealtime() {
-      try {
-        App.sb.channel('profile-' + App.user.id)
-          .on('postgres_changes',
-            { event: 'UPDATE', schema: 'public', table: 'profiles', filter: 'id=eq.' + App.user.id },
-            (payload) => applyRemote(payload.new))
-          .subscribe();
-      } catch (e) { console.warn('realtime', e); }
-    }
-
-    async function rpc(fn, args) {
-      if (!App.sb || !App.user) return null;
-      try {
-        const { data, error } = await App.sb.rpc(fn, args || {});
-        if (error) { console.warn('RPC ' + fn, error.message); return null; }
-        return data;
-      } catch (e) { console.warn('RPC ' + fn, e); return null; }
-    }
-
-    /* ---------- 5) الإقلاع ---------- */
-    async function boot() {
-      loadLocal();
-      renderAll();
-      startLoop();
-
-      if (window.supabase && typeof window.supabase.createClient === 'function') {
-        try {
-          App.sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
-            auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: false }
-          });
-          await ensureAuth();
-          const row = await ensureProfileRow();
-          if (row) Object.assign(P, fromRow(row));
-          App.cloud = true;
-          await loadTasksAndPlans();
-          await loadTodayLogs();
-          subscribeRealtime();
-          await applyReferralFromUrl();
-          setBanner('', false);
-          console.log('%c✅ Syria Cash — متصل بقاعدة البيانات', 'color:#16a34a;font-weight:bold');
-        } catch (err) {
-          App.cloud = false;
-          console.warn('⚠️ وضع محلي (تعذر الاتصال):', err && err.message ? err.message : err);
-          setBanner('⚠️ وضع محلي — تعذر الاتصال بقاعدة البيانات', true);
-        }
-      } else {
+  function connectSupabase(){
+    return new Promise(function(resolve){
+      if(window.__sbFailed || !window.supabase || typeof window.supabase.createClient !== 'function'){
         App.cloud = false;
-        setBanner('⚠️ وضع محلي — مكتبة Supabase غير محمّلة', true);
+        console.warn('⚠️ Supabase غير متاح — وضع محلي');
+        setBanner('⚠️ وضع محلي — التطبيق يعمل بكامل الوظائف', true);
+        return resolve(false);
+      }
+      try{
+        App.sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+          auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: false }
+        });
+      }catch(e){
+        App.cloud = false; console.warn('createClient error:', e);
+        setBanner('⚠️ وضع محلي — فشل إنشاء عميل البيانات', true);
+        return resolve(false);
       }
 
-      saveLocal();
-      renderAll();
-      updateWithdrawFields($('withdrawMethodSelect') ? $('withdrawMethodSelect').value : 'usdt');
-      App.ready = true;
-    }
+      // مصادقة مجهولة
+      (async function(){
+        try{
+          var s = await App.sb.auth.getSession();
+          var session = s.data && s.data.session;
+          if(!session){
+            var r = await App.sb.auth.signInAnonymously();
+            if(r.error) throw r.error;
+            session = r.data.session;
+          }
+          App.user = session.user;
 
-    window.addEventListener('load', boot);
-    window.addEventListener('online', () => { setBanner('', false); showToast('تم استعادة الاتصال بالإنترنت 🟢'); });
-    window.addEventListener('offline', () => setBanner('⚠️ انقطع الاتصال بالإنترنت.. جاري المحاولة تلقائياً', true));
+          // جلب/إنشاء ملف المستخدم
+          var prof = await App.sb.from('profiles').select('*').eq('id', App.user.id).maybeSingle();
+          if(prof.error) throw prof.error;
+          var row = prof.data;
+          if(!row){
+            var code = 'SC' + Math.random().toString(36).slice(2,8).toUpperCase();
+            var ins = await App.sb.from('profiles')
+              .insert({ id: App.user.id, referral_code: code, username: 'مستخدم-' + App.user.id.slice(0,5) })
+              .select().single();
+            if(ins.error) throw ins.error;
+            row = ins.data;
+          }
+          if(row) Object.assign(P, fromRow(row));
 
-    /* ---------- 6) الحسابات ---------- */
-    function unclaimed(kind) {
-      const start = kind === 'usdt' ? P.usdtStart : P.sycStart;
-      const until = kind === 'usdt' ? P.boostUsdtUntil : P.boostSycUntil;
-      const boosted = Date.now() < until;
-      const rate = kind === 'usdt' ? (boosted ? 0.000066 : 0.000033) : (boosted ? 0.01 : 0.005);
-      const elapsed = ((Date.now() - start) % CYCLE_MS) / 1000;
-      return Math.max(0, elapsed * rate);
-    }
+          App.cloud = true;
+          setBanner('', false);
+          console.log('%c✅ متصل بقاعدة البيانات','color:#16a34a;font-weight:bold');
 
-    function cycleRemain(kind) {
-      const start = kind === 'usdt' ? P.usdtStart : P.sycStart;
-      return CYCLE_MS - ((Date.now() - start) % CYCLE_MS);
-    }
+          // مهام وباقات
+          try{
+            var t = await App.sb.from('tasks').select('*').eq('active', true).order('sort');
+            if(t.data) App.tasks = t.data;
+            var v = await App.sb.from('vip_plans').select('*').order('level');
+            if(v.data) App.plans = v.data;
+          }catch(e){ console.warn('tasks/plans', e); }
 
-    function seasonInfo() {
-      const start = P.createdAt || Date.now();
-      const end = start + SEASON_MS;
-      const remain = Math.max(0, end - Date.now());
-      const prog = Math.min(100, Math.max(0, ((Date.now() - start) / SEASON_MS) * 100));
-      return { remain, prog };
-    }
+          // مهام اليوم
+          try{
+            var lg = await App.sb.from('user_task_logs')
+              .select('task_id').eq('user_id', App.user.id).eq('day', todayKey());
+            App.doneToday = {};
+            (lg.data||[]).forEach(function(x){ App.doneToday[x.task_id] = true; });
+          }catch(e){ console.warn('logs', e); }
 
-    /* ---------- 7) العرض ---------- */
-    function renderBalances() {
-      if ($('totalBal')) $('totalBal').innerText = P.usdt.toFixed(4);
-      if ($('sycTotalBal')) $('sycTotalBal').innerText = P.syc.toFixed(2);
-    }
+          // Realtime
+          try{
+            App.sb.channel('profile-'+App.user.id)
+              .on('postgres_changes', { event:'UPDATE', schema:'public', table:'profiles', filter:'id=eq.'+App.user.id },
+                  function(p){ applyRemote(p.new); })
+              .subscribe();
+          }catch(e){ console.warn('realtime', e); }
 
-    function renderAll() {
-      renderBalances();
-      renderSeason();
-      renderSocialTasks();
-      renderAds();
-      renderSkillGames();
-      renderVipPlans();
-      renderWeeklyReferral();
-      renderVault();
-      renderTicker();
-      if ($('myReferralLinkDisplay') && P.referralCode) {
-        $('myReferralLinkDisplay').innerText = 'https://t.me/SyriaCash_Bot?start=ref_' + P.referralCode;
-      }
-    }
+          renderAll();
+          resolve(true);
+        }catch(err){
+          App.cloud = false;
+          console.warn('⚠️ وضع محلي — فشل الاتصال:', err && err.message ? err.message : err);
+          setBanner('⚠️ وضع محلي — التطبيق يعمل بكامل الوظائف', true);
+          resolve(false);
+        }
+      })();
+    });
+  }
 
-    function renderSeason() {
-      const s = seasonInfo();
-      const t = Math.floor(s.remain / 1000);
-      if ($('airDays')) $('airDays').innerText = Math.floor(t / 86400);
-      if ($('airHours')) $('airHours').innerText = pad2(Math.floor(t % 86400 / 3600));
-      if ($('airMins')) $('airMins').innerText = pad2(Math.floor(t % 3600 / 60));
-      if ($('airSecs')) $('airSecs').innerText = pad2(t % 60);
-      if ($('airdropProgressText')) $('airdropProgressText').innerText = s.prog.toFixed(1) + '%';
-      if ($('airdropProgressBar')) $('airdropProgressBar').style.width = s.prog + '%';
-    }
+  function rpc(fn, args){
+    if(!App.cloud || !App.sb || !App.user) return Promise.resolve(null);
+    return App.sb.rpc(fn, args||{}).then(function(r){
+      if(r.error){ console.warn('RPC '+fn+':', r.error.message); return null; }
+      return r.data;
+    }).catch(function(e){ console.warn('RPC '+fn+':', e); return null; });
+  }
 
-    function renderVault() {
-      if ($('jackpotAdsProgress')) $('jackpotAdsProgress').innerText = String(P.vaultAds);
-    }
+  /* ========== 6) حسابات ========== */
+  function unclaimed(kind){
+    var start = kind==='usdt' ? P.usdtStart : P.sycStart;
+    var until = kind==='usdt' ? P.boostUsdtUntil : P.boostSycUntil;
+    var boosted = Date.now() < until;
+    var rate = kind==='usdt' ? (boosted?0.000066:0.000033) : (boosted?0.01:0.005);
+    var el = ((Date.now() - start) % CYCLE_MS) / 1000;
+    return Math.max(0, el * rate);
+  }
+  function cycleRemain(kind){
+    var start = kind==='usdt' ? P.usdtStart : P.sycStart;
+    return CYCLE_MS - ((Date.now() - start) % CYCLE_MS);
+  }
+  function seasonInfo(){
+    var start = P.createdAt || Date.now();
+    var end = start + SEASON_MS;
+    var remain = Math.max(0, end - Date.now());
+    var prog = Math.min(100, Math.max(0, ((Date.now() - start) / SEASON_MS) * 100));
+    return { remain: remain, prog: prog };
+  }
 
-    function renderTicker() {
-      const el = $('payoutTicker');
-      if (!el) return;
-      const items = [
-        '💰 سحب ناجح: مستخدم #1042 → 25.00 USDT',
-        '💎 مكافأة إنزال: مستخدم #8821 → +1,200 SYC',
-        '⚡ تعدين: مستخدم #3390 → 0.48 USDT/يوم',
-        '👑 ترقية VIP: مستخدم #7712 → عقد الذهب',
-        '🎟️ فائز الخزنة: مستخدم #5510 → 350.00 USDT'
-      ];
-      el.innerText = (items.join('     •     ') + '     •     ').repeat(2);
-    }
-
-    /* ---------- 8) المهام الاجتماعية ---------- */
-    const FALLBACK_SOCIAL = [
-      { id: 'yt1', icon: '▶️', title_ar: 'متابعة قناة YouTube الرسمية', url: 'https://www.youtube.com/', reward_usdt: 0.05, reward_syc: 0 },
-      { id: 'x1', icon: '𝕏', title_ar: 'متابعة الحساب الرسمي على X', url: 'https://x.com/', reward_usdt: 0.03, reward_syc: 0 },
-      { id: 'tg1', icon: '✈️', title_ar: 'الانضمام إلى قناة Telegram', url: 'https://telegram.org/', reward_usdt: 0, reward_syc: 50 },
-      { id: 'yt2', icon: '🎬', title_ar: 'مشاهدة فيديو شرح المنصة كامل', url: 'https://www.youtube.com/', reward_usdt: 0.04, reward_syc: 0 }
+  /* ========== 7) العرض ========== */
+  function renderBalances(){
+    if($('totalBal')) $('totalBal').innerText = P.usdt.toFixed(4);
+    if($('sycTotalBal')) $('sycTotalBal').innerText = P.syc.toFixed(2);
+  }
+  function renderSeason(){
+    var s = seasonInfo();
+    var t = Math.floor(s.remain/1000);
+    if($('airDays')) $('airDays').innerText = Math.floor(t/86400);
+    if($('airHours')) $('airHours').innerText = pad2(Math.floor(t%86400/3600));
+    if($('airMins')) $('airMins').innerText = pad2(Math.floor(t%3600/60));
+    if($('airSecs')) $('airSecs').innerText = pad2(t%60);
+    if($('airdropProgressText')) $('airdropProgressText').innerText = s.prog.toFixed(1)+'%';
+    if($('airdropProgressBar')) $('airdropProgressBar').style.width = s.prog+'%';
+  }
+  function renderVault(){
+    if($('jackpotAdsProgress')) $('jackpotAdsProgress').innerText = String(P.vaultAds);
+  }
+  function renderTicker(){
+    var el = $('payoutTicker'); if(!el) return;
+    var items = [
+      '💰 سحب ناجح: مستخدم #1042 → 25.00 USDT',
+      '💎 مكافأة إنزال: مستخدم #8821 → +1,200 SYC',
+      '⚡ تعدين: مستخدم #3390 → 0.48 USDT/يوم',
+      '👑 ترقية VIP: مستخدم #7712 → عقد الذهب',
+      '🎟️ فائز الخزنة: مستخدم #5510 → 350.00 USDT'
     ];
-
-    function socialTasks() {
-      const t = App.tasks.filter(x => x.kind === 'social');
-      return t.length ? t : FALLBACK_SOCIAL;
+    el.innerText = (items.join('     •     ')+'     •     ').repeat(2);
+  }
+  function renderAll(){
+    renderBalances(); renderSeason(); renderVault(); renderTicker();
+    renderSocialTasks(); renderAds(); renderSkillGames();
+    renderVipPlans(); renderWeeklyReferral();
+    if($('myReferralLinkDisplay') && P.referralCode){
+      $('myReferralLinkDisplay').innerText = 'https://t.me/SyriaCash_Bot?start=ref_'+P.referralCode;
     }
+    if($('boostBadge')) $('boostBadge').innerText = boostUsedToday('usdt')+'/10 اليوم';
+  }
 
-    function isDone(id) {
-      return App.cloud ? App.doneToday.has(id) : localDone(id);
-    }
-
-    function renderSocialTasks() {
-      const c = $('socialTasksContainer');
-      if (!c) return;
-      c.innerHTML = '';
-      socialTasks().forEach(t => {
-        const done = isDone(t.id);
-        const rw = [];
-        if (Number(t.reward_usdt) > 0) rw.push('+' + t.reward_usdt + ' USDT');
-        if (Number(t.reward_syc) > 0) rw.push('+' + t.reward_syc + ' $SYC');
-
-        const e = document.createElement('div');
-        e.className = 'mining-hub-card';
-        e.style = 'padding:12px; display:flex; align-items:center; gap:10px; justify-content:space-between; margin-bottom:0;';
-        e.innerHTML =
-          '<div style="display:flex; gap:10px; align-items:center; min-width:0">' +
-            '<div style="font-size:26px">' + (t.icon || '⭐') + '</div>' +
-            '<div style="text-align:right;">' +
-              '<b style="font-size:12px">' + (t.title_ar || t.title_en || t.id) + '</b>' +
-              '<div style="font-size:10px; color:var(--primary-green); font-weight:bold; margin-top:3px">' + rw.join(' + ') + '</div>' +
-            '</div>' +
-          '</div>' +
-          '<button class="btn-official-green" style="width:auto; padding:8px 12px; font-size:11px" ' +
-            (done ? 'disabled style="background:#64748b"' : '') +
-            ' onclick="completeSocialTask(\'' + t.id + '\',\'' + (t.url || '') + '\')">' +
-            (done ? 'مكتملة ✓' : 'تنفيذ المهمة 🚀') +
-          '</button>';
-        c.appendChild(e);
-      });
-    }
-
-    async function completeSocialTask(id, url) {
-      if (isDone(id)) return;
-      if (url) window.open(url, '_blank');
-
-      const run = async () => {
-        const res = await rpc('fn_complete_task', { p_task_id: id });
-        if (res && res.ok) {
-          App.doneToday.add(id);
-          applyRemote(res.profile);
+  /* ========== 8) المهام الاجتماعية ========== */
+  var FALLBACK_SOCIAL = [
+    { id:'yt1', icon:'▶️', title_ar:'متابعة قناة YouTube الرسمية', url:'https://www.youtube.com/', reward_usdt:0.05, reward_syc:0 },
+    { id:'x1', icon:'𝕏', title_ar:'متابعة الحساب الرسمي على X', url:'https://x.com/', reward_usdt:0.03, reward_syc:0 },
+    { id:'tg1', icon:'✈️', title_ar:'الانضمام إلى قناة Telegram', url:'https://telegram.org/', reward_usdt:0, reward_syc:50 },
+    { id:'yt2', icon:'🎬', title_ar:'مشاهدة فيديو شرح المنصة كامل', url:'https://www.youtube.com/', reward_usdt:0.04, reward_syc:0 }
+  ];
+  function socialTasks(){
+    var t = App.tasks.filter(function(x){ return x.kind==='social'; });
+    return t.length ? t : FALLBACK_SOCIAL;
+  }
+  function isDone(id){
+    return App.cloud ? !!App.doneToday[id] : localDone(id);
+  }
+  function renderSocialTasks(){
+    var c = $('socialTasksContainer'); if(!c) return;
+    c.innerHTML = '';
+    socialTasks().forEach(function(t){
+      var done = isDone(t.id);
+      var rw = [];
+      if(Number(t.reward_usdt)>0) rw.push('+'+t.reward_usdt+' USDT');
+      if(Number(t.reward_syc)>0) rw.push('+'+t.reward_syc+' $SYC');
+      var e = document.createElement('div');
+      e.className = 'mining-hub-card';
+      e.style = 'padding:12px;display:flex;align-items:center;gap:10px;justify-content:space-between;';
+      e.innerHTML =
+        '<div style="display:flex;gap:10px;align-items:center;min-width:0">'+
+          '<div style="font-size:26px">'+(t.icon||'⭐')+'</div>'+
+          '<div style="text-align:right;">'+
+            '<b style="font-size:12px">'+esc(t.title_ar||t.title_en||t.id)+'</b>'+
+            '<div style="font-size:10px;color:var(--primary-green);font-weight:bold;margin-top:3px">'+rw.join(' + ')+'</div>'+
+          '</div>'+
+        '</div>'+
+        '<button class="btn-official-green" style="width:auto;padding:8px 12px;font-size:11px" '+
+          (done?'disabled':'')+
+          ' onclick="completeSocialTask(\''+t.id+'\',\''+(t.url||'')+'\')">'+
+          (done?'مكتملة ✓':'تنفيذ 🚀')+
+        '</button>';
+      c.appendChild(e);
+    });
+  }
+  window.completeSocialTask = function(id, url){
+    if(isDone(id)) return;
+    if(url){ try{ window.open(url,'_blank'); }catch(e){} }
+    var run = function(){
+      rpc('fn_complete_task',{ p_task_id:id }).then(function(res){
+        if(res && res.ok){
+          App.doneToday[id] = true;
+          if(res.profile) applyRemote(res.profile);
+          renderSocialTasks();
           showToast('تم إكمال المهمة بنجاح! 🎉');
           return;
         }
-        if (res && res.error) {
-          const map = { already_done: 'المهمة مكتملة مسبقاً اليوم.', task_not_found: 'المهمة غير متاحة.' };
-          showToast(map[res.error] || 'تعذر إكمال المهمة.');
-          return;
-        }
+        if(res && res.error==='already_done'){ showToast('المهمة مكتملة مسبقاً اليوم.'); return; }
         // وضع محلي
         markLocalDone(id);
-        const t = socialTasks().find(x => x.id === id);
-        if (t) { P.usdt += Number(t.reward_usdt || 0); P.syc += Number(t.reward_syc || 0); saveLocal(); }
+        var t = socialTasks().find(function(x){ return x.id===id; });
+        if(t){ P.usdt += Number(t.reward_usdt||0); P.syc += Number(t.reward_syc||0); saveLocal(); }
         renderAll();
         showToast('تم إكمال المهمة (وضع محلي) 🎉');
-      };
-
-      setTimeout(() => openAdModal('تأكيد المهمة', run), url ? 1500 : 0);
-    }
-
-    /* ---------- 9) الإعلانات الـ25 ---------- */
-    function adTasks() {
-      const t = App.tasks.filter(x => x.kind === 'ad');
-      if (t.length) return t;
-      const arr = [];
-      for (let i = 1; i <= 25; i++) {
-        arr.push({ id: 'ad' + i, title_ar: 'إعلان مأجور #' + i, reward_usdt: 0.015, reward_syc: 5 });
-      }
-      return arr;
-    }
-
-    function renderAds() {
-      const c = $('adsContainer25');
-      if (!c) return;
-      c.innerHTML = '';
-      adTasks().forEach(t => {
-        const done = isDone(t.id);
-        const e = document.createElement('div');
-        e.className = 'service-card';
-        e.style = 'display:flex; align-items:center; justify-content:space-between; gap:8px; padding:11px 12px;';
-        e.innerHTML =
-          '<div style="text-align:right;">' +
-            '<b style="font-size:12px">📺 ' + (t.title_ar || t.title_en) + '</b>' +
-            '<div style="font-size:9px; color:var(--primary-green); font-weight:bold; margin-top:3px">+' +
-              t.reward_usdt + ' USDT + ' + t.reward_syc + ' $SYC</div>' +
-          '</div>' +
-          '<button class="btn-official-green" style="width:auto; padding:8px 11px; font-size:10px" ' +
-            (done ? 'disabled style="background:#64748b"' : '') +
-            ' onclick="completeDailyAd(\'' + t.id + '\')">' +
-            (done ? 'تمت المشاهدة ✓' : 'مشاهدة الإعلان 🎬') +
-          '</button>';
-        c.appendChild(e);
       });
-    }
+    };
+    setTimeout(function(){ openAdModal('تأكيد المهمة', run); }, url ? 1200 : 0);
+  };
 
-    async function completeDailyAd(id) {
-      if (isDone(id)) return;
-      openAdModal('مشاهدة إعلان مأجور', async () => {
-        const res = await rpc('fn_complete_task', { p_task_id: id });
-        if (res && res.ok) {
-          App.doneToday.add(id);
-          applyRemote(res.profile);
+  /* ========== 9) إعلانات الـ25 ========== */
+  function adTasks(){
+    var t = App.tasks.filter(function(x){ return x.kind==='ad'; });
+    if(t.length) return t;
+    var arr = [];
+    for(var i=1;i<=25;i++){
+      arr.push({ id:'ad'+i, title_ar:'إعلان مأجور #'+i, reward_usdt:0.015, reward_syc:5 });
+    }
+    return arr;
+  }
+  function renderAds(){
+    var c = $('adsContainer25'); if(!c) return;
+    c.innerHTML = '';
+    adTasks().forEach(function(t){
+      var done = isDone(t.id);
+      var e = document.createElement('div');
+      e.className = 'service-card';
+      e.style = 'display:flex;align-items:center;justify-content:space-between;gap:8px;padding:11px 12px;';
+      e.innerHTML =
+        '<div style="text-align:right;">'+
+          '<b style="font-size:12px">📺 '+esc(t.title_ar||t.title_en||t.id)+'</b>'+
+          '<div style="font-size:9px;color:var(--primary-green);font-weight:bold;margin-top:3px">+'+
+            t.reward_usdt+' USDT + '+t.reward_syc+' $SYC</div>'+
+        '</div>'+
+        '<button class="btn-official-green" style="width:auto;padding:8px 11px;font-size:10px" '+
+          (done?'disabled':'')+
+          ' onclick="completeDailyAd(\''+t.id+'\')">'+
+          (done?'تمت المشاهدة ✓':'مشاهدة 🎬')+
+        '</button>';
+      c.appendChild(e);
+    });
+  }
+  window.completeDailyAd = function(id){
+    if(isDone(id)) return;
+    openAdModal('مشاهدة إعلان مأجور', function(){
+      rpc('fn_complete_task',{ p_task_id:id }).then(function(res){
+        if(res && res.ok){
+          App.doneToday[id] = true;
+          if(res.profile) applyRemote(res.profile);
+          renderAds();
           showToast('تم استلام مكافأة الإعلان! 💰');
           return;
         }
-        if (res && res.error === 'already_done') { showToast('شاهدت هذا الإعلان اليوم بالفعل.'); return; }
+        if(res && res.error==='already_done'){ showToast('شاهدت هذا الإعلان اليوم بالفعل.'); return; }
         markLocalDone(id);
-        P.usdt += 0.015; P.syc += 5;
-        saveLocal(); renderAll();
+        P.usdt += 0.015; P.syc += 5; saveLocal(); renderAll();
         showToast('تم استلام مكافأة الإعلان (وضع محلي) 💰');
       });
-    }
+    });
+  };
 
-    /* ---------- 10) الألعاب المهارية ---------- */
-    const SKILL_GAMES = [
-      { id: 'reaction', taskId: 'game_reaction', icon: '⚡', title: 'اختبار سرعة الاستجابة والتصويب', desc: 'اضغط موافق فور ظهور الإشارة المباشرة.', prize: '+0.025 USDT', usdt: 0.025, syc: 0 },
-      { id: 'memory', taskId: 'game_memory', icon: '🧠', title: 'تحدي الذاكرة البصرية', desc: 'احفظ ترتيب الرموز واكتشف المطابقة.', prize: '+0.035 USDT', usdt: 0.035, syc: 0 },
-      { id: 'sequence', taskId: 'game_sequence', icon: '🔢', title: 'تسلسل الأرقام السريع', desc: 'أدخل الرقم الصحيح التالي في السلسلة.', prize: '+0.050 USDT', usdt: 0.050, syc: 0 }
-    ];
-
-    function renderSkillGames() {
-      const c = $('skillGamesContainer');
-      if (!c) return;
-      c.innerHTML = '';
-      SKILL_GAMES.forEach(g => {
-        const done = isDone(g.taskId);
-        const e = document.createElement('div');
-        e.className = 'game-card-modern';
-        e.innerHTML =
-          '<span class="game-badge-status ' + (done ? 'status-locked' : 'status-free') + '">' +
-            (done ? 'تم اللعب اليوم 🔒' : 'محاولة مجانية 🎁') + '</span>' +
-          '<h3 style="color:var(--primary-green); font-size:15px;">' + g.icon + ' ' + g.title + '</h3>' +
-          '<p style="color:var(--text-muted); font-size:11px; margin-top:2px;">' + g.desc + '</p>' +
-          '<div style="background:#f8fafc; border-radius:10px; padding:9px; font-size:11px; margin:8px 0;">' +
-            'الجائزة المباشرة: <b>' + g.prize + '</b></div>' +
-          '<button class="btn-official-green" style="padding:10px; font-size:12px;" ' +
-            (done ? 'disabled style="background:#64748b"' : '') +
-            ' onclick="startSkillGame(\'' + g.id + '\')">' +
-            (done ? 'غير متاح الآن' : 'ابدأ اللعب 🚀') + '</button>';
-        c.appendChild(e);
-      });
-    }
-
-    async function rewardGame(g) {
-      const res = await rpc('fn_complete_task', { p_task_id: g.taskId });
-      if (res && res.ok) {
-        App.doneToday.add(g.taskId);
-        applyRemote(res.profile);
+  /* ========== 10) الألعاب ========== */
+  var SKILL_GAMES = [
+    { id:'reaction', taskId:'game_reaction', icon:'⚡', title:'اختبار سرعة الاستجابة والتصويب', desc:'اضغط موافق فور ظهور الإشارة المباشرة.', prize:'+0.025 USDT', usdt:0.025, syc:0 },
+    { id:'memory',   taskId:'game_memory',   icon:'🧠', title:'تحدي الذاكرة البصرية', desc:'احفظ ترتيب الرموز واكتشف المطابقة.', prize:'+0.035 USDT', usdt:0.035, syc:0 },
+    { id:'sequence', taskId:'game_sequence', icon:'🔢', title:'تسلسل الأرقام السريع', desc:'أدخل الرقم الصحيح التالي في السلسلة.', prize:'+0.050 USDT', usdt:0.050, syc:0 }
+  ];
+  function renderSkillGames(){
+    var c = $('skillGamesContainer'); if(!c) return;
+    c.innerHTML = '';
+    SKILL_GAMES.forEach(function(g){
+      var done = isDone(g.taskId);
+      var e = document.createElement('div');
+      e.className = 'game-card-modern';
+      e.innerHTML =
+        '<span class="game-badge-status '+(done?'status-locked':'status-free')+'">'+
+          (done?'تم اللعب اليوم 🔒':'محاولة مجانية 🎁')+'</span>'+
+        '<h3 style="color:var(--primary-green);font-size:15px;">'+g.icon+' '+g.title+'</h3>'+
+        '<p style="color:var(--text-muted);font-size:11px;margin-top:2px;">'+g.desc+'</p>'+
+        '<div style="background:#f8fafc;border-radius:10px;padding:9px;font-size:11px;margin:8px 0;">'+
+          'الجائزة المباشرة: <b>'+g.prize+'</b></div>'+
+        '<button class="btn-official-green" style="padding:10px;font-size:12px;" '+
+          (done?'disabled':'')+
+          ' onclick="startSkillGame(\''+g.id+'\')">'+
+          (done?'غير متاح الآن':'ابدأ اللعب 🚀')+'</button>';
+      c.appendChild(e);
+    });
+  }
+  function rewardGame(g){
+    rpc('fn_complete_task',{ p_task_id:g.taskId }).then(function(res){
+      if(res && res.ok){
+        App.doneToday[g.taskId] = true;
+        if(res.profile) applyRemote(res.profile);
         renderSkillGames();
         showToast('ممتاز! تم إضافة المكافأة لرصيدك 🎉');
-        return true;
-      }
-      if (res && res.error === 'already_done') { showToast('لعبت هذه اللعبة اليوم بالفعل.'); return false; }
-      // وضع محلي
-      markLocalDone(g.taskId);
-      P.usdt += g.usdt; P.syc += g.syc;
-      saveLocal(); renderAll();
-      showToast('تم إضافة المكافأة (وضع محلي) 🎉');
-      return true;
-    }
-
-    function startSkillGame(id) {
-      const g = SKILL_GAMES.find(x => x.id === id);
-      if (!g || isDone(g.taskId)) return;
-
-      if (id === 'sequence') {
-        const a = prompt('ما الرقم التالي في السلسلة: 2, 4, 6, 8, ?');
-        if (a === '10') rewardGame(g); else showToast('الإجابة غير صحيحة، حاول غداً.');
-      } else if (id === 'reaction') {
-        setTimeout(() => {
-          if (confirm('الآن! اضغط موافق فوراً للتصويب!')) rewardGame(g);
-          else showToast('لم تصوّب في الوقت المناسب.');
-        }, 1000);
-      } else {
-        alert('احفظ الترتيب التالي: 🟩 🔷 ⭐ 🟠');
-        const a = prompt('اكتب التسلسل بالتفصيل: 🟩 🔷 ⭐ 🟠');
-        if (a && a.replace(/\s/g, '') === '🟩🔷⭐🟠') rewardGame(g);
-        else showToast('التسلسل غير صحيح.');
-      }
-    }
-
-    /* ---------- 11) مشغل الإعلانات ---------- */
-    let adCallback = null;
-    let adTimer = null;
-
-    function openAdModal(title, callback) {
-      adCallback = callback;
-      const modal = $('verifiedAdModal');
-      const titleEl = $('adPlayerTitle');
-      const countEl = $('adCountdownVal');
-      const fillEl = $('adProgressBarFill');
-      const claimBtn = $('claimAdRewardBtn');
-      if (!modal) { if (callback) callback(); return; }
-
-      if (adTimer) clearInterval(adTimer);
-      titleEl.innerText = title;
-      modal.style.display = 'flex';
-      claimBtn.disabled = true;
-      claimBtn.style.background = '#64748b';
-      claimBtn.innerText = 'انتظر اكتمال الإعلان (' + AD_SECONDS + 'ث)...';
-      fillEl.style.width = '0%';
-
-      let left = AD_SECONDS;
-      countEl.innerText = left + 's';
-
-      adTimer = setInterval(() => {
-        left--;
-        countEl.innerText = left + 's';
-        fillEl.style.width = ((AD_SECONDS - left) / AD_SECONDS * 100) + '%';
-        if (left <= 0) {
-          clearInterval(adTimer);
-          claimBtn.disabled = false;
-          claimBtn.style.background = 'var(--primary-green)';
-          claimBtn.innerText = 'تأكيد واستلام المكافأة 🎯';
-          claimBtn.onclick = async () => {
-            modal.style.display = 'none';
-            const cb = adCallback; adCallback = null;
-            if (cb) { try { await cb(); } catch (e) { console.warn(e); } }
-          };
-        }
-      }, 1000);
-    }
-
-    /* ---------- 12) التعدين ---------- */
-    async function collect(kind) {
-      const local = unclaimed(kind);
-      if (local <= 0.000001) { showToast('لا توجد أرباح مجمعة حالياً.'); return; }
-
-      const res = await rpc('fn_collect', { p_kind: kind });
-      if (res && res.ok) {
-        applyRemote(res.profile);
-        showToast('تمت إضافة +' + Number(res.amount).toFixed(kind === 'usdt' ? 6 : 2) + ' ' + (kind === 'usdt' ? 'USDT' : '$SYC') + ' 👛');
         return;
       }
-      if (res && res.error === 'nothing_to_collect') { showToast('انتظر قليلاً قبل الجمع مرة أخرى.'); return; }
+      if(res && res.error==='already_done'){ showToast('لعبت هذه اللعبة اليوم بالفعل.'); return; }
+      markLocalDone(g.taskId);
+      P.usdt += g.usdt; P.syc += g.syc; saveLocal(); renderAll();
+      showToast('تم إضافة المكافأة (وضع محلي) 🎉');
+    });
+  }
+  window.startSkillGame = function(id){
+    var g = SKILL_GAMES.find(function(x){ return x.id===id; });
+    if(!g || isDone(g.taskId)) return;
+    if(id==='sequence'){
+      var a = prompt('ما الرقم التالي في السلسلة: 2, 4, 6, 8, ?');
+      if(a==='10') rewardGame(g); else showToast('الإجابة غير صحيحة، حاول غداً.');
+    } else if(id==='reaction'){
+      setTimeout(function(){
+        if(confirm('الآن! اضغط موافق فوراً للتصويب!')) rewardGame(g);
+        else showToast('لم تصوّب في الوقت المناسب.');
+      }, 1000);
+    } else {
+      alert('احفظ الترتيب التالي: 🟩 🔷 ⭐ 🟠');
+      var b = prompt('اكتب التسلسل بالتفصيل: 🟩 🔷 ⭐ 🟠');
+      if(b && b.replace(/\s/g,'')==='🟩🔷⭐🟠') rewardGame(g);
+      else showToast('التسلسل غير صحيح.');
+    }
+  };
 
-      // وضع محلي
-      if (kind === 'usdt') { P.usdt += local; P.usdtStart = Date.now(); }
+  /* ========== 11) مشغل الإعلانات ========== */
+  var adCallback = null, adTimer = null;
+  function openAdModal(title, callback){
+    adCallback = callback;
+    var modal = $('verifiedAdModal');
+    var titleEl = $('adPlayerTitle');
+    var countEl = $('adCountdownVal');
+    var fillEl = $('adProgressBarFill');
+    var claimBtn = $('claimAdRewardBtn');
+    if(!modal){ if(callback) callback(); return; }
+    if(adTimer){ clearInterval(adTimer); adTimer = null; }
+
+    titleEl.innerText = title || 'مشاهدة إعلان مدعوم';
+    modal.style.display = 'flex';
+    claimBtn.disabled = true;
+    claimBtn.innerText = 'انتظر اكتمال الإعلان ('+AD_SECONDS+'ث)...';
+    fillEl.style.width = '0%';
+    var left = AD_SECONDS;
+    countEl.innerText = left+'s';
+
+    adTimer = setInterval(function(){
+      left--;
+      countEl.innerText = left+'s';
+      fillEl.style.width = ((AD_SECONDS-left)/AD_SECONDS*100)+'%';
+      if(left<=0){
+        clearInterval(adTimer); adTimer = null;
+        claimBtn.disabled = false;
+        claimBtn.innerText = 'تأكيد واستلام المكافأة 🎯';
+        claimBtn.onclick = function(){
+          modal.style.display = 'none';
+          var cb = adCallback; adCallback = null;
+          if(cb){ try{ cb(); }catch(e){ console.warn(e); } }
+        };
+      }
+    }, 1000);
+  }
+
+  /* ========== 12) التعدين ========== */
+  function collect(kind){
+    var local = unclaimed(kind);
+    if(local <= 0.000001){ showToast('لا توجد أرباح مجمعة حالياً.'); return; }
+    rpc('fn_collect', { p_kind: kind }).then(function(res){
+      if(res && res.ok){
+        if(res.profile) applyRemote(res.profile);
+        var amt = Number(res.amount).toFixed(kind==='usdt'?6:2);
+        showToast('تمت إضافة +'+amt+' '+(kind==='usdt'?'USDT':'$SYC')+' 👛');
+        return;
+      }
+      if(res && res.error==='nothing_to_collect'){ showToast('انتظر قليلاً قبل الجمع مرة أخرى.'); return; }
+      if(kind==='usdt'){ P.usdt += local; P.usdtStart = Date.now(); }
       else { P.syc += local; P.sycStart = Date.now(); }
       saveLocal(); renderAll();
-      showToast('تم جمع الأرباح (وضع محلي) 👛');
-    }
+      showToast('تم جمع الأرباح 👛');
+    });
+  }
+  window.collectUsdtReward = function(){ collect('usdt'); };
+  window.collectSycReward  = function(){ collect('syc');  };
 
-    function collectUsdtReward() { collect('usdt'); }
-    function collectSycReward() { collect('syc'); }
-
-    async function startSession(kind) {
-      const res = await rpc('fn_start_session', { p_kind: kind });
-      if (res && res.ok) { applyRemote(res.profile); return; }
-      if (kind === 'usdt') P.usdtStart = Date.now(); else P.sycStart = Date.now();
+  function startSession(kind){
+    rpc('fn_start_session', { p_kind: kind }).then(function(res){
+      if(res && res.ok && res.profile){ applyRemote(res.profile); return; }
+      if(kind==='usdt') P.usdtStart = Date.now(); else P.sycStart = Date.now();
       saveLocal();
-    }
+    });
+  }
+  window.clickMiningCircle = function(){ startSession('usdt'); showToast('جلسة تعدين USDT نشطة ⚡'); };
+  window.clickSycStation   = function(){ startSession('syc');  showToast('جلسة تعدين $SYC نشطة 💎'); };
 
-    function clickMiningCircle() { startSession('usdt'); showToast('جلسة تعدين USDT نشطة ومحدثة ⚡'); }
-    function clickSycStation() { startSession('syc'); showToast('جلسة تعدين $SYC نشطة ومحدثة 💎'); }
-    function clickCounterBox() { showToast('مؤقت الاحتساب يعمل تلقائياً وبشكل مستمر.'); }
-
-    function boostUsedToday(kind) {
-      return Number(localStorage.getItem('sc_boost_' + todayKey() + '_' + kind) || 0);
-    }
-
-    async function activateBoost(kind) {
-      const res = await rpc('fn_boost', { p_kind: kind });
-      if (res && res.ok) {
-        applyRemote(res.profile);
-        localStorage.setItem('sc_boost_' + todayKey() + '_' + kind, String(res.used));
+  function boostUsedToday(kind){
+    return Number(localStorage.getItem('sc_boost_'+todayKey()+'_'+kind) || 0);
+  }
+  function activateBoost(kind){
+    rpc('fn_boost', { p_kind: kind }).then(function(res){
+      if(res && res.ok){
+        if(res.profile) applyRemote(res.profile);
+        try{ localStorage.setItem('sc_boost_'+todayKey()+'_'+kind, String(res.used)); }catch(e){}
         showToast('تم تفعيل مضاعف السرعة 2X لمدة 10 دقائق ⚡');
+        renderAll();
         return;
       }
-      if (res && res.error === 'limit_reached') { showToast('اكتملت محاولات المضاعف اليومية (10/10).'); return; }
-      if (res && res.error) { showToast('تعذر تفعيل المضاعف.'); return; }
-
-      const used = boostUsedToday(kind);
-      if (used >= BOOST_LIMIT) { showToast('اكتملت محاولات المضاعف اليومية (10/10).'); return; }
-      localStorage.setItem('sc_boost_' + todayKey() + '_' + kind, String(used + 1));
-      if (kind === 'usdt') P.boostUsdtUntil = Date.now() + BOOST_MS; else P.boostSycUntil = Date.now() + BOOST_MS;
-      saveLocal();
+      if(res && res.error==='limit_reached'){ showToast('اكتملت محاولات المضاعف اليومية (10/10).'); return; }
+      var used = boostUsedToday(kind);
+      if(used >= BOOST_LIMIT){ showToast('اكتملت محاولات المضاعف اليومية (10/10).'); return; }
+      try{ localStorage.setItem('sc_boost_'+todayKey()+'_'+kind, String(used+1)); }catch(e){}
+      if(kind==='usdt') P.boostUsdtUntil = Date.now() + BOOST_MS;
+      else P.boostSycUntil = Date.now() + BOOST_MS;
+      saveLocal(); renderAll();
       showToast('تم تفعيل مضاعف السرعة 2X لمدة 10 دقائق ⚡');
-    }
+    });
+  }
+  window.triggerBoost = function(){
+    if(boostUsedToday('usdt')>=BOOST_LIMIT){ showToast('اكتملت محاولات المضاعف اليومية (10/10).'); return; }
+    openAdModal('مضاعف السرعة 2X لمدة 10 دقائق', function(){ activateBoost('usdt'); });
+  };
+  window.triggerSycBoost = function(){
+    if(boostUsedToday('syc')>=BOOST_LIMIT){ showToast('اكتملت محاولات المضاعف اليومية (10/10).'); return; }
+    openAdModal('مضاعف $SYC 2X لمدة 10 دقائق', function(){ activateBoost('syc'); });
+  };
 
-    function triggerBoost() {
-      if (boostUsedToday('usdt') >= BOOST_LIMIT) { showToast('اكتملت محاولات المضاعف اليومية (10/10).'); return; }
-      openAdModal('مضاعف السرعة 2X لمدة 10 دقائق', () => activateBoost('usdt'));
-    }
+  /* ========== 13) حلقة التحديث ========== */
+  function startLoop(){
+    setInterval(function(){
+      var u = unclaimed('usdt'), s = unclaimed('syc');
+      if($('unclaimedBal')) $('unclaimedBal').innerText = u.toFixed(6);
+      if($('unclaimedSyc')) $('unclaimedSyc').innerText = s.toFixed(2);
 
-    function triggerSycBoost() {
-      if (boostUsedToday('syc') >= BOOST_LIMIT) { showToast('اكتملت محاولات المضاعف اليومية (10/10).'); return; }
-      openAdModal('مضاعف $SYC 2X لمدة 10 دقائق', () => activateBoost('syc'));
-    }
+      var cu = Math.floor(cycleRemain('usdt')/1000);
+      if($('liveSessionTimer')) $('liveSessionTimer').innerText =
+        pad2(Math.floor(cu/3600))+':'+pad2(Math.floor(cu%3600/60))+':'+pad2(cu%60);
 
-    /* ---------- 13) حلقة التحديث ---------- */
-    function startLoop() {
-      setInterval(() => {
-        const u = unclaimed('usdt'), s = unclaimed('syc');
-        if ($('unclaimedBal')) $('unclaimedBal').innerText = u.toFixed(6);
-        if ($('unclaimedSyc')) $('unclaimedSyc').innerText = s.toFixed(2);
+      var cs = Math.floor(cycleRemain('syc')/1000);
+      if($('sycMiningTimer')) $('sycMiningTimer').innerText =
+        'مؤقت دورة الـ 4 ساعات: '+pad2(Math.floor(cs/3600))+':'+pad2(Math.floor(cs%3600/60))+':'+pad2(cs%60)+' ⏱';
 
-        const cu = Math.floor(cycleRemain('usdt') / 1000);
-        const hu = pad2(Math.floor(cu / 3600)), mu = pad2(Math.floor(cu % 3600 / 60)), su = pad2(cu % 60);
-        if ($('liveSessionTimer')) $('liveSessionTimer').innerText = hu + ':' + mu + ':' + su;
+      if($('boostBadge')) $('boostBadge').innerText = boostUsedToday('usdt')+'/10 اليوم';
+      renderSeason();
+    }, 1000);
+  }
 
-        const cs = Math.floor(cycleRemain('syc') / 1000);
-        const hs = pad2(Math.floor(cs / 3600)), ms = pad2(Math.floor(cs % 3600 / 60)), ss = pad2(cs % 60);
-        if ($('sycMiningTimer')) $('sycMiningTimer').innerText = 'مؤقت دورة الـ 4 ساعات: ' + hs + ':' + ms + ':' + ss + ' ⏱';
-
-        if ($('boostBadge')) $('boostBadge').innerText = boostUsedToday('usdt') + '/10 اليوم';
-        renderSeason();
-      }, 1000);
-    }
-
-    /* ---------- 14) باقات VIP ---------- */
-    const FALLBACK_PLANS = [
-      { level: 1, name_ar: 'عقد النحاس (VIP 1)', price: 15, daily: 0.90, monthly: 27.00, syc_bonus: 150 },
-      { level: 2, name_ar: 'عقد الفضة (VIP 2)', price: 25, daily: 1.60, monthly: 48.00, syc_bonus: 300 },
-      { level: 3, name_ar: 'عقد الذهب (VIP 3)', price: 50, daily: 3.50, monthly: 105.00, syc_bonus: 750 },
-      { level: 4, name_ar: 'عقد البلاتين (VIP 4)', price: 100, daily: 7.50, monthly: 225.00, syc_bonus: 1800 },
-      { level: 5, name_ar: 'عقد التاج الملكي (VIP 5)', price: 200, daily: 16.00, monthly: 480.00, syc_bonus: 4000 },
-      { level: 6, name_ar: 'عقد الحوت الماس (VIP 6)', price: 500, daily: 42.00, monthly: 1260.00, syc_bonus: 11000 }
-    ];
-
-    function vipPlans() { return App.plans.length ? App.plans : FALLBACK_PLANS; }
-
-    function renderVipPlans() {
-      const c = $('vipPlansContainer');
-      if (!c) return;
-      c.innerHTML = '';
-      vipPlans().forEach(p => {
-        const e = document.createElement('div');
-        e.style = 'background:#fff; border:1px solid #e2e8f0; border-radius:16px; padding:14px; box-shadow:var(--shadow-sm);';
-        e.innerHTML =
-          '<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px">' +
-            '<div>' +
-              '<div style="font-size:14px; font-weight:900; color:var(--text-dark)">' + (p.name_ar || p.name_en) + '</div>' +
-              '<div style="font-size:10px; color:var(--text-muted)">صلاحية 30 يوماً | سحب فوري 0% Fee</div>' +
-            '</div>' +
-            '<div style="font-size:18px; font-weight:900; color:var(--primary-green)">$' + p.price + '</div>' +
-          '</div>' +
-          '<div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:6px; background:#f8fafc; border-radius:10px; padding:8px; text-align:center">' +
-            '<div><div style="font-size:9px; color:var(--text-muted)">الإنتاج اليومي</div><div style="font-weight:800; font-size:11px;">' + p.daily + '$</div></div>' +
-            '<div><div style="font-size:9px; color:var(--text-muted)">العائد الشهري</div><div style="font-weight:800; font-size:11px; color:var(--primary-green);">' + p.monthly + '$</div></div>' +
-            '<div><div style="font-size:9px; color:var(--text-muted)">بونص Airdrop</div><div style="font-weight:800; font-size:11px; color:#0284c7;">+' + p.syc_bonus + ' SYC</div></div>' +
-          '</div>' +
-          '<button class="btn-official-green" style="margin-top:9px; padding:9px; font-size:11px" onclick="buyVipPackage(' + p.level + ')">' +
-            'تفعيل العقد الآن ($' + p.price + ' USDT) 🚀</button>';
-        c.appendChild(e);
-      });
-    }
-
-    async function buyVipPackage(level) {
-      const plan = vipPlans().find(p => Number(p.level) === Number(level));
-      if (!plan) return;
-
-      const res = await rpc('fn_buy_vip', { p_level: Number(level) });
-      if (res && res.ok) {
-        applyRemote(res.profile);
-        showToast('تم تفعيل ' + (plan.name_ar || plan.name_en) + ' وحصولك على +' + plan.syc_bonus + ' $SYC! 🎉');
+  /* ========== 14) باقات VIP ========== */
+  var FALLBACK_PLANS = [
+    { level:1, name_ar:'عقد النحاس (VIP 1)',        price:15,  daily:0.90,  monthly:27.00,   syc_bonus:150 },
+    { level:2, name_ar:'عقد الفضة (VIP 2)',         price:25,  daily:1.60,  monthly:48.00,   syc_bonus:300 },
+    { level:3, name_ar:'عقد الذهب (VIP 3)',         price:50,  daily:3.50,  monthly:105.00,  syc_bonus:750 },
+    { level:4, name_ar:'عقد البلاتين (VIP 4)',      price:100, daily:7.50,  monthly:225.00,  syc_bonus:1800 },
+    { level:5, name_ar:'عقد التاج الملكي (VIP 5)',  price:200, daily:16.00, monthly:480.00,  syc_bonus:4000 },
+    { level:6, name_ar:'عقد الحوت الماس (VIP 6)',   price:500, daily:42.00, monthly:1260.00, syc_bonus:11000 }
+  ];
+  function vipPlans(){ return App.plans.length ? App.plans : FALLBACK_PLANS; }
+  function renderVipPlans(){
+    var c = $('vipPlansContainer'); if(!c) return;
+    c.innerHTML = '';
+    vipPlans().forEach(function(p){
+      var e = document.createElement('div');
+      e.style = 'background:#fff;border:1px solid #e2e8f0;border-radius:16px;padding:14px;box-shadow:var(--shadow-sm);';
+      e.innerHTML =
+        '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">'+
+          '<div>'+
+            '<div style="font-size:14px;font-weight:900;color:var(--text-dark)">'+esc(p.name_ar||p.name_en||('VIP '+p.level))+'</div>'+
+            '<div style="font-size:10px;color:var(--text-muted)">صلاحية 30 يوماً | سحب فوري 0% Fee</div>'+
+          '</div>'+
+          '<div style="font-size:18px;font-weight:900;color:var(--primary-green)">$'+p.price+'</div>'+
+        '</div>'+
+        '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;background:#f8fafc;border-radius:10px;padding:8px;text-align:center">'+
+          '<div><div style="font-size:9px;color:var(--text-muted)">الإنتاج اليومي</div><div style="font-weight:800;font-size:11px;">'+p.daily+'$</div></div>'+
+          '<div><div style="font-size:9px;color:var(--text-muted)">العائد الشهري</div><div style="font-weight:800;font-size:11px;color:var(--primary-green);">'+p.monthly+'$</div></div>'+
+          '<div><div style="font-size:9px;color:var(--text-muted)">بونص Airdrop</div><div style="font-weight:800;font-size:11px;color:#0284c7;">+'+p.syc_bonus+' SYC</div></div>'+
+        '</div>'+
+        '<button class="btn-official-green" style="margin-top:9px;padding:9px;font-size:11px" onclick="buyVipPackage('+p.level+')">'+
+          'تفعيل العقد الآن ($'+p.price+' USDT) 🚀</button>';
+      c.appendChild(e);
+    });
+  }
+  window.buyVipPackage = function(level){
+    var plan = vipPlans().find(function(p){ return Number(p.level)===Number(level); });
+    if(!plan) return;
+    rpc('fn_buy_vip', { p_level: Number(level) }).then(function(res){
+      if(res && res.ok){
+        if(res.profile) applyRemote(res.profile);
+        showToast('تم تفعيل '+(plan.name_ar||plan.name_en)+' وحصولك على +'+plan.syc_bonus+' $SYC! 🎉');
         return;
       }
-      if (res && res.error === 'insufficient_balance') {
-        showToast('رصيدك غير كافٍ. ينقصك ' + (plan.price - P.usdt).toFixed(2) + ' USDT.');
-        return;
+      if(res && res.error==='insufficient_balance'){
+        showToast('رصيدك غير كافٍ. ينقصك '+(plan.price - P.usdt).toFixed(2)+' USDT.'); return;
       }
-      if (res && res.error) { showToast('تعذر تفعيل العقد.'); return; }
-
-      if (P.usdt < plan.price) { showToast('رصيدك غير كافٍ لتفعيل هذا العقد.'); return; }
+      if(P.usdt < plan.price){ showToast('رصيدك غير كافٍ لتفعيل هذا العقد.'); return; }
       P.usdt -= Number(plan.price);
       P.syc += Number(plan.syc_bonus);
       P.vipLevel = Math.max(P.vipLevel, Number(plan.level));
       saveLocal(); renderAll();
-      showToast('تم تفعيل ' + (plan.name_ar || plan.name_en) + ' (وضع محلي) 🎉');
-    }
+      showToast('تم تفعيل '+(plan.name_ar||plan.name_en)+' 🎉');
+    });
+  };
 
-    /* ---------- 15) السحب ---------- */
-    function updateWithdrawFields(method) {
-      const c = $('dynamicWithdrawFields');
-      if (!c) return;
-      const ph = {
-        usdt: 'عنوان محفظة USDT TRC20 (T...)',
-        google_play: 'البريد الإلكتروني لاستلام كود البطاقة',
-        turkish_cash: 'رقم الـ IBAN التركي (TR...)',
-        telegram_stars: 'معرف حساب تلجرام المعتمد (@user)',
-        sham_cash: 'رقم حساب شام كاش (Sham Cash ID)'
-      };
-      c.innerHTML = '<input type="text" id="payAddress" placeholder="' + (ph[method] || 'بيانات الاستلام') + '" class="input-clean">';
-    }
+  /* ========== 15) السحب ========== */
+  window.updateWithdrawFields = function(method){
+    var c = $('dynamicWithdrawFields'); if(!c) return;
+    var ph = {
+      usdt:           'عنوان محفظة USDT TRC20 (T...)',
+      google_play:    'البريد الإلكتروني لاستلام كود البطاقة',
+      turkish_cash:   'رقم الـ IBAN التركي (TR...)',
+      telegram_stars: 'معرف حساب تلجرام المعتمد (@user)',
+      sham_cash:      'رقم حساب شام كاش (Sham Cash ID)'
+    };
+    c.innerHTML = '<input type="text" id="payAddress" placeholder="'+(ph[method]||'بيانات الاستلام')+'" class="input-clean">';
+  };
 
-    async function requestWithdrawal() {
-      const amount = parseFloat(($('withdrawAmount') || {}).value || '0');
-      const address = ($('payAddress') || {}).value;
-      const method = ($('withdrawMethodSelect') || {}).value || 'usdt';
+  window.requestWithdrawal = function(){
+    var amount = parseFloat(($('withdrawAmount')||{}).value || '0');
+    var address = ($('payAddress')||{}).value;
+    var method = ($('withdrawMethodSelect')||{}).value || 'usdt';
 
-      if (!address) { showToast('يرجى إدخال بيانات عنوان الاستلام المطلوبة.'); return; }
-      if (!amount || amount < MIN_WITHDRAW) { showToast('الحد الأدنى المسموح به للسحب هو ' + MIN_WITHDRAW.toFixed(2) + ' USDT.'); return; }
+    if(!address){ showToast('يرجى إدخال بيانات عنوان الاستلام المطلوبة.'); return; }
+    if(!amount || amount < MIN_WITHDRAW){ showToast('الحد الأدنى المسموح به للسحب هو '+MIN_WITHDRAW.toFixed(2)+' USDT.'); return; }
 
-      const btn = $('withdrawSubmitBtn');
-      if (btn) { btn.disabled = true; btn.innerText = 'جاري الإرسال...'; }
+    var btn = $('withdrawSubmitBtn');
+    if(btn){ btn.disabled = true; btn.innerText = 'جاري الإرسال...'; }
 
-      const res = await rpc('fn_request_withdrawal', { p_method: method, p_address: address, p_amount: amount });
+    rpc('fn_request_withdrawal', { p_method: method, p_address: address, p_amount: amount }).then(function(res){
+      if(btn){ btn.disabled = false; btn.innerText = 'تأكيد طلب السحب المالي 🚀'; }
 
-      if (btn) { btn.disabled = false; btn.innerText = 'تأكيد طلب السحب المالي 🚀'; }
-
-      if (res && res.ok) {
-        applyRemote(res.profile);
-        if ($('withdrawAmount')) $('withdrawAmount').value = '';
+      if(res && res.ok){
+        if(res.profile) applyRemote(res.profile);
+        if($('withdrawAmount')) $('withdrawAmount').value = '';
         showToast('تم إرسال طلب السحب بنجاح وهو قيد المعالجة! 🚀');
         return;
       }
-      if (res && res.error === 'insufficient_balance') { showToast('رصيدك المالي غير كافٍ لإتمام السحب.'); return; }
-      if (res && res.error === 'min_amount') { showToast('الحد الأدنى للسحب ' + MIN_WITHDRAW + ' USDT.'); return; }
-      if (res && res.error) { showToast('تعذر إرسال الطلب.'); return; }
+      if(res && res.error==='insufficient_balance'){ showToast('رصيدك المالي غير كافٍ لإتمام السحب.'); return; }
+      if(res && res.error==='min_amount'){ showToast('الحد الأدنى للسحب '+MIN_WITHDRAW+' USDT.'); return; }
 
-      if (amount > P.usdt) { showToast('رصيدك المالي غير كافٍ لإتمام السحب.'); return; }
-      P.usdt -= amount;
-      saveLocal(); renderAll();
-      if ($('withdrawAmount')) $('withdrawAmount').value = '';
-      showToast('تم إرسال طلب السحب (وضع محلي) 🚀');
-    }
+      if(amount > P.usdt){ showToast('رصيدك المالي غير كافٍ لإتمام السحب.'); return; }
+      P.usdt -= amount; saveLocal(); renderAll();
+      if($('withdrawAmount')) $('withdrawAmount').value = '';
+      showToast('تم إرسال طلب السحب 🚀');
+    });
+  };
 
-    /* ---------- 16) الإحالة والخزنة ---------- */
-    async function applyReferralFromUrl() {
-      try {
-        const params = new URLSearchParams(window.location.search);
-        const start = params.get('start') || params.get('ref');
-        if (!start) return;
-        const code = start.replace(/^ref_/, '');
-        if (!code || code === P.referralCode) return;
-        await rpc('fn_attach_referral', { p_code: code });
-      } catch (e) { /* تجاهل */ }
-    }
-
-    function copyLink() {
-      const link = 'https://t.me/SyriaCash_Bot?start=ref_' + (P.referralCode || '102938');
-      if (navigator.clipboard) {
-        navigator.clipboard.writeText(link).then(() => showToast('تم نسخ رابط الإحالة الرسمي 📋'));
-      } else {
-        showToast(link);
-      }
-    }
-
-    function renderWeeklyReferral() {
-      const c = $('weeklyReferralBoard');
-      if (!c) return;
-      c.innerHTML =
-        '<b>متصدري المسابقة الأسبوعية للإحالات النشطة</b><br>' +
-        '1. مستخدم #10928 — 420 إحالة نشطة<br>' +
-        '2. مستخدم #88219 — 315 إحالة نشطة<br>' +
-        '3. مستخدم #45102 — 210 إحالة نشطة<br>' +
-        '<span style="color:var(--primary-green)">تُحسب عمولاتك فور إتمام صديقك للمهام المعتمدة.</span>';
-    }
-
-    async function enterMonthlyVault() {
-      openAdModal('السحب الشهري على الخزنة الكبرى', async () => {
-        const res = await rpc('fn_vault_entry', {});
-        if (res && res.ok) { applyRemote(res.profile); showToast('تم احتساب تذكرتك في السحب الشهري 🎟️'); return; }
-        P.vaultAds += 1;
-        saveLocal(); renderVault();
+  /* ========== 16) الإحالة والخزنة ========== */
+  window.copyLink = function(){
+    var link = 'https://t.me/SyriaCash_Bot?start=ref_'+(P.referralCode||'102938');
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(link).then(function(){ showToast('تم نسخ رابط الإحالة 📋'); })
+        .catch(function(){ showToast(link); });
+    } else { showToast(link); }
+  };
+  function renderWeeklyReferral(){
+    var c = $('weeklyReferralBoard'); if(!c) return;
+    c.innerHTML =
+      '<b>متصدري المسابقة الأسبوعية للإحالات النشطة</b><br>'+
+      '1. مستخدم #10928 — 420 إحالة نشطة<br>'+
+      '2. مستخدم #88219 — 315 إحالة نشطة<br>'+
+      '3. مستخدم #45102 — 210 إحالة نشطة<br>'+
+      '<span style="color:var(--primary-green)">تُحسب عمولاتك فور إتمام صديقك للمهام المعتمدة.</span>';
+  }
+  window.enterMonthlyVault = function(){
+    openAdModal('السحب الشهري على الخزنة الكبرى', function(){
+      rpc('fn_vault_entry', {}).then(function(res){
+        if(res && res.ok && res.profile){ applyRemote(res.profile); showToast('تم احتساب تذكرتك 🎟️'); return; }
+        P.vaultAds += 1; saveLocal(); renderVault();
         showToast('تم احتساب تذكرتك في السحب الشهري 🎟️');
       });
+    });
+  };
+
+  /* ========== 17) تنقّل وأدوات ========== */
+  window.navigate = function(tabId, btn){
+    document.querySelectorAll('.tab-view').forEach(function(t){ t.classList.remove('active'); });
+    document.querySelectorAll('.nav-link-btn').forEach(function(b){ b.classList.remove('active'); });
+    var target = $(tabId);
+    if(target) target.classList.add('active');
+    if(btn) btn.classList.add('active');
+    try{ window.scrollTo({ top:0, behavior:'smooth' }); }catch(e){ window.scrollTo(0,0); }
+  };
+  window.showRoadmapTab = function(which){
+    if($('whitepaperPanel')) $('whitepaperPanel').style.display = which==='whitepaper' ? 'block' : 'none';
+    if($('roadmapPanel'))    $('roadmapPanel').style.display    = which==='roadmap'    ? 'block' : 'none';
+  };
+  window.sendSupport = function(){
+    var user = ($('supUser')||{}).value || '';
+    var msg  = ($('supMsg')||{}).value || '';
+    if(!msg.trim()){ showToast('يرجى كتابة وصف المشكلة.'); return; }
+    if(App.cloud && App.sb && App.user){
+      try{ App.sb.from('support_tickets').insert({ user_id: App.user.id, contact: user, message: msg }); }catch(e){}
     }
+    closeModal('supportModal');
+    if($('supMsg')) $('supMsg').value = '';
+    showToast('تم إرسال تذكرتك للدعم الفني 📩');
+  };
 
-    /* ---------- 17) أدوات الواجهة ---------- */
-    function navigate(tabId, btn) {
-      document.querySelectorAll('.tab-view').forEach(t => t.classList.remove('active'));
-      document.querySelectorAll('.nav-link-btn').forEach(b => b.classList.remove('active'));
-      const target = $(tabId);
-      if (target) target.classList.add('active');
-      if (btn) btn.classList.add('active');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+  /* ========== 18) الترجمة ========== */
+  var i18nDict = {
+    ar: {
+      brand_sub:"المنظومة الرقمية للمعاملات والتعدين السحابي",
+      nav_airdrop:"إنزال $SYC", nav_mining:"تعدين USDT", nav_vip:"عقود VIP",
+      nav_games:"الألعاب", nav_ads:"الإعلانات", nav_ref:"الإحالة", nav_withdraw:"السحب",
+      air_season:"الموسم الأول (60 يوماً) 💎", air_bal:"رصيدك الإجمالي من عملة المنصة:",
+      air_conv:"يتم تحويل وتوزيع رصيد عملة $SYC إلى USDT فور انتهاء الموسم:",
+      days:"يوم", hours:"ساعة", mins:"دقيقة", secs:"ثانية",
+      air_prog:"تقدم موسم الإنزال الجوي:",
+      syc_hub:"محطة تعدين عملة الإنزال ($SYC Node 1) ⚡", collect_syc:"جمع الأرباح",
+      air_tasks:"مهام الإنزال الجوي الحصرية", usdt_bal_title:"الرصيد الكلي القابل للسحب",
+      speed:"السرعة", daily_prod:"الإنتاج اليومي", withdraw_btn:"سحب الأرباح", boost_btn:"مضاعفة السرعة 2X",
+      server_status:"خادم تعدين الدولار (USDT Cloud Node 1) 🟢", active_mining:"التعدين السحابي نشط",
+      cycle_timer:"مؤقت الدورة (4 ساعات)", collect_usdt:"جمع وتأكيد أرباح الدولار (USDT)",
+      vip_header:"عقود التعدين السحابي والباقات المتقدمة 👑",
+      games_header:"مركز الألعاب المهارية والتفاعلية 🎮",
+      tasks_header:"المهام الاجتماعية ومشاهدة الفيديوهات 🎬", ads_25:"25 مهمة فيديو يومية مأجورة 📺",
+      ref_header:"برنامج دعوة الأصدقاء والوكالة", withdraw_header:"طلب سحب الأرباح المالي",
+      jackpot_title:"🔥 السحب الشهري على الخزنة الكبرى ($350.00 USDT)",
+      ads_seen:"إعلاناتك المشاهدة للتذكرة:", btn_jackpot:"مشاهدة إعلان للدخول بالسحب الشهري 🎟️"
+    },
+    en: {
+      brand_sub:"Digital Mining & Transaction Network",
+      nav_airdrop:"$SYC Airdrop", nav_mining:"USDT Mining", nav_vip:"VIP Plans",
+      nav_games:"Games", nav_ads:"Ads", nav_ref:"Referral", nav_withdraw:"Withdraw",
+      air_season:"Season 1 (60 Days) 💎", air_bal:"Total Platform Balance:",
+      air_conv:"Your $SYC balance will be converted to USDT at season end:",
+      days:"Days", hours:"Hours", mins:"Mins", secs:"Secs",
+      air_prog:"Airdrop Season Progress:",
+      syc_hub:"$SYC Mining Station (Node 1) ⚡", collect_syc:"Collect Rewards",
+      air_tasks:"Exclusive Airdrop Tasks", usdt_bal_title:"Total Withdrawable Balance",
+      speed:"Speed", daily_prod:"Daily Yield", withdraw_btn:"Withdraw Earnings", boost_btn:"2X Speed Booster",
+      server_status:"USDT Mining Server (Cloud Node 1) 🟢", active_mining:"Cloud Mining Active",
+      cycle_timer:"Cycle Timer (4 Hours)", collect_usdt:"Collect & Claim USDT",
+      vip_header:"VIP Cloud Mining Contracts 👑", games_header:"Interactive Skill Games 🎮",
+      tasks_header:"Social & Video Tasks 🎬", ads_25:"25 Paid Daily Video Ads 📺",
+      ref_header:"Affiliate & Referral Program", withdraw_header:"Financial Withdrawal Request",
+      jackpot_title:"🔥 Monthly Vault Draw ($350.00 USDT)",
+      ads_seen:"Ads Watched for Ticket:", btn_jackpot:"Watch Ad for Monthly Entry 🎟️"
     }
+  };
 
-    function showRoadmapTab(which) {
-      if ($('whitepaperPanel')) $('whitepaperPanel').style.display = which === 'whitepaper' ? 'block' : 'none';
-      if ($('roadmapPanel')) $('roadmapPanel').style.display = which === 'roadmap' ? 'block' : 'none';
+  window.changeLanguage = function(lang){
+    try{ localStorage.setItem('sc_lang', lang); }catch(e){}
+    var isRtl = (lang==='ar' || lang==='ku');
+    document.dir = isRtl ? 'rtl' : 'ltr';
+    document.documentElement.lang = lang;
+    var dict = i18nDict[lang] || i18nDict.ar;
+    var setTxt = function(id, text){ var el=$('id')||$(id); if(el && text) el.innerText = text; };
+    setTxt('lbl_brand_sub',      dict.brand_sub);
+    setTxt('nav_lbl_airdrop',    dict.nav_airdrop);
+    setTxt('nav_lbl_mining',     dict.nav_mining);
+    setTxt('nav_lbl_vip',        dict.nav_vip);
+    setTxt('nav_lbl_games',      dict.nav_games);
+    setTxt('nav_lbl_ads',        dict.nav_ads);
+    setTxt('nav_lbl_ref',        dict.nav_ref);
+    setTxt('nav_lbl_withdraw',   dict.nav_withdraw);
+    setTxt('lbl_air_season',     dict.air_season);
+    setTxt('lbl_air_bal',        dict.air_bal);
+    setTxt('lbl_air_conv',       dict.air_conv);
+    setTxt('lbl_days',           dict.days);
+    setTxt('lbl_hours',          dict.hours);
+    setTxt('lbl_mins',           dict.mins);
+    setTxt('lbl_secs',           dict.secs);
+    setTxt('lbl_air_prog',       dict.air_prog);
+    setTxt('lbl_syc_hub',        dict.syc_hub);
+    setTxt('lbl_collect_syc',    dict.collect_syc);
+    setTxt('lbl_air_tasks',      dict.air_tasks);
+    setTxt('lbl_usdt_bal_title', dict.usdt_bal_title);
+    setTxt('lbl_speed',          dict.speed);
+    setTxt('lbl_daily_prod',     dict.daily_prod);
+    setTxt('lbl_withdraw_btn',   dict.withdraw_btn);
+    setTxt('lbl_boost_btn',      dict.boost_btn);
+    setTxt('lbl_server_status',  dict.server_status);
+    setTxt('lbl_active_mining',  dict.active_mining);
+    setTxt('lbl_cycle_timer',    dict.cycle_timer);
+    setTxt('lbl_collect_usdt',   dict.collect_usdt);
+    setTxt('lbl_vip_header',     dict.vip_header);
+    setTxt('lbl_games_header',   dict.games_header);
+    setTxt('lbl_tasks_header',   dict.tasks_header);
+    setTxt('lbl_ads_25',         dict.ads_25);
+    setTxt('lbl_ref_header',     dict.ref_header);
+    setTxt('lbl_withdraw_header',dict.withdraw_header);
+    setTxt('lbl_jackpot_title',  dict.jackpot_title);
+    setTxt('lbl_ads_seen',       dict.ads_seen);
+    setTxt('btn_jackpot_action', dict.btn_jackpot);
+  };
+
+  /* ========== 19) الإقلاع ========== */
+  function boot(){
+    try{ loadLocal(); }catch(e){}
+    try{ renderAll(); }catch(e){ console.warn('renderAll', e); }
+    try{ startLoop(); }catch(e){ console.warn('startLoop', e); }
+    try{
+      var sel = $('langSelect');
+      var saved = (function(){ try{ return localStorage.getItem('sc_lang') || 'ar'; }catch(e){ return 'ar'; } })();
+      if(sel) sel.value = saved;
+      window.changeLanguage(saved);
+    }catch(e){ console.warn('lang', e); }
+    try{ window.updateWithdrawFields('usdt'); }catch(e){}
+    // اتصال البيانات في الخلفية (لا يعطّل التطبيق)
+    connectSupabase().catch(function(e){ console.warn(e); });
+    App.ready = true;
+  }
+
+  // شغّل فور توفر الـ DOM
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', boot);
+  } else {
+    boot();
+  }
+
+  // شبكة أمان أخيرة: في حال فشل DOMContentLoaded لأي سبب
+  window.addEventListener('load', function(){
+    if(!App.ready){
+      try{ boot(); }catch(e){ console.warn(e); }
     }
-
-    function connectWalletDemo() { showToast('جاري الاتصال بمحفظة Web3 الرقمية...'); }
-
-    async function sendSupport() {
-      const user = ($('supUser') || {}).value || '';
-      const msg = ($('supMsg') || {}).value || '';
-      if (!msg.trim()) { showToast('يرجى كتابة وصف المشكلة.'); return; }
-
-      if (App.cloud && App.sb) {
-        try {
-          await App.sb.from('support_tickets').insert({ user_id: App.user.id, contact: user, message: msg });
-        } catch (e) { console.warn(e); }
-      }
-      closeModal('supportModal');
-      if ($('supMsg')) $('supMsg').value = '';
-      showToast('تم إرسال تذكرتك للدعم الفني وسيتم الرد عليك قريباً 📩');
-    }
-
-    /* ---------- 18) الترجمة ---------- */
-    const i18nDict = {
-      ar: {
-        brand_sub: "المنظومة الرقمية للمعاملات والتعدين السحابي",
-        nav_airdrop: "إنزال $SYC", nav_mining: "تعدين USDT", nav_vip: "عقود VIP",
-        nav_games: "الألعاب", nav_ads: "الإعلانات", nav_ref: "الإحالة", nav_withdraw: "السحب",
-        air_season: "الموسم الأول (60 يوماً) 💎", air_bal: "رصيدك الإجمالي من عملة المنصة:",
-        air_conv: "يتم تحويل وتوزيع رصيد عملة $SYC إلى USDT فور انتهاء الموسم وفق آلية الإنزال الجوي المعتمدة:",
-        days: "يوم", hours: "ساعة", mins: "دقيقة", secs: "ثانية",
-        air_prog: "تقدم موسم الإنزال الجوي:", syc_hub: "محطة تعدين عملة الإنزال ($SYC Node 1) ⚡",
-        collect_syc: "جمع الأرباح", air_tasks: "مهام الإنزال الجوي الحصرية",
-        usdt_bal_title: "الرصيد الكلي القابل للسحب", speed: "السرعة", daily_prod: "الإنتاج اليومي",
-        withdraw_btn: "سحب الأرباح", boost_btn: "مضاعفة السرعة 2X",
-        server_status: "خادم تعدين الدولار (USDT Cloud Node 1) 🟢", active_mining: "التعدين السحابي نشط",
-        cycle_timer: "مؤقت الدورة (4 ساعات)", collect_usdt: "جمع وتأكيد أرباح الدولار (USDT)",
-        vip_header: "عقود التعدين السحابي والباقات المتقدمة 👑", games_header: "مركز الألعاب المهارية والتفاعلية 🎮",
-        tasks_header: "المهام الاجتماعية ومشاهدة الفيديوهات 🎬", ads_25: "25 مهمة فيديو يومية مأجورة 📺",
-        ref_header: "برنامج دعوة الأصدقاء والوكالة", withdraw_header: "طلب سحب الأرباح المالي",
-        jackpot_title: "🔥 السحب الشهري على الخزنة الكبرى ($350.00 USDT)", ads_seen: "إعلاناتك المشاهدة للتذكرة:",
-        btn_jackpot: "مشاهدة إعلان للدخول بالسحب الشهري 🎟️"
-      },
-      en: {
-        brand_sub: "Digital Mining & Transaction Network",
-        nav_airdrop: "$SYC Airdrop", nav_mining: "USDT Mining", nav_vip: "VIP Plans",
-        nav_games: "Games", nav_ads: "Ads", nav_ref: "Referral", nav_withdraw: "Withdraw",
-        air_season: "Season 1 (60 Days) 💎", air_bal: "Total Platform Balance:",
-        air_conv: "Your $SYC balance will be converted to USDT at season end:",
-        days: "Days", hours: "Hours", mins: "Mins", secs: "Secs",
-        air_prog: "Airdrop Season Progress:", syc_hub: "$SYC Mining Station (Node 1) ⚡",
-        collect_syc: "Collect Rewards", air_tasks: "Exclusive Airdrop Tasks",
-        usdt_bal_title: "Total Withdrawable Balance", speed: "Speed", daily_prod: "Daily Yield",
-        withdraw_btn: "Withdraw Earnings", boost_btn: "2X Speed Booster",
-        server_status: "USDT Mining Server (Cloud Node 1) 🟢", active_mining: "Cloud Mining Active",
-        cycle_timer: "Cycle Timer (4 Hours)", collect_usdt: "Collect & Claim USDT",
-        vip_header: "VIP Cloud Mining Contracts 👑", games_header: "Interactive Skill Games 🎮",
-        tasks_header: "Social & Video Tasks 🎬", ads_25: "25 Paid Daily Video Ads 📺",
-        ref_header: "Affiliate & Referral Program", withdraw_header: "Financial Withdrawal Request",
-        jackpot_title: "🔥 Monthly Vault Draw ($350.00 USDT)", ads_seen: "Ads Watched for Ticket:",
-        btn_jackpot: "Watch Ad for Monthly Entry 🎟️"
-      }
-    };
-
-    function changeLanguage(lang) {
-      localStorage.setItem('sc_lang', lang);
-      const isRtl = (lang === 'ar' || lang === 'ku');
-      document.dir = isRtl ? 'rtl' : 'ltr';
-      document.documentElement.lang = lang;
-
-      const dict = i18nDict[lang] || i18nDict['ar'];
-      const setTxt = (id, text) => { const el = $(id); if (el && text) el.innerText = text; };
-
-      setTxt('lbl_brand_sub', dict.brand_sub);
-      setTxt('nav_lbl_airdrop', dict.nav_airdrop);
-      setTxt('nav_lbl_mining', dict.nav_mining);
-      setTxt('nav_lbl_vip', dict.nav_vip);
-      setTxt('nav_lbl_games', dict.nav_games);
-      setTxt('nav_lbl_ads', dict.nav_ads);
-      setTxt('nav_lbl_ref', dict.nav_ref);
-      setTxt('nav_lbl_withdraw', dict.nav_withdraw);
-      setTxt('lbl_air_season', dict.air_season);
-      setTxt('lbl_air_bal', dict.air_bal);
-      setTxt('lbl_air_conv', dict.air_conv);
-      setTxt('lbl_days', dict.days);
-      setTxt('lbl_hours', dict.hours);
-      setTxt('lbl_mins', dict.mins);
-      setTxt('lbl_secs', dict.secs);
-      setTxt('lbl_air_prog', dict.air_prog);
-      setTxt('lbl_syc_hub', dict.syc_hub);
-      setTxt('lbl_collect_syc', dict.collect_syc);
-      setTxt('lbl_air_tasks', dict.air_tasks);
-      setTxt('lbl_usdt_bal_title', dict.usdt_bal_title);
-      setTxt('lbl_speed', dict.speed);
-      setTxt('lbl_daily_prod', dict.daily_prod);
-      setTxt('lbl_withdraw_btn', dict.withdraw_btn);
-      setTxt('lbl_boost_btn', dict.boost_btn);
-      setTxt('lbl_server_status', dict.server_status);
-      setTxt('lbl_active_mining', dict.active_mining);
-      setTxt('lbl_cycle_timer', dict.cycle_timer);
-      setTxt('lbl_collect_usdt', dict.collect_usdt);
-      setTxt('lbl_vip_header', dict.vip_header);
-      setTxt('lbl_games_header', dict.games_header);
-      setTxt('lbl_tasks_header', dict.tasks_header);
-      setTxt('lbl_ads_25', dict.ads_25);
-      setTxt('lbl_ref_header', dict.ref_header);
-      setTxt('lbl_withdraw_header', dict.withdraw_header);
-      setTxt('lbl_jackpot_title', dict.jackpot_title);
-      setTxt('lbl_ads_seen', dict.ads_seen);
-      setTxt('btn_jackpot_action', dict.btn_jackpot);
-    }
-
-    (function initLang() {
-      const saved = localStorage.getItem('sc_lang') || 'ar';
-      const sel = $('langSelect');
-      if (sel) sel.value = saved;
-      changeLanguage(saved);
-    })();
+  });
   </script>
 </body>
 </html>
