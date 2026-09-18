@@ -4,13 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>Syria Cash | المنصة الرقمية</title>
-  
+
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#00462a">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
 
-  <!-- مكتبة Supabase للاتصال السحابي -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
@@ -626,7 +625,6 @@
 </head>
 <body>
 
-  <!-- الشاشة التمهيدية Splash Screen -->
   <div id="appSplashScreen">
     <div class="splash-container">
       <div class="splash-flag-badge">
@@ -649,7 +647,6 @@
   <div id="offline-banner">⚠️ انقطع الاتصال بالإنترنت.. جاري المحاولة تلقائياً</div>
   <div class="toast-clean" id="toastBox"></div>
 
-  <!-- الهيدر العلوي -->
   <header class="top-header">
     <div class="header-icons">
       <button class="icon-btn-outline" onclick="openModal('supportModal')" title="الدعم الفني">
@@ -700,7 +697,6 @@
 
   <div class="container">
 
-    <!-- تبويب إنزال SYC -->
     <main id="tab-airdrop" class="tab-view active">
       <div class="airdrop-hero-banner">
         <span class="airdrop-badge-top" id="lbl_air_season">الموسم الأول (60 يوماً) 💎</span>
@@ -779,7 +775,6 @@
       </div>
     </main>
 
-    <!-- تبويب تعدين USDT المستقل -->
     <section id="tab-mining" class="tab-view">
       <div class="hero-banner">
         <div class="hero-title" id="lbl_usdt_bal_title">الرصيد الكلي القابل للسحب</div>
@@ -835,11 +830,9 @@
       </div>
     </section>
 
-    <!-- تبويب VIP: شروح المزايا والباقات الحقيقية -->
     <section id="tab-vip" class="tab-view">
       <div class="section-header" id="lbl_vip_header">عقود التعدين السحابي والباقات المتقدمة 👑</div>
       
-      <!-- كرت شرح المزايا وكيفية الاستفادة من الإيداع -->
       <div style="background:linear-gradient(145deg, #064e3b 0%, #022c22 100%); border-radius:18px; padding:16px; margin-bottom:16px; color:#fff; border:1px solid rgba(52,211,153,.3); box-shadow:var(--shadow-md);">
         <h3 style="margin:0 0 8px; font-size:15px; color:#fde047; font-weight:900;">💡 كيف تستفيد من إيداع وتفعيل عقود VIP؟</h3>
         <p style="font-size:11px; line-height:1.7; margin:0; color:#d1fae5;">
@@ -866,7 +859,6 @@
       <div id="vipPlansContainer" style="display:flex; flex-direction:column; gap:12px;"></div>
     </section>
 
-    <!-- تبويب الألعاب المهارية والتفاعلية -->
     <section id="tab-games" class="tab-view">
       <div class="section-header" id="lbl_games_header">مركز الألعاب المهارية والتفاعلية 🎮</div>
       <div class="jackpot-card">
@@ -881,7 +873,6 @@
       <div class="games-grid" id="skillGamesContainer"></div>
     </section>
 
-    <!-- تبويب الإعلانات والمهام الاجتماعية -->
     <section id="tab-ads" class="tab-view">
       <div class="section-header" id="lbl_tasks_header">المهام الاجتماعية ومشاهدة الفيديوهات 🎬</div>
       <div id="socialTasksContainer" style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px;"></div>
@@ -891,7 +882,6 @@
       <div id="adsContainer25" style="display:flex;flex-direction:column;gap:8px;"></div>
     </section>
 
-    <!-- تبويب الإحالة والوكالة -->
     <section id="tab-ref" class="tab-view">
       <div class="section-header" id="lbl_ref_header">برنامج دعوة الأصدقاء والوكالة 🤝</div>
       <div class="mining-hub-card" style="text-align:right;">
@@ -908,7 +898,6 @@
       <div class="mining-hub-card"><div id="weeklyReferralBoard" style="font-size:11px;line-height:1.9;"></div></div>
     </section>
 
-    <!-- تبويب سحب الأرباح المالي -->
     <section id="tab-withdraw" class="tab-view">
       <div class="section-header" id="lbl_withdraw_header">طلب سحب الأرباح المالي</div>
       
@@ -939,7 +928,6 @@
 
   </div>
 
-  <!-- مودال الإعلانات -->
   <div class="modal-backdrop-clean" id="verifiedAdModal">
     <div class="modal-box-clean">
       <h3 style="color:var(--primary-green); font-size:16px; margin-bottom:4px;" id="adPlayerTitle">مشاهدة إعلان مدعوم</h3>
@@ -962,7 +950,6 @@
     </div>
   </div>
 
-  <!-- مودال عن المنصة والدعم الفني -->
   <div class="modal-backdrop-clean" id="aboutModal">
     <div class="modal-box-clean" style="text-align:right;">
       <h3 style="color:var(--primary-green); font-size:17px; margin-bottom:4px;">عن منصة Syria Cash</h3>
@@ -984,7 +971,6 @@
     </div>
   </div>
 
-  <!-- الشريط السفلي الرسمي -->
   <nav class="official-bottom-nav">
     <div class="nav-link-btn active" onclick="navigate('tab-airdrop', this)">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
@@ -1034,75 +1020,791 @@
       <span id="nav_lbl_withdraw">السحب</span>
     </div>
   </nav>
-  <script>
-  <script>
-    // 1. كود طوارئ لإخفاء الشاشة التمهيدية تلقائياً (Fail-Safe)
-    function forceHideSplash() {
-      const splash = document.getElementById('appSplashScreen');
-      if (splash) {
-        splash.style.transition = 'opacity 0.5s ease';
-        splash.style.opacity = '0';
-        splash.style.pointerEvents = 'none';
-        setTimeout(() => { try { splash.remove(); } catch(e){} }, 500);
-      }
-    }
-    setTimeout(forceHideSplash, 1600);
 
-    // 2. مراقبة حالة الاتصال بالإنترنت
-    window.addEventListener('online', () => {
-      const b = document.getElementById('offline-banner');
-      if (b) b.style.display = 'none';
-      showToast('تم استعادة الاتصال بالإنترنت بنجاح! 🟢');
-    });
-    window.addEventListener('offline', () => {
-      const b = document.getElementById('offline-banner');
-      if (b) b.style.display = 'block';
-    });
+  <script>
+    /* ==========================================================
+       SYRIA CASH — طبقة البيانات + منطق التطبيق
+       ========================================================== */
+    'use strict';
 
-    // 3. إعدادات الاتصال الآمن بـ Supabase
+    /* ---------- 1) الثوابت ---------- */
     const SUPABASE_URL = "https://tvypczferwkqnehhynwd.supabase.co";
     const SUPABASE_ANON_KEY = "sb_publishable_8M4imxTpGpHK9y4sZjJhjQ_0ZEk3fZb";
-    let supabase = null;
 
-    try {
-      if (window.supabase && typeof window.supabase.createClient === 'function') {
-        supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    const CYCLE_MS = 4 * 60 * 60 * 1000;
+    const BOOST_MS = 10 * 60 * 1000;
+    const SEASON_MS = 60 * 24 * 60 * 60 * 1000;
+    const MIN_WITHDRAW = 10;
+    const BOOST_LIMIT = 10;
+    const AD_SECONDS = 8;
+    const MIN_COLLECT_SEC = 60;
+    const LS_KEY = 'sc_state_v2';
+
+    /* ---------- 2) الحالة ---------- */
+    const App = { sb: null, user: null, cloud: false, tasks: [], plans: [], doneToday: new Set(), ready: false };
+
+    const P = {
+      usdt: 0.2366,
+      syc: 240.50,
+      usdtStart: Date.now(),
+      sycStart: Date.now(),
+      boostUsdtUntil: 0,
+      boostSycUntil: 0,
+      vipLevel: 0,
+      vipExpiresAt: 0,
+      vaultAds: 0,
+      referralCode: '',
+      referredBy: null,
+      username: '',
+      createdAt: Date.now()
+    };
+
+    /* ---------- 3) أدوات محلية ---------- */
+    const $ = (id) => document.getElementById(id);
+    const todayKey = () => new Date().toISOString().slice(0, 10);
+    const pad2 = (n) => String(n).padStart(2, '0');
+
+    function saveLocal() { try { localStorage.setItem(LS_KEY, JSON.stringify(P)); } catch (e) {} }
+    function loadLocal() { try { const r = localStorage.getItem(LS_KEY); if (r) Object.assign(P, JSON.parse(r)); } catch (e) {} }
+
+    function localDone(id) { return localStorage.getItem('sc_t_' + todayKey() + '_' + id) === '1'; }
+    function markLocalDone(id) { localStorage.setItem('sc_t_' + todayKey() + '_' + id, '1'); }
+
+    function showToast(msg) {
+      const t = $('toastBox');
+      if (!t) return;
+      t.innerText = msg;
+      t.style.display = 'block';
+      clearTimeout(t._tm);
+      t._tm = setTimeout(() => { t.style.display = 'none'; }, 3000);
+    }
+
+    function openModal(id) { const el = $(id); if (el) el.style.display = 'flex'; }
+    function closeModal(id) { const el = $(id); if (el) el.style.display = 'none'; }
+
+    function setBanner(txt, show) {
+      const b = $('offline-banner');
+      if (!b) return;
+      b.innerText = txt;
+      b.style.display = show ? 'block' : 'none';
+    }
+
+    /* ---------- 4) طبقة Supabase ---------- */
+    function fromRow(r) {
+      return {
+        usdt: Number(r.usdt_balance ?? 0),
+        syc: Number(r.syc_balance ?? 0),
+        usdtStart: r.usdt_session_start ? Date.parse(r.usdt_session_start) : Date.now(),
+        sycStart: r.syc_session_start ? Date.parse(r.syc_session_start) : Date.now(),
+        boostUsdtUntil: r.boost_usdt_until ? Date.parse(r.boost_usdt_until) : 0,
+        boostSycUntil: r.boost_syc_until ? Date.parse(r.boost_syc_until) : 0,
+        vipLevel: r.vip_level ?? 0,
+        vipExpiresAt: r.vip_expires_at ? Date.parse(r.vip_expires_at) : 0,
+        vaultAds: r.ads_watched_vault ?? 0,
+        referralCode: r.referral_code ?? '',
+        referredBy: r.referred_by ?? null,
+        username: r.username ?? '',
+        createdAt: r.created_at ? Date.parse(r.created_at) : Date.now()
+      };
+    }
+
+    function applyRemote(row) {
+      if (!row) return;
+      Object.assign(P, fromRow(row));
+      saveLocal();
+      renderAll();
+    }
+
+    async function ensureAuth() {
+      const { data: s1 } = await App.sb.auth.getSession();
+      let session = s1.session;
+      if (!session) {
+        const { data, error } = await App.sb.auth.signInAnonymously();
+        if (error) throw error;
+        session = data.session;
       }
-    } catch (e) {
-      console.warn("Supabase init deferred:", e);
+      App.user = session.user;
+      return App.user;
     }
 
-    // 4. معالج معرّف المستخدم
-    let currentUserId = localStorage.getItem('sc_user_id');
-    if (!currentUserId) {
-      currentUserId = 'user_' + Math.random().toString(36).substr(2, 9);
-      localStorage.setItem('sc_user_id', currentUserId);
+    async function ensureProfileRow() {
+      const uid = App.user.id;
+      const { data, error } = await App.sb.from('profiles').select('*').eq('id', uid).maybeSingle();
+      if (error) throw error;
+      if (data) return data;
+
+      const code = 'SC' + Math.random().toString(36).slice(2, 8).toUpperCase();
+      const { data: created, error: e2 } = await App.sb
+        .from('profiles')
+        .insert({ id: uid, referral_code: code, username: 'مستخدم-' + uid.slice(0, 5) })
+        .select()
+        .single();
+      if (e2) throw e2;
+      return created;
     }
-    let totalBal = parseFloat(localStorage.getItem('sc_tot') || '0.2366');
-    let sycTotal = parseFloat(localStorage.getItem('sc_syc_tot') || '240.50');
-    
-    // --- 1. الشاشة التمهيدية والحالة العامة ---
-    window.addEventListener('load', () => {
-      setTimeout(() => {
-        const splash = document.getElementById('appSplashScreen');
-        if (splash) {
-          splash.style.opacity = '0';
-          splash.style.pointerEvents = 'none';
-          setTimeout(() => { splash.remove(); }, 500);
+
+    async function loadTasksAndPlans() {
+      try {
+        const [t, v] = await Promise.all([
+          App.sb.from('tasks').select('*').eq('active', true).order('sort'),
+          App.sb.from('vip_plans').select('*').order('level')
+        ]);
+        App.tasks = t.data || [];
+        App.plans = v.data || [];
+      } catch (e) { console.warn('loadTasksAndPlans', e); }
+    }
+
+    async function loadTodayLogs() {
+      try {
+        const { data } = await App.sb
+          .from('user_task_logs')
+          .select('task_id')
+          .eq('user_id', App.user.id)
+          .eq('day', todayKey());
+        App.doneToday = new Set((data || []).map(x => x.task_id));
+      } catch (e) { console.warn('loadTodayLogs', e); }
+    }
+
+    function subscribeRealtime() {
+      try {
+        App.sb.channel('profile-' + App.user.id)
+          .on('postgres_changes',
+            { event: 'UPDATE', schema: 'public', table: 'profiles', filter: 'id=eq.' + App.user.id },
+            (payload) => applyRemote(payload.new))
+          .subscribe();
+      } catch (e) { console.warn('realtime', e); }
+    }
+
+    async function rpc(fn, args) {
+      if (!App.sb || !App.user) return null;
+      try {
+        const { data, error } = await App.sb.rpc(fn, args || {});
+        if (error) { console.warn('RPC ' + fn, error.message); return null; }
+        return data;
+      } catch (e) { console.warn('RPC ' + fn, e); return null; }
+    }
+
+    /* ---------- 5) الإقلاع ---------- */
+    async function boot() {
+      loadLocal();
+      renderAll();
+      startLoop();
+
+      if (window.supabase && typeof window.supabase.createClient === 'function') {
+        try {
+          App.sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+            auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: false }
+          });
+          await ensureAuth();
+          const row = await ensureProfileRow();
+          if (row) Object.assign(P, fromRow(row));
+          App.cloud = true;
+          await loadTasksAndPlans();
+          await loadTodayLogs();
+          subscribeRealtime();
+          await applyReferralFromUrl();
+          setBanner('', false);
+          console.log('%c✅ Syria Cash — متصل بقاعدة البيانات', 'color:#16a34a;font-weight:bold');
+        } catch (err) {
+          App.cloud = false;
+          console.warn('⚠️ وضع محلي (تعذر الاتصال):', err && err.message ? err.message : err);
+          setBanner('⚠️ وضع محلي — تعذر الاتصال بقاعدة البيانات', true);
         }
-      }, 1500);  
-      initLanguage();
+      } else {
+        App.cloud = false;
+        setBanner('⚠️ وضع محلي — مكتبة Supabase غير محمّلة', true);
+      }
+
+      saveLocal();
+      renderAll();
+      updateWithdrawFields($('withdrawMethodSelect') ? $('withdrawMethodSelect').value : 'usdt');
+      App.ready = true;
+    }
+
+    window.addEventListener('load', boot);
+    window.addEventListener('online', () => { setBanner('', false); showToast('تم استعادة الاتصال بالإنترنت 🟢'); });
+    window.addEventListener('offline', () => setBanner('⚠️ انقطع الاتصال بالإنترنت.. جاري المحاولة تلقائياً', true));
+
+    /* ---------- 6) الحسابات ---------- */
+    function unclaimed(kind) {
+      const start = kind === 'usdt' ? P.usdtStart : P.sycStart;
+      const until = kind === 'usdt' ? P.boostUsdtUntil : P.boostSycUntil;
+      const boosted = Date.now() < until;
+      const rate = kind === 'usdt' ? (boosted ? 0.000066 : 0.000033) : (boosted ? 0.01 : 0.005);
+      const elapsed = ((Date.now() - start) % CYCLE_MS) / 1000;
+      return Math.max(0, elapsed * rate);
+    }
+
+    function cycleRemain(kind) {
+      const start = kind === 'usdt' ? P.usdtStart : P.sycStart;
+      return CYCLE_MS - ((Date.now() - start) % CYCLE_MS);
+    }
+
+    function seasonInfo() {
+      const start = P.createdAt || Date.now();
+      const end = start + SEASON_MS;
+      const remain = Math.max(0, end - Date.now());
+      const prog = Math.min(100, Math.max(0, ((Date.now() - start) / SEASON_MS) * 100));
+      return { remain, prog };
+    }
+
+    /* ---------- 7) العرض ---------- */
+    function renderBalances() {
+      if ($('totalBal')) $('totalBal').innerText = P.usdt.toFixed(4);
+      if ($('sycTotalBal')) $('sycTotalBal').innerText = P.syc.toFixed(2);
+    }
+
+    function renderAll() {
+      renderBalances();
+      renderSeason();
       renderSocialTasks();
-      render25Ads();
+      renderAds();
       renderSkillGames();
       renderVipPlans();
       renderWeeklyReferral();
-      updateWithdrawFields('usdt');
-      startMiningTimers();
-      saveBalances();
-    });
+      renderVault();
+      renderTicker();
+      if ($('myReferralLinkDisplay') && P.referralCode) {
+        $('myReferralLinkDisplay').innerText = 'https://t.me/SyriaCash_Bot?start=ref_' + P.referralCode;
+      }
+    }
 
-    // --- 2. محرك الترجمة الشامل المكتمل للغات السبع ---
+    function renderSeason() {
+      const s = seasonInfo();
+      const t = Math.floor(s.remain / 1000);
+      if ($('airDays')) $('airDays').innerText = Math.floor(t / 86400);
+      if ($('airHours')) $('airHours').innerText = pad2(Math.floor(t % 86400 / 3600));
+      if ($('airMins')) $('airMins').innerText = pad2(Math.floor(t % 3600 / 60));
+      if ($('airSecs')) $('airSecs').innerText = pad2(t % 60);
+      if ($('airdropProgressText')) $('airdropProgressText').innerText = s.prog.toFixed(1) + '%';
+      if ($('airdropProgressBar')) $('airdropProgressBar').style.width = s.prog + '%';
+    }
+
+    function renderVault() {
+      if ($('jackpotAdsProgress')) $('jackpotAdsProgress').innerText = String(P.vaultAds);
+    }
+
+    function renderTicker() {
+      const el = $('payoutTicker');
+      if (!el) return;
+      const items = [
+        '💰 سحب ناجح: مستخدم #1042 → 25.00 USDT',
+        '💎 مكافأة إنزال: مستخدم #8821 → +1,200 SYC',
+        '⚡ تعدين: مستخدم #3390 → 0.48 USDT/يوم',
+        '👑 ترقية VIP: مستخدم #7712 → عقد الذهب',
+        '🎟️ فائز الخزنة: مستخدم #5510 → 350.00 USDT'
+      ];
+      el.innerText = (items.join('     •     ') + '     •     ').repeat(2);
+    }
+
+    /* ---------- 8) المهام الاجتماعية ---------- */
+    const FALLBACK_SOCIAL = [
+      { id: 'yt1', icon: '▶️', title_ar: 'متابعة قناة YouTube الرسمية', url: 'https://www.youtube.com/', reward_usdt: 0.05, reward_syc: 0 },
+      { id: 'x1', icon: '𝕏', title_ar: 'متابعة الحساب الرسمي على X', url: 'https://x.com/', reward_usdt: 0.03, reward_syc: 0 },
+      { id: 'tg1', icon: '✈️', title_ar: 'الانضمام إلى قناة Telegram', url: 'https://telegram.org/', reward_usdt: 0, reward_syc: 50 },
+      { id: 'yt2', icon: '🎬', title_ar: 'مشاهدة فيديو شرح المنصة كامل', url: 'https://www.youtube.com/', reward_usdt: 0.04, reward_syc: 0 }
+    ];
+
+    function socialTasks() {
+      const t = App.tasks.filter(x => x.kind === 'social');
+      return t.length ? t : FALLBACK_SOCIAL;
+    }
+
+    function isDone(id) {
+      return App.cloud ? App.doneToday.has(id) : localDone(id);
+    }
+
+    function renderSocialTasks() {
+      const c = $('socialTasksContainer');
+      if (!c) return;
+      c.innerHTML = '';
+      socialTasks().forEach(t => {
+        const done = isDone(t.id);
+        const rw = [];
+        if (Number(t.reward_usdt) > 0) rw.push('+' + t.reward_usdt + ' USDT');
+        if (Number(t.reward_syc) > 0) rw.push('+' + t.reward_syc + ' $SYC');
+
+        const e = document.createElement('div');
+        e.className = 'mining-hub-card';
+        e.style = 'padding:12px; display:flex; align-items:center; gap:10px; justify-content:space-between; margin-bottom:0;';
+        e.innerHTML =
+          '<div style="display:flex; gap:10px; align-items:center; min-width:0">' +
+            '<div style="font-size:26px">' + (t.icon || '⭐') + '</div>' +
+            '<div style="text-align:right;">' +
+              '<b style="font-size:12px">' + (t.title_ar || t.title_en || t.id) + '</b>' +
+              '<div style="font-size:10px; color:var(--primary-green); font-weight:bold; margin-top:3px">' + rw.join(' + ') + '</div>' +
+            '</div>' +
+          '</div>' +
+          '<button class="btn-official-green" style="width:auto; padding:8px 12px; font-size:11px" ' +
+            (done ? 'disabled style="background:#64748b"' : '') +
+            ' onclick="completeSocialTask(\'' + t.id + '\',\'' + (t.url || '') + '\')">' +
+            (done ? 'مكتملة ✓' : 'تنفيذ المهمة 🚀') +
+          '</button>';
+        c.appendChild(e);
+      });
+    }
+
+    async function completeSocialTask(id, url) {
+      if (isDone(id)) return;
+      if (url) window.open(url, '_blank');
+
+      const run = async () => {
+        const res = await rpc('fn_complete_task', { p_task_id: id });
+        if (res && res.ok) {
+          App.doneToday.add(id);
+          applyRemote(res.profile);
+          showToast('تم إكمال المهمة بنجاح! 🎉');
+          return;
+        }
+        if (res && res.error) {
+          const map = { already_done: 'المهمة مكتملة مسبقاً اليوم.', task_not_found: 'المهمة غير متاحة.' };
+          showToast(map[res.error] || 'تعذر إكمال المهمة.');
+          return;
+        }
+        // وضع محلي
+        markLocalDone(id);
+        const t = socialTasks().find(x => x.id === id);
+        if (t) { P.usdt += Number(t.reward_usdt || 0); P.syc += Number(t.reward_syc || 0); saveLocal(); }
+        renderAll();
+        showToast('تم إكمال المهمة (وضع محلي) 🎉');
+      };
+
+      setTimeout(() => openAdModal('تأكيد المهمة', run), url ? 1500 : 0);
+    }
+
+    /* ---------- 9) الإعلانات الـ25 ---------- */
+    function adTasks() {
+      const t = App.tasks.filter(x => x.kind === 'ad');
+      if (t.length) return t;
+      const arr = [];
+      for (let i = 1; i <= 25; i++) {
+        arr.push({ id: 'ad' + i, title_ar: 'إعلان مأجور #' + i, reward_usdt: 0.015, reward_syc: 5 });
+      }
+      return arr;
+    }
+
+    function renderAds() {
+      const c = $('adsContainer25');
+      if (!c) return;
+      c.innerHTML = '';
+      adTasks().forEach(t => {
+        const done = isDone(t.id);
+        const e = document.createElement('div');
+        e.className = 'service-card';
+        e.style = 'display:flex; align-items:center; justify-content:space-between; gap:8px; padding:11px 12px;';
+        e.innerHTML =
+          '<div style="text-align:right;">' +
+            '<b style="font-size:12px">📺 ' + (t.title_ar || t.title_en) + '</b>' +
+            '<div style="font-size:9px; color:var(--primary-green); font-weight:bold; margin-top:3px">+' +
+              t.reward_usdt + ' USDT + ' + t.reward_syc + ' $SYC</div>' +
+          '</div>' +
+          '<button class="btn-official-green" style="width:auto; padding:8px 11px; font-size:10px" ' +
+            (done ? 'disabled style="background:#64748b"' : '') +
+            ' onclick="completeDailyAd(\'' + t.id + '\')">' +
+            (done ? 'تمت المشاهدة ✓' : 'مشاهدة الإعلان 🎬') +
+          '</button>';
+        c.appendChild(e);
+      });
+    }
+
+    async function completeDailyAd(id) {
+      if (isDone(id)) return;
+      openAdModal('مشاهدة إعلان مأجور', async () => {
+        const res = await rpc('fn_complete_task', { p_task_id: id });
+        if (res && res.ok) {
+          App.doneToday.add(id);
+          applyRemote(res.profile);
+          showToast('تم استلام مكافأة الإعلان! 💰');
+          return;
+        }
+        if (res && res.error === 'already_done') { showToast('شاهدت هذا الإعلان اليوم بالفعل.'); return; }
+        markLocalDone(id);
+        P.usdt += 0.015; P.syc += 5;
+        saveLocal(); renderAll();
+        showToast('تم استلام مكافأة الإعلان (وضع محلي) 💰');
+      });
+    }
+
+    /* ---------- 10) الألعاب المهارية ---------- */
+    const SKILL_GAMES = [
+      { id: 'reaction', taskId: 'game_reaction', icon: '⚡', title: 'اختبار سرعة الاستجابة والتصويب', desc: 'اضغط موافق فور ظهور الإشارة المباشرة.', prize: '+0.025 USDT', usdt: 0.025, syc: 0 },
+      { id: 'memory', taskId: 'game_memory', icon: '🧠', title: 'تحدي الذاكرة البصرية', desc: 'احفظ ترتيب الرموز واكتشف المطابقة.', prize: '+0.035 USDT', usdt: 0.035, syc: 0 },
+      { id: 'sequence', taskId: 'game_sequence', icon: '🔢', title: 'تسلسل الأرقام السريع', desc: 'أدخل الرقم الصحيح التالي في السلسلة.', prize: '+0.050 USDT', usdt: 0.050, syc: 0 }
+    ];
+
+    function renderSkillGames() {
+      const c = $('skillGamesContainer');
+      if (!c) return;
+      c.innerHTML = '';
+      SKILL_GAMES.forEach(g => {
+        const done = isDone(g.taskId);
+        const e = document.createElement('div');
+        e.className = 'game-card-modern';
+        e.innerHTML =
+          '<span class="game-badge-status ' + (done ? 'status-locked' : 'status-free') + '">' +
+            (done ? 'تم اللعب اليوم 🔒' : 'محاولة مجانية 🎁') + '</span>' +
+          '<h3 style="color:var(--primary-green); font-size:15px;">' + g.icon + ' ' + g.title + '</h3>' +
+          '<p style="color:var(--text-muted); font-size:11px; margin-top:2px;">' + g.desc + '</p>' +
+          '<div style="background:#f8fafc; border-radius:10px; padding:9px; font-size:11px; margin:8px 0;">' +
+            'الجائزة المباشرة: <b>' + g.prize + '</b></div>' +
+          '<button class="btn-official-green" style="padding:10px; font-size:12px;" ' +
+            (done ? 'disabled style="background:#64748b"' : '') +
+            ' onclick="startSkillGame(\'' + g.id + '\')">' +
+            (done ? 'غير متاح الآن' : 'ابدأ اللعب 🚀') + '</button>';
+        c.appendChild(e);
+      });
+    }
+
+    async function rewardGame(g) {
+      const res = await rpc('fn_complete_task', { p_task_id: g.taskId });
+      if (res && res.ok) {
+        App.doneToday.add(g.taskId);
+        applyRemote(res.profile);
+        renderSkillGames();
+        showToast('ممتاز! تم إضافة المكافأة لرصيدك 🎉');
+        return true;
+      }
+      if (res && res.error === 'already_done') { showToast('لعبت هذه اللعبة اليوم بالفعل.'); return false; }
+      // وضع محلي
+      markLocalDone(g.taskId);
+      P.usdt += g.usdt; P.syc += g.syc;
+      saveLocal(); renderAll();
+      showToast('تم إضافة المكافأة (وضع محلي) 🎉');
+      return true;
+    }
+
+    function startSkillGame(id) {
+      const g = SKILL_GAMES.find(x => x.id === id);
+      if (!g || isDone(g.taskId)) return;
+
+      if (id === 'sequence') {
+        const a = prompt('ما الرقم التالي في السلسلة: 2, 4, 6, 8, ?');
+        if (a === '10') rewardGame(g); else showToast('الإجابة غير صحيحة، حاول غداً.');
+      } else if (id === 'reaction') {
+        setTimeout(() => {
+          if (confirm('الآن! اضغط موافق فوراً للتصويب!')) rewardGame(g);
+          else showToast('لم تصوّب في الوقت المناسب.');
+        }, 1000);
+      } else {
+        alert('احفظ الترتيب التالي: 🟩 🔷 ⭐ 🟠');
+        const a = prompt('اكتب التسلسل بالتفصيل: 🟩 🔷 ⭐ 🟠');
+        if (a && a.replace(/\s/g, '') === '🟩🔷⭐🟠') rewardGame(g);
+        else showToast('التسلسل غير صحيح.');
+      }
+    }
+
+    /* ---------- 11) مشغل الإعلانات ---------- */
+    let adCallback = null;
+    let adTimer = null;
+
+    function openAdModal(title, callback) {
+      adCallback = callback;
+      const modal = $('verifiedAdModal');
+      const titleEl = $('adPlayerTitle');
+      const countEl = $('adCountdownVal');
+      const fillEl = $('adProgressBarFill');
+      const claimBtn = $('claimAdRewardBtn');
+      if (!modal) { if (callback) callback(); return; }
+
+      if (adTimer) clearInterval(adTimer);
+      titleEl.innerText = title;
+      modal.style.display = 'flex';
+      claimBtn.disabled = true;
+      claimBtn.style.background = '#64748b';
+      claimBtn.innerText = 'انتظر اكتمال الإعلان (' + AD_SECONDS + 'ث)...';
+      fillEl.style.width = '0%';
+
+      let left = AD_SECONDS;
+      countEl.innerText = left + 's';
+
+      adTimer = setInterval(() => {
+        left--;
+        countEl.innerText = left + 's';
+        fillEl.style.width = ((AD_SECONDS - left) / AD_SECONDS * 100) + '%';
+        if (left <= 0) {
+          clearInterval(adTimer);
+          claimBtn.disabled = false;
+          claimBtn.style.background = 'var(--primary-green)';
+          claimBtn.innerText = 'تأكيد واستلام المكافأة 🎯';
+          claimBtn.onclick = async () => {
+            modal.style.display = 'none';
+            const cb = adCallback; adCallback = null;
+            if (cb) { try { await cb(); } catch (e) { console.warn(e); } }
+          };
+        }
+      }, 1000);
+    }
+
+    /* ---------- 12) التعدين ---------- */
+    async function collect(kind) {
+      const local = unclaimed(kind);
+      if (local <= 0.000001) { showToast('لا توجد أرباح مجمعة حالياً.'); return; }
+
+      const res = await rpc('fn_collect', { p_kind: kind });
+      if (res && res.ok) {
+        applyRemote(res.profile);
+        showToast('تمت إضافة +' + Number(res.amount).toFixed(kind === 'usdt' ? 6 : 2) + ' ' + (kind === 'usdt' ? 'USDT' : '$SYC') + ' 👛');
+        return;
+      }
+      if (res && res.error === 'nothing_to_collect') { showToast('انتظر قليلاً قبل الجمع مرة أخرى.'); return; }
+
+      // وضع محلي
+      if (kind === 'usdt') { P.usdt += local; P.usdtStart = Date.now(); }
+      else { P.syc += local; P.sycStart = Date.now(); }
+      saveLocal(); renderAll();
+      showToast('تم جمع الأرباح (وضع محلي) 👛');
+    }
+
+    function collectUsdtReward() { collect('usdt'); }
+    function collectSycReward() { collect('syc'); }
+
+    async function startSession(kind) {
+      const res = await rpc('fn_start_session', { p_kind: kind });
+      if (res && res.ok) { applyRemote(res.profile); return; }
+      if (kind === 'usdt') P.usdtStart = Date.now(); else P.sycStart = Date.now();
+      saveLocal();
+    }
+
+    function clickMiningCircle() { startSession('usdt'); showToast('جلسة تعدين USDT نشطة ومحدثة ⚡'); }
+    function clickSycStation() { startSession('syc'); showToast('جلسة تعدين $SYC نشطة ومحدثة 💎'); }
+    function clickCounterBox() { showToast('مؤقت الاحتساب يعمل تلقائياً وبشكل مستمر.'); }
+
+    function boostUsedToday(kind) {
+      return Number(localStorage.getItem('sc_boost_' + todayKey() + '_' + kind) || 0);
+    }
+
+    async function activateBoost(kind) {
+      const res = await rpc('fn_boost', { p_kind: kind });
+      if (res && res.ok) {
+        applyRemote(res.profile);
+        localStorage.setItem('sc_boost_' + todayKey() + '_' + kind, String(res.used));
+        showToast('تم تفعيل مضاعف السرعة 2X لمدة 10 دقائق ⚡');
+        return;
+      }
+      if (res && res.error === 'limit_reached') { showToast('اكتملت محاولات المضاعف اليومية (10/10).'); return; }
+      if (res && res.error) { showToast('تعذر تفعيل المضاعف.'); return; }
+
+      const used = boostUsedToday(kind);
+      if (used >= BOOST_LIMIT) { showToast('اكتملت محاولات المضاعف اليومية (10/10).'); return; }
+      localStorage.setItem('sc_boost_' + todayKey() + '_' + kind, String(used + 1));
+      if (kind === 'usdt') P.boostUsdtUntil = Date.now() + BOOST_MS; else P.boostSycUntil = Date.now() + BOOST_MS;
+      saveLocal();
+      showToast('تم تفعيل مضاعف السرعة 2X لمدة 10 دقائق ⚡');
+    }
+
+    function triggerBoost() {
+      if (boostUsedToday('usdt') >= BOOST_LIMIT) { showToast('اكتملت محاولات المضاعف اليومية (10/10).'); return; }
+      openAdModal('مضاعف السرعة 2X لمدة 10 دقائق', () => activateBoost('usdt'));
+    }
+
+    function triggerSycBoost() {
+      if (boostUsedToday('syc') >= BOOST_LIMIT) { showToast('اكتملت محاولات المضاعف اليومية (10/10).'); return; }
+      openAdModal('مضاعف $SYC 2X لمدة 10 دقائق', () => activateBoost('syc'));
+    }
+
+    /* ---------- 13) حلقة التحديث ---------- */
+    function startLoop() {
+      setInterval(() => {
+        const u = unclaimed('usdt'), s = unclaimed('syc');
+        if ($('unclaimedBal')) $('unclaimedBal').innerText = u.toFixed(6);
+        if ($('unclaimedSyc')) $('unclaimedSyc').innerText = s.toFixed(2);
+
+        const cu = Math.floor(cycleRemain('usdt') / 1000);
+        const hu = pad2(Math.floor(cu / 3600)), mu = pad2(Math.floor(cu % 3600 / 60)), su = pad2(cu % 60);
+        if ($('liveSessionTimer')) $('liveSessionTimer').innerText = hu + ':' + mu + ':' + su;
+
+        const cs = Math.floor(cycleRemain('syc') / 1000);
+        const hs = pad2(Math.floor(cs / 3600)), ms = pad2(Math.floor(cs % 3600 / 60)), ss = pad2(cs % 60);
+        if ($('sycMiningTimer')) $('sycMiningTimer').innerText = 'مؤقت دورة الـ 4 ساعات: ' + hs + ':' + ms + ':' + ss + ' ⏱';
+
+        if ($('boostBadge')) $('boostBadge').innerText = boostUsedToday('usdt') + '/10 اليوم';
+        renderSeason();
+      }, 1000);
+    }
+
+    /* ---------- 14) باقات VIP ---------- */
+    const FALLBACK_PLANS = [
+      { level: 1, name_ar: 'عقد النحاس (VIP 1)', price: 15, daily: 0.90, monthly: 27.00, syc_bonus: 150 },
+      { level: 2, name_ar: 'عقد الفضة (VIP 2)', price: 25, daily: 1.60, monthly: 48.00, syc_bonus: 300 },
+      { level: 3, name_ar: 'عقد الذهب (VIP 3)', price: 50, daily: 3.50, monthly: 105.00, syc_bonus: 750 },
+      { level: 4, name_ar: 'عقد البلاتين (VIP 4)', price: 100, daily: 7.50, monthly: 225.00, syc_bonus: 1800 },
+      { level: 5, name_ar: 'عقد التاج الملكي (VIP 5)', price: 200, daily: 16.00, monthly: 480.00, syc_bonus: 4000 },
+      { level: 6, name_ar: 'عقد الحوت الماس (VIP 6)', price: 500, daily: 42.00, monthly: 1260.00, syc_bonus: 11000 }
+    ];
+
+    function vipPlans() { return App.plans.length ? App.plans : FALLBACK_PLANS; }
+
+    function renderVipPlans() {
+      const c = $('vipPlansContainer');
+      if (!c) return;
+      c.innerHTML = '';
+      vipPlans().forEach(p => {
+        const e = document.createElement('div');
+        e.style = 'background:#fff; border:1px solid #e2e8f0; border-radius:16px; padding:14px; box-shadow:var(--shadow-sm);';
+        e.innerHTML =
+          '<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px">' +
+            '<div>' +
+              '<div style="font-size:14px; font-weight:900; color:var(--text-dark)">' + (p.name_ar || p.name_en) + '</div>' +
+              '<div style="font-size:10px; color:var(--text-muted)">صلاحية 30 يوماً | سحب فوري 0% Fee</div>' +
+            '</div>' +
+            '<div style="font-size:18px; font-weight:900; color:var(--primary-green)">$' + p.price + '</div>' +
+          '</div>' +
+          '<div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:6px; background:#f8fafc; border-radius:10px; padding:8px; text-align:center">' +
+            '<div><div style="font-size:9px; color:var(--text-muted)">الإنتاج اليومي</div><div style="font-weight:800; font-size:11px;">' + p.daily + '$</div></div>' +
+            '<div><div style="font-size:9px; color:var(--text-muted)">العائد الشهري</div><div style="font-weight:800; font-size:11px; color:var(--primary-green);">' + p.monthly + '$</div></div>' +
+            '<div><div style="font-size:9px; color:var(--text-muted)">بونص Airdrop</div><div style="font-weight:800; font-size:11px; color:#0284c7;">+' + p.syc_bonus + ' SYC</div></div>' +
+          '</div>' +
+          '<button class="btn-official-green" style="margin-top:9px; padding:9px; font-size:11px" onclick="buyVipPackage(' + p.level + ')">' +
+            'تفعيل العقد الآن ($' + p.price + ' USDT) 🚀</button>';
+        c.appendChild(e);
+      });
+    }
+
+    async function buyVipPackage(level) {
+      const plan = vipPlans().find(p => Number(p.level) === Number(level));
+      if (!plan) return;
+
+      const res = await rpc('fn_buy_vip', { p_level: Number(level) });
+      if (res && res.ok) {
+        applyRemote(res.profile);
+        showToast('تم تفعيل ' + (plan.name_ar || plan.name_en) + ' وحصولك على +' + plan.syc_bonus + ' $SYC! 🎉');
+        return;
+      }
+      if (res && res.error === 'insufficient_balance') {
+        showToast('رصيدك غير كافٍ. ينقصك ' + (plan.price - P.usdt).toFixed(2) + ' USDT.');
+        return;
+      }
+      if (res && res.error) { showToast('تعذر تفعيل العقد.'); return; }
+
+      if (P.usdt < plan.price) { showToast('رصيدك غير كافٍ لتفعيل هذا العقد.'); return; }
+      P.usdt -= Number(plan.price);
+      P.syc += Number(plan.syc_bonus);
+      P.vipLevel = Math.max(P.vipLevel, Number(plan.level));
+      saveLocal(); renderAll();
+      showToast('تم تفعيل ' + (plan.name_ar || plan.name_en) + ' (وضع محلي) 🎉');
+    }
+
+    /* ---------- 15) السحب ---------- */
+    function updateWithdrawFields(method) {
+      const c = $('dynamicWithdrawFields');
+      if (!c) return;
+      const ph = {
+        usdt: 'عنوان محفظة USDT TRC20 (T...)',
+        google_play: 'البريد الإلكتروني لاستلام كود البطاقة',
+        turkish_cash: 'رقم الـ IBAN التركي (TR...)',
+        telegram_stars: 'معرف حساب تلجرام المعتمد (@user)',
+        sham_cash: 'رقم حساب شام كاش (Sham Cash ID)'
+      };
+      c.innerHTML = '<input type="text" id="payAddress" placeholder="' + (ph[method] || 'بيانات الاستلام') + '" class="input-clean">';
+    }
+
+    async function requestWithdrawal() {
+      const amount = parseFloat(($('withdrawAmount') || {}).value || '0');
+      const address = ($('payAddress') || {}).value;
+      const method = ($('withdrawMethodSelect') || {}).value || 'usdt';
+
+      if (!address) { showToast('يرجى إدخال بيانات عنوان الاستلام المطلوبة.'); return; }
+      if (!amount || amount < MIN_WITHDRAW) { showToast('الحد الأدنى المسموح به للسحب هو ' + MIN_WITHDRAW.toFixed(2) + ' USDT.'); return; }
+
+      const btn = $('withdrawSubmitBtn');
+      if (btn) { btn.disabled = true; btn.innerText = 'جاري الإرسال...'; }
+
+      const res = await rpc('fn_request_withdrawal', { p_method: method, p_address: address, p_amount: amount });
+
+      if (btn) { btn.disabled = false; btn.innerText = 'تأكيد طلب السحب المالي 🚀'; }
+
+      if (res && res.ok) {
+        applyRemote(res.profile);
+        if ($('withdrawAmount')) $('withdrawAmount').value = '';
+        showToast('تم إرسال طلب السحب بنجاح وهو قيد المعالجة! 🚀');
+        return;
+      }
+      if (res && res.error === 'insufficient_balance') { showToast('رصيدك المالي غير كافٍ لإتمام السحب.'); return; }
+      if (res && res.error === 'min_amount') { showToast('الحد الأدنى للسحب ' + MIN_WITHDRAW + ' USDT.'); return; }
+      if (res && res.error) { showToast('تعذر إرسال الطلب.'); return; }
+
+      if (amount > P.usdt) { showToast('رصيدك المالي غير كافٍ لإتمام السحب.'); return; }
+      P.usdt -= amount;
+      saveLocal(); renderAll();
+      if ($('withdrawAmount')) $('withdrawAmount').value = '';
+      showToast('تم إرسال طلب السحب (وضع محلي) 🚀');
+    }
+
+    /* ---------- 16) الإحالة والخزنة ---------- */
+    async function applyReferralFromUrl() {
+      try {
+        const params = new URLSearchParams(window.location.search);
+        const start = params.get('start') || params.get('ref');
+        if (!start) return;
+        const code = start.replace(/^ref_/, '');
+        if (!code || code === P.referralCode) return;
+        await rpc('fn_attach_referral', { p_code: code });
+      } catch (e) { /* تجاهل */ }
+    }
+
+    function copyLink() {
+      const link = 'https://t.me/SyriaCash_Bot?start=ref_' + (P.referralCode || '102938');
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(link).then(() => showToast('تم نسخ رابط الإحالة الرسمي 📋'));
+      } else {
+        showToast(link);
+      }
+    }
+
+    function renderWeeklyReferral() {
+      const c = $('weeklyReferralBoard');
+      if (!c) return;
+      c.innerHTML =
+        '<b>متصدري المسابقة الأسبوعية للإحالات النشطة</b><br>' +
+        '1. مستخدم #10928 — 420 إحالة نشطة<br>' +
+        '2. مستخدم #88219 — 315 إحالة نشطة<br>' +
+        '3. مستخدم #45102 — 210 إحالة نشطة<br>' +
+        '<span style="color:var(--primary-green)">تُحسب عمولاتك فور إتمام صديقك للمهام المعتمدة.</span>';
+    }
+
+    async function enterMonthlyVault() {
+      openAdModal('السحب الشهري على الخزنة الكبرى', async () => {
+        const res = await rpc('fn_vault_entry', {});
+        if (res && res.ok) { applyRemote(res.profile); showToast('تم احتساب تذكرتك في السحب الشهري 🎟️'); return; }
+        P.vaultAds += 1;
+        saveLocal(); renderVault();
+        showToast('تم احتساب تذكرتك في السحب الشهري 🎟️');
+      });
+    }
+
+    /* ---------- 17) أدوات الواجهة ---------- */
+    function navigate(tabId, btn) {
+      document.querySelectorAll('.tab-view').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.nav-link-btn').forEach(b => b.classList.remove('active'));
+      const target = $(tabId);
+      if (target) target.classList.add('active');
+      if (btn) btn.classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function showRoadmapTab(which) {
+      if ($('whitepaperPanel')) $('whitepaperPanel').style.display = which === 'whitepaper' ? 'block' : 'none';
+      if ($('roadmapPanel')) $('roadmapPanel').style.display = which === 'roadmap' ? 'block' : 'none';
+    }
+
+    function connectWalletDemo() { showToast('جاري الاتصال بمحفظة Web3 الرقمية...'); }
+
+    async function sendSupport() {
+      const user = ($('supUser') || {}).value || '';
+      const msg = ($('supMsg') || {}).value || '';
+      if (!msg.trim()) { showToast('يرجى كتابة وصف المشكلة.'); return; }
+
+      if (App.cloud && App.sb) {
+        try {
+          await App.sb.from('support_tickets').insert({ user_id: App.user.id, contact: user, message: msg });
+        } catch (e) { console.warn(e); }
+      }
+      closeModal('supportModal');
+      if ($('supMsg')) $('supMsg').value = '';
+      showToast('تم إرسال تذكرتك للدعم الفني وسيتم الرد عليك قريباً 📩');
+    }
+
+    /* ---------- 18) الترجمة ---------- */
     const i18nDict = {
       ar: {
         brand_sub: "المنظومة الرقمية للمعاملات والتعدين السحابي",
@@ -1119,7 +1821,7 @@
         cycle_timer: "مؤقت الدورة (4 ساعات)", collect_usdt: "جمع وتأكيد أرباح الدولار (USDT)",
         vip_header: "عقود التعدين السحابي والباقات المتقدمة 👑", games_header: "مركز الألعاب المهارية والتفاعلية 🎮",
         tasks_header: "المهام الاجتماعية ومشاهدة الفيديوهات 🎬", ads_25: "25 مهمة فيديو يومية مأجورة 📺",
-        ref_header: "برنامج دعوة الأصدقاء والوكالة", withdraw_header: "طلب سحب الأرباح المالي", close: "إغلاق",
+        ref_header: "برنامج دعوة الأصدقاء والوكالة", withdraw_header: "طلب سحب الأرباح المالي",
         jackpot_title: "🔥 السحب الشهري على الخزنة الكبرى ($350.00 USDT)", ads_seen: "إعلاناتك المشاهدة للتذكرة:",
         btn_jackpot: "مشاهدة إعلان للدخول بالسحب الشهري 🎟️"
       },
@@ -1138,17 +1840,11 @@
         cycle_timer: "Cycle Timer (4 Hours)", collect_usdt: "Collect & Claim USDT",
         vip_header: "VIP Cloud Mining Contracts 👑", games_header: "Interactive Skill Games 🎮",
         tasks_header: "Social & Video Tasks 🎬", ads_25: "25 Paid Daily Video Ads 📺",
-        ref_header: "Affiliate & Referral Program", withdraw_header: "Financial Withdrawal Request", close: "Close",
+        ref_header: "Affiliate & Referral Program", withdraw_header: "Financial Withdrawal Request",
         jackpot_title: "🔥 Monthly Vault Draw ($350.00 USDT)", ads_seen: "Ads Watched for Ticket:",
         btn_jackpot: "Watch Ad for Monthly Entry 🎟️"
       }
     };
-
-    function initLanguage() {
-      const savedLang = localStorage.getItem('sc_lang') || 'ar';
-      document.getElementById('langSelect').value = savedLang;
-      changeLanguage(savedLang);
-    }
 
     function changeLanguage(lang) {
       localStorage.setItem('sc_lang', lang);
@@ -1157,11 +1853,7 @@
       document.documentElement.lang = lang;
 
       const dict = i18nDict[lang] || i18nDict['ar'];
-
-      const setTxt = (id, text) => {
-        const el = document.getElementById(id);
-        if (el && text) el.innerText = text;
-      };
+      const setTxt = (id, text) => { const el = $(id); if (el && text) el.innerText = text; };
 
       setTxt('lbl_brand_sub', dict.brand_sub);
       setTxt('nav_lbl_airdrop', dict.nav_airdrop);
@@ -1197,453 +1889,17 @@
       setTxt('lbl_ads_25', dict.ads_25);
       setTxt('lbl_ref_header', dict.ref_header);
       setTxt('lbl_withdraw_header', dict.withdraw_header);
-      setTxt('lbl_close', dict.close);
       setTxt('lbl_jackpot_title', dict.jackpot_title);
       setTxt('lbl_ads_seen', dict.ads_seen);
       setTxt('btn_jackpot_action', dict.btn_jackpot);
     }
 
-    // --- 3. ألعاب مهارية + محاولة مجانية كل 24 ساعة + محاولة إعلان واحدة ---
-    const GAME_LOCK_MS = 24 * 60 * 60 * 1000;
-    const SKILL_GAMES = [
-      {id:'reaction', icon:'⚡', title:'اختبار سرعة الاستجابة والتصويب', desc:'اضغط موافق فور ظهور الإشارة المباشرة.', prize:'+0.025 USDT'},
-      {id:'memory', icon:'🧠', title:'تحدي الذاكرة البصرية', desc:'احفظ ترتيب الرموز واكتشف المطابقة.', prize:'+0.035 USDT'},
-      {id:'sequence', icon:'🔢', title:'تسلسل الأرقام السريع', desc:'أدخل الرقم الصحيح التالي في السلسلة.', prize:'+0.050 USDT'}
-    ];
-
-    function getDayKey(){ return new Date().toISOString().slice(0,10); }
-    function getGameStatus(id){
-      const last = Number(localStorage.getItem(`sc_skill_last_${id}`) || 0);
-      const adUsed = localStorage.getItem(`sc_skill_ad_${getDayKey()}_${id}`) === '1';
-      const free = !last || (Date.now() - last) >= GAME_LOCK_MS;
-      return { freeAvailable: free, adAvailable: !free && !adUsed };
-    }
-
-    function renderSkillGames(){
-      const c = document.getElementById('skillGamesContainer');
-      if (!c) return;
-      c.innerHTML = '';
-      SKILL_GAMES.forEach(g => {
-        const s = getGameStatus(g.id);
-        const e = document.createElement('div');
-        e.className = 'game-card-modern';
-        e.innerHTML = `
-          <span class="game-badge-status ${s.freeAvailable || s.adAvailable ? 'status-free' : 'status-locked'}">
-            ${s.freeAvailable ? 'محاولة مجانية 🎁' : s.adAvailable ? 'محاولة إضافية بالإعلان 🎬' : 'مغلق (حتى الموعد المكتمل) 🔒'}
-          </span>
-          <h3 style="color:var(--primary-green); font-size:15px;">${g.icon} ${g.title}</h3>
-          <p style="color:var(--text-muted); font-size:11px; margin-top:2px;">${g.desc}</p>
-          <div style="background:#f8fafc; border-radius:10px; padding:9px; font-size:11px; margin:8px 0;">
-            الجائزة المباشرة: <b>${g.prize}</b>
-          </div>
-          <button class="btn-official-green" style="padding:10px; font-size:12px;" onclick="startSkillGame('${g.id}')" ${(!s.freeAvailable && !s.adAvailable) ? 'disabled' : ''}>
-            ${s.freeAvailable ? 'ابدأ المحاولة المجانية 🚀' : s.adAvailable ? 'مشاهدة إعلان ثم اللعب 🎬' : 'غير متاح الآن'}
-          </button>
-        `;
-        c.appendChild(e);
-      });
-    }
-
-    function startSkillGame(id){
-      const s = getGameStatus(id);
-      const run = () => {
-        if (s.freeAvailable) localStorage.setItem(`sc_skill_last_${id}`, String(Date.now()));
-        else localStorage.setItem(`sc_skill_ad_${getDayKey()}_${id}`, '1');
-        renderSkillGames();
-
-        if (id === 'sequence') {
-          const a = prompt('ما الرقم التالي في السلسلة: 2, 4, 6, 8, ?');
-          if (a === '10') {
-            totalBal += 0.050;
-            saveBalances();
-            showToast('إجابة صحيحة! تم إضافة +0.050 USDT لرصيدك! 🎉');
-          } else {
-            showToast('الإجابة غير صحيحة.');
-          }
-        } else if (id === 'reaction') {
-          setTimeout(() => {
-            if (confirm('الآن! اضغط موافق فوراً للتصويب!')) {
-              totalBal += 0.025;
-              saveBalances();
-              showToast('استجابة ممتازة! تم إضافة +0.025 USDT! ⚡');
-            }
-          }, 1000);
-        } else {
-          alert('احفظ الترتيب التالي: 🟩 🔷 ⭐ 🟠');
-          const a = prompt('اكتب التسلسل بالتفصيل: 🟩 🔷 ⭐ 🟠');
-          if (a && a.replace(/\s/g, '') === '🟩🔷⭐🟠') {
-            totalBal += 0.035;
-            saveBalances();
-            showToast('ذاكرة ممتازة! تم إضافة +0.035 USDT! 🧠');
-          } else {
-            showToast('التسلسل غير صحيح.');
-          }
-        }
-      };
-
-      if (s.adAvailable) openAdModal('فتح محاولة إضافية', run);
-      else run();
-    }
-
-    // --- 4. مشغل الإعلانات المنبثق ---
-    let adCallback = null;
-    function openAdModal(title, callback) {
-      adCallback = callback;
-      const modal = document.getElementById('verifiedAdModal');
-      const titleEl = document.getElementById('adPlayerTitle');
-      const countEl = document.getElementById('adCountdownVal');
-      const fillEl = document.getElementById('adProgressBarFill');
-      const claimBtn = document.getElementById('claimAdRewardBtn');
-
-      titleEl.innerText = title;
-      modal.style.display = 'flex';
-      claimBtn.disabled = true;
-      claimBtn.style.background = '#64748b';
-      claimBtn.innerText = 'انتظر اكتمال الإعلان (8ث)...';
-      fillEl.style.width = '0%';
-
-      let left = 8;
-      const interval = setInterval(() => {
-        left--;
-        countEl.innerText = left + 's';
-        fillEl.style.width = ((8 - left) / 8 * 100) + '%';
-        if (left <= 0) {
-          clearInterval(interval);
-          claimBtn.disabled = false;
-          claimBtn.style.background = 'var(--primary-green)';
-          claimBtn.innerText = 'تأكيد واستلام المكافأة 🎯';
-          claimBtn.onclick = () => {
-            modal.style.display = 'none';
-            if (adCallback) adCallback();
-          };
-        }
-      }, 1000);
-    }
-
-    // --- 5. محرك التعدين السحابي بالوقت المحفوظ ---
-    const DEMO_4H = 4 * 3600 * 1000, BOOST_MS = 10 * 60 * 1000;
-    function boostDay(k){ return `sc_boost_${k}_${getDayKey()}`; }
-    function boostCount(k){ return Number(localStorage.getItem(boostDay(k)) || 0); }
-    function boostOn(k){ return Date.now() < Number(localStorage.getItem(`sc_boost_until_${k}`) || 0); }
-
-    function startMiningTimers(){
-      if (!localStorage.getItem('sc_usdt_start')) localStorage.setItem('sc_usdt_start', String(Date.now()));
-      if (!localStorage.getItem('sc_syc_start')) localStorage.setItem('sc_syc_start', String(Date.now()));
-
-      setInterval(() => {
-        const ue = Date.now() - Number(localStorage.getItem('sc_usdt_start'));
-        const se = Date.now() - Number(localStorage.getItem('sc_syc_start'));
-        
-        const u = (ue % DEMO_4H) / 1000 * (boostOn('usdt') ? 0.000066 : 0.000033);
-        const syc = (se % DEMO_4H) / 1000 * (boostOn('syc') ? 0.01 : 0.005);
-
-        document.getElementById('unclaimedBal').innerText = u.toFixed(6);
-        document.getElementById('unclaimedSyc').innerText = syc.toFixed(2);
-
-        updateTimerDisplay('liveSessionTimer', DEMO_4H - (ue % DEMO_4H));
-        const b = document.getElementById('boostBadge');
-        if (b) b.innerText = `${boostCount('usdt')}/10 اليوم`;
-      }, 1000);
-    }
-
-    function updateTimerDisplay(id, ms){
-      const t = Math.max(0, Math.floor(ms / 1000));
-      const h = String(Math.floor(t / 3600)).padStart(2, '0');
-      const m = String(Math.floor(t % 3600 / 60)).padStart(2, '0');
-      const s = String(t % 60).padStart(2, '0');
-      const e = document.getElementById(id);
-      if (e) e.innerText = `${h}:${m}:${s}`;
-    }
-
-    function collectUsdtReward(){
-      const v = Number(document.getElementById('unclaimedBal').innerText || 0);
-      if (v <= 0) return showToast('لا توجد أرباح مجمعة حالياً.');
-      totalBal += v;
-      localStorage.setItem('sc_usdt_start', String(Date.now()));
-      saveBalances();
-      showToast(`تمت إضافة +${v.toFixed(6)} USDT إلى رصيدك المالي! 👛`);
-    }
-
-    function collectSycReward(){
-      const v = Number(document.getElementById('unclaimedSyc').innerText || 0);
-      if (v <= 0) return showToast('لا توجد أرباح مجمعة حالياً.');
-      sycTotal += v;
-      localStorage.setItem('sc_syc_start', String(Date.now()));
-      saveBalances();
-      showToast(`تمت إضافة +${v.toFixed(2)} $SYC إلى رصيدك! 💎`);
-    }
-
-    function triggerBoost(){
-      const used = boostCount('usdt');
-      if (used >= 10) return showToast('اكتملت محاولات المضاعف اليومية (10/10)');
-      openAdModal('مضاعف السرعة 2X لمدة 10 دقائق', () => {
-        localStorage.setItem(boostDay('usdt'), String(used + 1));
-        localStorage.setItem('sc_boost_until_usdt', String(Date.now() + BOOST_MS));
-        showToast('تم تفعيل مضاعف التعدين 2X لمدة 10 دقائق بنجاح! ⚡');
-      });
-    }
-
-    function triggerSycBoost(){
-      const used = boostCount('syc');
-      if (used >= 10) return showToast('اكتملت محاولات مضاعف SYC اليومية (10/10)');
-      openAdModal('مضاعف SYC 2X لمدة 10 دقائق', () => {
-        localStorage.setItem(boostDay('syc'), String(used + 1));
-        localStorage.setItem('sc_boost_until_syc', String(Date.now() + BOOST_MS));
-        showToast('تم تفعيل مضاعف عملة $SYC لمدة 10 دقائق بنجاح! ⚡');
-      });
-    }
-
-    // --- 6. باقات وعقود VIP الواقعية ---
-    const VIP_PLANS = [
-      { level: 1, price: 15, daily: 0.90, monthly: 27.00, sycBonus: 150, name: 'عقد النحاس (VIP 1)' },
-      { level: 2, price: 25, daily: 1.60, monthly: 48.00, sycBonus: 300, name: 'عقد الفضة (VIP 2)' },
-      { level: 3, price: 50, daily: 3.50, monthly: 105.00, sycBonus: 750, name: 'عقد الذهب (VIP 3)' },
-      { level: 4, price: 100, daily: 7.50, monthly: 225.00, sycBonus: 1800, name: 'عقد البلاتين (VIP 4)' },
-      { level: 5, price: 200, daily: 16.00, monthly: 480.00, sycBonus: 4000, name: 'عقد التاج الملكي (VIP 5)' },
-      { level: 6, price: 500, daily: 42.00, monthly: 1260.00, sycBonus: 11000, name: 'عقد الحوت الماس (VIP 6)' }
-    ];
-
-    function renderVipPlans(){
-      const c = document.getElementById('vipPlansContainer');
-      if (!c) return;
-      c.innerHTML = '';
-      VIP_PLANS.forEach((p) => {
-        const e = document.createElement('div');
-        e.style = 'background:#fff; border:1px solid #e2e8f0; border-radius:16px; padding:14px; box-shadow:var(--shadow-sm);';
-        e.innerHTML = `
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px">
-            <div>
-              <div style="font-size:14px; font-weight:900; color:var(--text-dark)">${p.name}</div>
-              <div style="font-size:10px; color:var(--text-muted)">صلاحية 30 يوماً | سحب فوري 0% Fee</div>
-            </div>
-            <div style="font-size:18px; font-weight:900; color:var(--primary-green)">$${p.price}</div>
-          </div>
-          <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:6px; background:#f8fafc; border-radius:10px; padding:8px; text-align:center">
-            <div>
-              <div style="font-size:9px; color:var(--text-muted)">الإنتاج اليومي</div>
-              <div style="font-weight:800; font-size:11px;">${p.daily}$</div>
-            </div>
-            <div>
-              <div style="font-size:9px; color:var(--text-muted)">العائد الشهري</div>
-              <div style="font-weight:800; font-size:11px; color:var(--primary-green);">${p.monthly}$</div>
-            </div>
-            <div>
-              <div style="font-size:9px; color:var(--text-muted)">بونص Airdrop</div>
-              <div style="font-weight:800; font-size:11px; color:#0284c7;">+${p.sycBonus} SYC</div>
-            </div>
-          </div>
-          <button class="btn-official-green" style="margin-top:9px; padding:9px; font-size:11px" onclick="buyVipPackage(${p.price}, '${p.name}', ${p.sycBonus})">
-            تفعيل العقد الآن ($${p.price} USDT) 🚀
-          </button>
-        `;
-        c.appendChild(e);
-      });
-    }
-
-    function buyVipPackage(price, name, sycBonus){
-      if (totalBal < price) {
-        return showToast(`رصيدك غير كافٍ لتفعيل ${name}. ينقصك ${(price - totalBal).toFixed(2)} USDT.`);
-      }
-      totalBal -= price;
-      sycTotal += sycBonus;
-      saveBalances();
-      showToast(`تم تفعيل ${name} بنجاح وحصولك على بونص +${sycBonus} $SYC! 🎉`);
-    }
-
-    // --- 7. المهام اليومية الاجتماعية والإعلانات الـ 25 ---
-    const SOCIAL_TASKS = [
-      {id:'yt1', icon:'▶️', title:'متابعة قناة YouTube الرسمية', desc:'اشترك في القناة لمتابعة آخر التحديثات.', points: 0.05, unit:'USDT', url:'https://www.youtube.com/'},
-      {id:'x1', icon:'𝕏', title:'متابعة الحساب الرسمي على X', desc:'افتح الحساب وتابع منشورات التعدين.', points: 0.03, unit:'USDT', url:'https://x.com/'},
-      {id:'tg1', icon:'✈️', title:'الانضمام إلى قناة Telegram', desc:'انضم إلى مجتمع التلجرام الرسمي.', points: 50, unit:'SYC', url:'https://telegram.org/'},
-      {id:'yt2', icon:'🎬', title:'مشاهدة فيديو شرح المنصة كامل', desc:'شاهد الفيديو المائي لتأكيد التفاعل.', points: 0.04, unit:'USDT', url:'https://www.youtube.com/'}
-    ];
-
-    function todayTaskKey(id){ return `sc_daily_task_${getDayKey()}_${id}`; }
-
-    function renderSocialTasks(){
-      const c = document.getElementById('socialTasksContainer');
-      if (!c) return;
-      c.innerHTML = '';
-      SOCIAL_TASKS.forEach(t => {
-        const done = localStorage.getItem(todayTaskKey(t.id)) === '1';
-        const e = document.createElement('div');
-        e.className = 'mining-hub-card';
-        e.style = 'padding:12px; display:flex; align-items:center; gap:10px; justify-content:space-between;';
-        e.innerHTML = `
-          <div style="display:flex; gap:10px; align-items:center; min-width:0">
-            <div style="font-size:26px">${t.icon}</div>
-            <div style="text-align:right;">
-              <b style="font-size:12px">${t.title}</b>
-              <div style="font-size:10px; color:var(--text-muted); margin-top:2px">${t.desc}</div>
-              <div style="font-size:10px; color:var(--primary-green); font-weight:bold; margin-top:3px">+${t.points} ${t.unit}</div>
-            </div>
-          </div>
-          <button class="btn-official-green" style="width:auto; padding:8px 12px; font-size:11px" ${done ? 'disabled style="background:#64748b"' : ''} onclick="completeSocialTask('${t.id}', ${t.points}, '${t.unit}', '${t.url}')">
-            ${done ? 'مكتملة ✓' : 'تنفيذ المهمة 🚀'}
-          </button>
-        `;
-        c.appendChild(e);
-      });
-    }
-
-    function completeSocialTask(id, points, unit, url){
-      if (localStorage.getItem(todayTaskKey(id)) === '1') return;
-      window.open(url, '_blank');
-      setTimeout(() => {
-        openAdModal(`تأكيد المهمة #${id}`, () => {
-          localStorage.setItem(todayTaskKey(id), '1');
-          if (unit === 'USDT') totalBal += points;
-          else sycTotal += points;
-          saveBalances();
-          renderSocialTasks();
-          showToast(`تم إكمال المهمة واستلام +${points} ${unit}! 🎉`);
-        });
-      }, 1500);
-    }
-
-    function render25Ads(){
-      const c = document.getElementById('adsContainer25');
-      if (!c) return;
-      c.innerHTML = '';
-      for (let i = 1; i <= 25; i++) {
-        const key = todayTaskKey('ad' + i);
-        const done = localStorage.getItem(key) === '1';
-        const e = document.createElement('div');
-        e.className = 'service-card';
-        e.style = 'display:flex; align-items:center; justify-content:space-between; gap:8px; padding:11px 12px;';
-        e.innerHTML = `
-          <div style="text-align:right;">
-            <b style="font-size:12px">📺 إعلان مأجور #${i}</b>
-            <div style="font-size:9px; color:var(--primary-green); font-weight:bold; margin-top:3px">+0.015 USDT + 5 $SYC</div>
-          </div>
-          <button class="btn-official-green" style="width:auto; padding:8px 11px; font-size:10px" ${done ? 'disabled style="background:#64748b"' : ''} onclick="completeDailyAd(${i})">
-            ${done ? 'تمت المشاهدة ✓' : 'مشاهدة الإعلان 🎬'}
-          </button>
-        `;
-        c.appendChild(e);
-      }
-    }
-
-    function completeDailyAd(i){
-      const key = todayTaskKey('ad' + i);
-      if (localStorage.getItem(key) === '1') return;
-      openAdModal(`مشاهدة إعلان #${i}`, () => {
-        localStorage.setItem(key, '1');
-        totalBal += 0.015;
-        sycTotal += 5;
-        saveBalances();
-        render25Ads();
-        showToast(`تم مشاهدة الإعلان #${i} واستلام المكافأة بنجاح! 💰`);
-      });
-    }
-
-    // --- 8. إعدادات السحب والإحالات والمساعدات العامة ---
-    function updateWithdrawFields(method){
-      const c = document.getElementById('dynamicWithdrawFields');
-      if (!c) return;
-      if (method === 'usdt') {
-        c.innerHTML = '<input type="text" id="payAddress" placeholder="عنوان محفظة USDT TRC20 (T...)" class="input-clean">';
-      } else if (method === 'google_play') {
-        c.innerHTML = '<input type="email" id="payAddress" placeholder="البريد الإلكتروني لاستلام كود البطاقة" class="input-clean">';
-      } else if (method === 'turkish_cash') {
-        c.innerHTML = '<input type="text" id="payAddress" placeholder="رقم الـ IBAN التركي (TR...)" class="input-clean">';
-      } else if (method === 'telegram_stars') {
-        c.innerHTML = '<input type="text" id="payAddress" placeholder="معرف حساب تلجرام المعتمد (@user)" class="input-clean">';
-      } else if (method === 'sham_cash') {
-        c.innerHTML = '<input type="text" id="payAddress" placeholder="رقم حساب شام كاش (Sham Cash ID)" class="input-clean">';
-      }
-    }
-
-    function requestWithdrawal(){
-      const amount = parseFloat(document.getElementById('withdrawAmount').value || '0');
-      const address = document.getElementById('payAddress')?.value;
-
-      if (!address) {
-        return showToast('يرجى إدخال بيانات عنوان الاستلام المطلوبة.');
-      }
-      if (amount < 10) {
-        return showToast('الحد الأدنى المسموح به للسحب هو 10.00 USDT.');
-      }
-      if (amount > totalBal) {
-        return showToast('رصيدك المالي غير كافٍ لإتمام السحب.');
-      }
-
-      totalBal -= amount;
-      saveBalances();
-      showToast('تم إرسال طلب السحب بنجاح وهو قيد المعالجة المباشرة! 🚀');
-    }
-
-    function renderWeeklyReferral(){
-      const c = document.getElementById('weeklyReferralBoard');
-      if (c) c.innerHTML = '<b>متصدري المسابقة الأسبوعية للإحالات النشطة</b><br>1. مستخدم #10928 — 420 إحالة نشطة<br>2. مستخدم #88219 — 315 إحالة نشطة<br>3. مستخدم #45102 — 210 إحالة نشطة<br><span style="color:var(--primary-green)">تُحسب عمولاتك فور إتمام صديقك للمهام المعتمدة.</span>';
-    }
-
-    function showRoadmapTab(which){
-      document.getElementById('whitepaperPanel').style.display = which === 'whitepaper' ? 'block' : 'none';
-      document.getElementById('roadmapPanel').style.display = which === 'roadmap' ? 'block' : 'none';
-    }
-
-    function connectWalletDemo(){
-      showToast('جاري الاتصال بمحفظة Web3 الرقمية...');
-    }
-
-    function clickMiningCircle(){
-      localStorage.setItem('sc_usdt_start', String(Date.now()));
-      showToast('جلسة تعدين USDT نشطة ومحدثة.');
-    }
-
-    function clickSycStation(){
-      localStorage.setItem('sc_syc_start', String(Date.now()));
-      showToast('جلسة تعدين عملة $SYC نشطة ومحدثة.');
-    }
-
-    function clickCounterBox(){ 
-      showToast('مؤقت الاحتساب يعمل تلقائياً وبشكل مستمر.'); 
-    }
-
-    function saveBalances() {
-      localStorage.setItem('sc_tot', totalBal.toString());
-      localStorage.setItem('sc_syc_tot', sycTotal.toString());
-      document.getElementById('totalBal').innerText = totalBal.toFixed(4);
-      document.getElementById('sycTotalBal').innerText = sycTotal.toFixed(2);
-    }
-
-    function navigate(tabId, btn) {
-      document.querySelectorAll('.tab-view').forEach(t => t.classList.remove('active'));
-      document.querySelectorAll('.nav-link-btn').forEach(b => b.classList.remove('active'));
-      const target = document.getElementById(tabId);
-      if (target) target.classList.add('active');
-      if (btn) btn.classList.add('active');
-    }
-
-    function openModal(id) { document.getElementById(id).style.display = 'flex'; }
-    function closeModal(id) { document.getElementById(id).style.display = 'none'; }
-
-    function showToast(msg) {
-      const toast = document.getElementById('toastBox');
-      toast.innerText = msg;
-      toast.style.display = 'block';
-      setTimeout(() => { toast.style.display = 'none'; }, 3000);
-    }
-
-    function copyLink() {
-      navigator.clipboard.writeText('https://t.me/SyriaCash_Bot?start=ref_102938');
-      showToast('تم نسخ رابط الإحالة الرسمي بنجاح 📋');
-    }
-
-    function sendSupport() {
-      closeModal('supportModal');
-      showToast('تم إرسال تذكرتك للدعم الفني وسيتم الرد عليك قريباً 📩');
-    }
-
-    function enterMonthlyVault() {
-      openAdModal('السحب الشهري على الخزنة الكبرى', () => {
-        let ads = parseInt(localStorage.getItem('sc_vault_ads') || '0') + 1;
-        localStorage.setItem('sc_vault_ads', ads.toString());
-        document.getElementById('jackpotAdsProgress').innerText = ads.toString();
-        showToast('تم احتساب تذكرتك بنجاح في السحب الشهري! 🎟️');
-      });
-    }
+    (function initLang() {
+      const saved = localStorage.getItem('sc_lang') || 'ar';
+      const sel = $('langSelect');
+      if (sel) sel.value = saved;
+      changeLanguage(saved);
+    })();
   </script>
 </body>
 </html>
