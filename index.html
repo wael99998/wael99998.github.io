@@ -124,11 +124,66 @@ padding:13px;border-radius:12px;font-size:13px;font-weight:800;display:flex;alig
 gap:6px;cursor:pointer;transition:all .15s;}
 .btn-official-green:active{transform:translateY(2px);}
 .btn-official-green:disabled{background:#64748b !important;cursor:not-allowed;}
- 
-.game-card-modern{background:#fff;border:1px solid #e2e8f0;border-radius:20px;padding:18px;
-text-align:center;position:relative;margin-bottom:16px;}
-.game-badge-status{position:absolute;top:12px;right:12px;font-size:10px;font-weight:800;padding:4px 10px;border-radius:12px;}
-.status-free{background:#dcfce7;color:#15803d;border:1px solid #86efac;}
+ /* ===== الألعاب الاحترافية ===== */
+.game-card-modern{background:linear-gradient(135deg,#ffffff 0%,#f8fafc 100%);border:1px solid #e2e8f0;border-radius:22px;padding:22px 16px 16px;text-align:center;position:relative;margin-bottom:14px;overflow:hidden;box-shadow:0 4px 16px rgba(0,70,42,.08);transition:all .25s ease;}
+.game-card-modern::before{content:"";position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#005a36,#10b981,#38bdf8);}
+.game-card-modern:active{transform:scale(.98);}
+.game-icon-circle{width:72px;height:72px;border-radius:50%;margin:6px auto 12px;display:flex;align-items:center;justify-content:center;font-size:34px;background:linear-gradient(135deg,#005a36,#0a8f5c);box-shadow:0 8px 20px rgba(0,90,54,.3),inset 0 -3px 6px rgba(0,0,0,.1);position:relative;}
+.game-icon-circle::after{content:"";position:absolute;inset:-4px;border-radius:50%;border:2px dashed rgba(0,90,54,.3);animation:spinBorder 15s linear infinite;}
+.game-card-modern h3{font-size:16px;font-weight:900;color:#0f172a;margin-bottom:4px;letter-spacing:.3px;}
+.game-desc{font-size:11px;color:#64748b;line-height:1.5;margin-bottom:12px;}
+.game-prize-box{background:linear-gradient(135deg,#fef3c7,#fde68a);border:1px solid #fbbf24;border-radius:12px;padding:10px;margin-bottom:12px;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 2px 8px rgba(251,191,36,.2);}
+.game-prize-label{font-size:10px;color:#92400e;font-weight:700;}
+.game-prize-value{font-size:15px;color:#78350f;font-weight:900;}
+.game-badge-status{position:absolute;top:14px;right:14px;font-size:9px;font-weight:900;padding:5px 10px;border-radius:20px;letter-spacing:.3px;box-shadow:0 2px 6px rgba(0,0,0,.08);z-index:2;}
+.status-free{background:linear-gradient(135deg,#dcfce7,#bbf7d0);color:#15803d;border:1px solid #86efac;}
+.status-locked{background:linear-gradient(135deg,#fee2e2,#fecaca);color:#b91c1c;border:1px solid #fca5a5;}
+
+/* عجلة الحظ */
+.wheel-wrap{position:relative;width:230px;height:230px;margin:14px auto;}
+.wheel{width:100%;height:100%;border-radius:50%;position:relative;transition:transform 5s cubic-bezier(.17,.67,.3,1);box-shadow:0 0 0 8px #005a36,0 0 0 12px #fbbf24,0 12px 30px rgba(0,0,0,.25);background:conic-gradient(#10b981 0deg 45deg,#fbbf24 45deg 90deg,#38bdf8 90deg 135deg,#ef4444 135deg 180deg,#8b5cf6 180deg 225deg,#10b981 225deg 270deg,#fbbf24 270deg 315deg,#38bdf8 315deg 360deg);}
+.wheel-pointer{position:absolute;top:-14px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:14px solid transparent;border-right:14px solid transparent;border-top:22px solid #005a36;filter:drop-shadow(0 2px 4px rgba(0,0,0,.4));z-index:3;}
+.wheel-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:60px;height:60px;border-radius:50%;background:#005a36;color:#fff;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:900;box-shadow:inset 0 -3px 8px rgba(0,0,0,.3);z-index:2;border:3px solid #fbbf24;}
+.wheel-label{position:absolute;font-size:11px;font-weight:900;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.6);pointer-events:none;}
+
+/* صندوق الحظ */
+.luck-box{width:140px;height:140px;margin:20px auto;position:relative;cursor:pointer;transition:transform .3s;}
+.luck-box.opening{animation:boxShake .6s ease-in-out infinite;}
+.luck-box.opened{animation:boxPop .8s ease-out forwards;}
+.luck-box-emoji{font-size:110px;display:block;line-height:1;filter:drop-shadow(0 10px 20px rgba(0,0,0,.25));}
+@keyframes boxShake{0%,100%{transform:rotate(-6deg) scale(1);}50%{transform:rotate(6deg) scale(1.08);}}
+@keyframes boxPop{0%{transform:scale(1);}60%{transform:scale(1.3) rotate(15deg);}100%{transform:scale(1.1) rotate(0);}}
+.luck-result{padding:14px;border-radius:14px;margin-top:10px;font-weight:900;font-size:16px;display:none;animation:resultFade .5s ease;}
+@keyframes resultFade{0%{opacity:0;transform:scale(.7);}100%{opacity:1;transform:scale(1);}}
+
+/* حجر ورقة مقص */
+.rps-arena{display:flex;justify-content:space-around;align-items:center;margin:16px 0;padding:14px;background:#f8fafc;border-radius:16px;}
+.rps-side{text-align:center;flex:1;}
+.rps-hand{font-size:56px;line-height:1;transition:transform .3s;filter:drop-shadow(0 4px 8px rgba(0,0,0,.15));}
+.rps-hand.active{animation:rpsShake .4s ease infinite;}
+@keyframes rpsShake{0%,100%{transform:rotate(-8deg);}50%{transform:rotate(8deg);}}
+.rps-label{font-size:11px;color:#64748b;font-weight:700;margin-top:6px;}
+.rps-score{font-size:18px;font-weight:900;color:#005a36;margin-top:4px;}
+.rps-vs{font-size:20px;font-weight:900;color:#fbbf24;}
+.rps-choices{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0;}
+.rps-btn{background:#fff;border:2px solid #e2e8f0;border-radius:16px;padding:14px 8px;font-size:38px;cursor:pointer;transition:all .2s;box-shadow:0 2px 8px rgba(0,0,0,.04);}
+.rps-btn:active{transform:scale(.92);border-color:#005a36;background:#f0fdf4;}
+.rps-btn:disabled{opacity:.4;cursor:not-allowed;}
+
+/* السؤال اليومي */
+.daily-q-box{background:#fff;border:1px solid #e2e8f0;border-radius:18px;padding:18px;margin-bottom:14px;box-shadow:0 2px 8px rgba(0,0,0,.04);}
+.daily-q-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;}
+.daily-q-badge{background:linear-gradient(135deg,#6366f1,#4f46e5);color:#fff;font-size:10px;font-weight:900;padding:5px 12px;border-radius:20px;letter-spacing:.3px;}
+.daily-q-timer{font-size:11px;color:#64748b;font-weight:700;}
+.daily-q-text{font-size:14px;font-weight:800;color:#0f172a;line-height:1.6;margin-bottom:14px;padding:12px;background:#f8fafc;border-radius:12px;border-right:3px solid #6366f1;}
+.daily-q-options{display:flex;flex-direction:column;gap:8px;}
+.daily-q-opt{background:#fff;border:2px solid #e2e8f0;border-radius:12px;padding:12px 14px;font-size:12px;font-weight:700;color:#0f172a;cursor:pointer;text-align:right;transition:all .2s;display:flex;align-items:center;gap:10px;}
+.daily-q-opt:active{transform:scale(.98);}
+.daily-q-opt.correct{background:#dcfce7;border-color:#10b981;color:#065f46;}
+.daily-q-opt.wrong{background:#fee2e2;border-color:#ef4444;color:#991b1b;}
+.daily-q-opt .opt-letter{width:26px;height:26px;border-radius:50%;background:#f1f5f9;color:#475569;font-size:11px;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.daily-q-opt.correct .opt-letter{background:#10b981;color:#fff;}
+.daily-q-opt.wrong .opt-letter{background:#ef4444;color:#fff;}ك
 .status-locked{background:#fee2e2;color:#b91c1c;border:1px solid #fca5a5;}
  
 .jackpot-card{background:linear-gradient(135deg,#1e1b4b 0%,#0f172a 100%);color:#fff;
@@ -621,63 +676,242 @@ renderAll();
 showToast('تم استلام مكافأة الإعلان 💰');
 });
 };
- 
-var SKILL_GAMES = [
-{ id:'game_reaction', icon:'⚡', title:'سرعة الاستجابة', desc:'اضغط موافق فور الظهور', prize:'+0.025 USDT', usdt:0.025 },
-{ id:'game_memory', icon:'🧠', title:'الذاكرة البصرية', desc:'احفظ الترتيب', prize:'+0.035 USDT', usdt:0.035 },
-{ id:'game_sequence', icon:'🔢', title:'تسلسل الأرقام', desc:'أدخل الرقم التالي', prize:'+0.050 USDT', usdt:0.050 }
+/* ===== الألعاب الاحترافية ===== */
+var DAILY_QUESTIONS=[
+{q:"ما هي عاصمة سوريا؟",opts:["دمشق","حلب","حمص","اللاذقية"],a:0},
+{q:"كم عدد أيام السنة؟",opts:["365","360","350","370"],a:0},
+{q:"أكبر عملة رقمية؟",opts:["بيتكوين","إيثيريوم","ريبل","دوجكوين"],a:0},
+{q:"كم عدد أيام الأسبوع؟",opts:["7","6","8","5"],a:0},
+{q:"عاصمة تركيا؟",opts:["أنقرة","إسطنبول","إزمير","بورصة"],a:0},
+{q:"كم عدد أشهر السنة؟",opts:["12","10","11","13"],a:0},
+{q:"الكوكب الأحمر؟",opts:["المريخ","الزهرة","المشتري","عطارد"],a:0},
+{q:"أصغر قارة؟",opts:["أستراليا","أوروبا","أنتاركتيكا","أمريكا الجنوبية"],a:0},
+{q:"كم عدد قارات العالم؟",opts:["7","6","5","8"],a:0},
+{q:"أطول أنهار العالم؟",opts:["النيل","الأمازون","المسيسيبي","اليانغتسي"],a:0},
+{q:"مؤسس علم الجبر؟",opts:["الخوارزمي","ابن سينا","ابن الهيثم","الفارابي"],a:0},
+{q:"أكبر محيط؟",opts:["الهادي","الأطلسي","الهندي","المتجمد"],a:0},
+{q:"كم أرجل العنكبوت؟",opts:["8","6","10","4"],a:0},
+{q:"عملة اليابان؟",opts:["ين","وون","يوان","روبية"],a:0},
+{q:"من كتب البؤساء؟",opts:["فيكتور هوغو","تولستوي","ديكنز","همنغواي"],a:0},
+{q:"أعلى جبل في العالم؟",opts:["إيفرست","كيليمانجارو","مونت بلانك","الألب"],a:0},
+{q:"عدد لاعبي كرة القدم؟",opts:["11","10","12","9"],a:0},
+{q:"الغاز الذي نتنفسه؟",opts:["الأكسجين","النيتروجين","الهيدروجين","الهيليوم"],a:0},
+{q:"كم دقيقة في الساعة؟",opts:["60","100","30","90"],a:0},
+{q:"في أي قارة تقع مصر؟",opts:["أفريقيا","آسيا","أوروبا","أستراليا"],a:0},
+{q:"عاصمة الإمارات؟",opts:["أبوظبي","دبي","الشارقة","عجمان"],a:0},
+{q:"مخترع المصباح؟",opts:["إديسون","أينشتاين","نيوتن","أرخميدس"],a:0},
+{q:"كم أضلاع المثلث؟",opts:["3","4","5","6"],a:0},
+{q:"عاصمة السعودية؟",opts:["الرياض","جدة","مكة","الدمام"],a:0},
+{q:"أسرع حيوان بري؟",opts:["الفهد","الأسد","الحصان","الغزال"],a:0},
+{q:"أكبر دولة عربية؟",opts:["الجزائر","السعودية","السودان","مصر"],a:0},
+{q:"الذهب السائل؟",opts:["النفط","الزئبق","العسل","الزيت"],a:0},
+{q:"كم عدد سور القرآن؟",opts:["114","112","116","110"],a:0},
+{q:"أول إنسان في الفضاء؟",opts:["يوري غاغارين","نيل أرمسترونغ","باز ألدرين","جون غلين"],a:0},
+{q:"عاصمة الأردن؟",opts:["عمّان","إربد","الزرقاء","العقبة"],a:0},
+{q:"كم سن للبالغ؟",opts:["32","28","30","34"],a:0},
+{q:"عملة ألمانيا؟",opts:["يورو","مارك","دولار","جنيه"],a:0},
+{q:"من رسم الموناليزا؟",opts:["دافنشي","بيكاسو","فان جوخ","مايكل أنجلو"],a:0},
+{q:"أكبر كوكب؟",opts:["المشتري","زحل","الأرض","نبتون"],a:0},
+{q:"كم لون في قوس قزح؟",opts:["7","5","6","8"],a:0},
+{q:"عملة مصر؟",opts:["جنيه","دينار","ريال","درهم"],a:0},
+{q:"عاصمة لبنان؟",opts:["بيروت","طرابلس","صيدا","صور"],a:0},
+{q:"أبو الطب؟",opts:["أبقراط","ابن سينا","الرازي","جالينوس"],a:0},
+{q:"أكبر صحراء؟",opts:["الصحراء الكبرى","الربع الخالي","الغوبي","النقب"],a:0},
+{q:"عدد أيام يناير؟",opts:["31","30","28","29"],a:0},
+{q:"عاصمة المغرب؟",opts:["الرباط","الدار البيضاء","فاس","مراكش"],a:0},
+{q:"من اكتشف الجاذبية؟",opts:["نيوتن","أينشتاين","غاليليو","كبلر"],a:0},
+{q:"أكبر كائن حي؟",opts:["الحوت الأزرق","الفيل","الزرافة","القرش"],a:0},
+{q:"حروف العربية؟",opts:["28","26","29","27"],a:0},
+{q:"عاصمة العراق؟",opts:["بغداد","الموصل","البصرة","أربيل"],a:0},
+{q:"مخترع الهاتف؟",opts:["غراهام بيل","إديسون","ماركوني","تسلا"],a:0},
+{q:"معدن سائل؟",opts:["الزئبق","الرصاص","الحديد","الذهب"],a:0},
+{q:"أطول سور؟",opts:["سور الصين","سور برلين","سور هادريان","سور بابل"],a:0},
+{q:"عاصمة قطر؟",opts:["الدوحة","الوكرة","الخور","الريان"],a:0},
+{q:"قلوب الأخطبوط؟",opts:["3","2","1","4"],a:0},
+{q:"أسرع طائر؟",opts:["الشاهين","النسر","الصقر","البومة"],a:0},
+{q:"عاصمة الكويت؟",opts:["الكويت","حولي","الفروانية","الجهراء"],a:0},
+{q:"عام الهبوط على القمر؟",opts:["1969","1970","1965","1972"],a:0},
+{q:"عملة الصين؟",opts:["يوان","ين","وون","روبية"],a:0},
+{q:"عاصمة اليمن؟",opts:["صنعاء","عدن","تعز","الحديدة"],a:0},
+{q:"غرف القلب؟",opts:["4","3","2","5"],a:0},
+{q:"أكبر بحر؟",opts:["المتوسط","الأحمر","الأسود","قزوين"],a:0},
+{q:"مؤسس فيسبوك؟",opts:["مارك زوكربيرغ","بيل غيتس","ستيف جوبز","إيلون ماسك"],a:0},
+{q:"عاصمة فلسطين؟",opts:["القدس","رام الله","غزة","نابلس"],a:0}
 ];
- 
-function renderSkillGames(){
-var c = $('skillGamesContainer'); if(!c) return;
-c.innerHTML = '';
-SKILL_GAMES.forEach(function(g){
-var done = isDone(g.id);
-var e = document.createElement('div');
-e.className = 'game-card-modern';
-e.innerHTML =
-'<span class="game-badge-status '+(done?'status-locked':'status-free')+'">'+
-(done?'تم اللعب 🔒':'محاولة مجانية 🎁')+'</span>'+
-'<h3 style="color:#005a36;font-size:15px;">'+g.icon+' '+g.title+'</h3>'+
-'<p style="color:#64748b;font-size:11px;margin-top:2px;">'+g.desc+'</p>'+
-'<div style="background:#f8fafc;border-radius:10px;padding:9px;font-size:11px;margin:8px 0;">'+
-'الجائزة: <b>'+g.prize+'</b></div>'+
-'<button class="btn-official-green" style="padding:10px;font-size:12px;" '+
-(done?'disabled':'')+' onclick="startSkillGame(\''+g.id+'\')">'+
-(done?'غير متاح':'ابدأ اللعب 🚀')+'</button>';
-c.appendChild(e);
-});
+
+function getDailyQuestionIndex(){
+var base=new Date('2026-01-01').getTime();
+var days=Math.floor((Date.now()-base)/86400000);
+return ((days%DAILY_QUESTIONS.length)+DAILY_QUESTIONS.length)%DAILY_QUESTIONS.length;
 }
- 
-function rewardGame(g){
-markLocalDone(g.id);
-P.usdt += g.usdt;
-saveLocal();
-renderAll();
-showToast('ممتاز! تم إضافة المكافأة 🎉');
+function getNextMidnightMs(){
+var n=new Date();var t=new Date(n);t.setHours(24,0,0,0);
+return t.getTime()-n.getTime();
 }
- 
-window.startSkillGame = function(id){
-var g = SKILL_GAMES.find(function(x){ return x.id===id; });
-if(!g || isDone(g.id)) return;
-if(id==='game_sequence'){
-var a = prompt('ما الرقم التالي: 2, 4, 6, 8, ?');
-if(a==='10') rewardGame(g); else showToast('إجابة خاطئة');
-} else if(id==='game_reaction'){
-setTimeout(function(){
-if(confirm('اضغط موافق الآن!')) rewardGame(g);
-else showToast('لم تصوّب');
-}, 1000);
-} else {
-alert('احفظ الترتيب: 🟩 🔷 ⭐ 🟠');
-var b = prompt('اكتب التسلسل:');
-if(b && b.replace(/\s/g,'')==='🟩🔷⭐🟠') rewardGame(g);
-else showToast('خطأ');
+function renderDailyQuestion(){
+var c=$('dailyQuestionContainer');if(!c)return;
+var q=DAILY_QUESTIONS[getDailyQuestionIndex()];
+var k='sc_dq_'+todayKey();
+var ans=localStorage.getItem(k);
+var rem=Math.floor(getNextMidnightMs()/1000);
+var h=pad2(Math.floor(rem/3600)),m=pad2(Math.floor((rem%3600)/60)),s=pad2(rem%60);
+var L=['A','B','C','D'],oh='';
+for(var i=0;i<q.opts.length;i++){
+var cls='daily-q-opt';
+if(ans){if(i===q.a)cls+=' correct';else if(String(ans)===String(i))cls+=' wrong';}
+oh+='<div class="'+cls+'" onclick="answerDailyQ('+i+')"><span class="opt-letter">'+L[i]+'</span><span>'+q.opts[i]+'</span></div>';
 }
+c.innerHTML='<div class="game-card-modern" style="padding-top:20px;">'+
+'<span class="game-badge-status '+(ans?'status-locked':'status-free')+'">'+(ans?'✓ استلمت الجائزة':'🎁 +0.15 USDT')+'</span>'+
+'<div class="game-icon-circle">🧠</div><h3>السؤال اليومي</h3>'+
+'<div class="game-desc">أجب بشكل صحيح واربح 0.15 USDT!</div>'+
+'<div class="daily-q-box"><div class="daily-q-header">'+
+'<span class="daily-q-badge">'+(ans?'✅ أكملت اليوم':'🎯 السؤال اليومي')+'</span>'+
+'<span class="daily-q-timer">⏱ '+h+':'+m+':'+s+'</span></div>'+
+'<div class="daily-q-text">'+q.q+'</div>'+
+'<div class="daily-q-options">'+oh+'</div></div></div>';
+}
+window.answerDailyQ=function(i){
+var k='sc_dq_'+todayKey();
+if(localStorage.getItem(k)){showToast('أجبت اليوم، عد غداً 🌙');return;}
+var q=DAILY_QUESTIONS[getDailyQuestionIndex()];
+localStorage.setItem(k,String(i));
+if(i===q.a){P.usdt+=0.15;saveLocal();renderAll();showToast('🎉 صحيح! +0.15 USDT');}
+else{showToast('❌ خطأ، حاول غداً');}
+renderDailyQuestion();
 };
- 
-var adCallback = null, adTimer = null;
-function openAdModal(title, callback){
+
+var WHEEL_PRIZES=[0.01,0.05,0.10,0.25,0.02,0.30,0.03,0.15];
+function renderWheel(){
+var c=$('gameWheelContainer');if(!c)return;
+var last=Number(localStorage.getItem('sc_wheel_last')||0);
+var locked=(Date.now()-last)<12*60*60*1000&&last>0;
+c.innerHTML='<div class="game-card-modern" style="padding-top:20px;">'+
+'<span class="game-badge-status '+(locked?'status-locked':'status-free')+'">'+(locked?'⏳ انتظر':'🎡 مجاني كل 12 ساعة')+'</span>'+
+'<div class="game-icon-circle">🎡</div><h3>عجلة الحظ</h3>'+
+'<div class="game-desc">اربح حتى 0.30 USDT!</div>'+
+'<div class="wheel-wrap"><div class="wheel-pointer"></div>'+
+'<div class="wheel" id="wheelInner"><div class="wheel-center">🎁</div></div></div>'+
+'<button class="btn-official-green" id="wheelBtn" style="padding:12px;font-size:13px;font-weight:900;margin-top:12px;" '+
+(locked?'disabled':'')+' onclick="spinWheel()">'+(locked?'⏳ انتظر':'🎡 أدر العجلة')+'</button></div>';
+}
+window.spinWheel=function(){
+var last=Number(localStorage.getItem('sc_wheel_last')||0);
+if((Date.now()-last)<12*60*60*1000){showToast('انتظر ⏳');return;}
+var w=$('wheelInner');if(!w)return;
+var b=$('wheelBtn');if(b)b.disabled=true;
+var idx=Math.floor(Math.random()*WHEEL_PRIZES.length);
+var prize=WHEEL_PRIZES[idx];
+var seg=360/WHEEL_PRIZES.length;
+w.style.transform='rotate('+(360*5+(360-idx*seg)-seg/2)+'deg)';
+setTimeout(function(){
+P.usdt+=prize;
+try{localStorage.setItem('sc_wheel_last',String(Date.now()));}catch(e){}
+saveLocal();renderAll();
+showToast('🎉 ربحت +'+prize.toFixed(2)+' USDT!');
+renderWheel();
+},5200);
+};
+
+var LUCK_PRIZES=[
+{label:'0.05 USDT',type:'usdt',v:0.05,emoji:'💰'},
+{label:'100 SYC',type:'syc',v:100,emoji:'💎'},
+{label:'0.10 USDT',type:'usdt',v:0.10,emoji:'💵'},
+{label:'50 SYC',type:'syc',v:50,emoji:'💎'},
+{label:'0.02 USDT',type:'usdt',v:0.02,emoji:'🪙'},
+{label:'0.25 USDT',type:'usdt',v:0.25,emoji:'🏆'}
+];
+function renderLuckBox(){
+var c=$('gameLuckBoxContainer');if(!c)return;
+var k='sc_luck_'+todayKey();
+var op=localStorage.getItem(k);
+var g=op?'🎊':'🎁',rh='';
+if(op){try{var d=JSON.parse(op);rh='<div class="luck-result" style="display:block;background:linear-gradient(135deg,#fef3c7,#fde68a);color:#78350f;">'+d.emoji+' ربحت '+d.label+'</div>';}catch(e){}}
+c.innerHTML='<div class="game-card-modern" style="padding-top:20px;">'+
+'<span class="game-badge-status '+(!op?'status-free':'status-locked')+'">'+(!op?'🎁 جديد':'✓ تم اليوم')+'</span>'+
+'<div class="game-icon-circle">🎁</div><h3>صندوق الحظ اليومي</h3>'+
+'<div class="game-desc">افتح صندوقك واربح جائزة عشوائية!</div>'+
+'<div class="luck-box" id="luckBox" onclick="openLuckBox()"><span class="luck-box-emoji" id="luckEmoji">'+g+'</span></div>'+
+rh+(!op?'':'<button class="btn-official-green" style="padding:12px;font-size:13px;font-weight:900;margin-top:8px;" disabled>✓ عاد غداً</button>')+'</div>';
+}
+window.openLuckBox=function(){
+var k='sc_luck_'+todayKey();
+if(localStorage.getItem(k)){showToast('عد غداً 🌙');return;}
+var box=$('luckBox');if(!box)return;
+var em=$('luckEmoji');
+box.classList.add('opening');
+setTimeout(function(){
+var idx=Math.floor(Math.random()*LUCK_PRIZES.length);
+var prize=LUCK_PRIZES[idx];
+if(prize.type==='usdt')P.usdt+=prize.v;else P.syc+=prize.v;
+try{localStorage.setItem(k,JSON.stringify({label:prize.label,emoji:prize.emoji}));}catch(e){}
+saveLocal();renderAll();
+box.classList.remove('opening');box.classList.add('opened');
+if(em)em.innerText=prize.emoji;
+showToast('🎉 ربحت '+prize.label+'!');
+setTimeout(renderLuckBox,1500);
+},1200);
+};
+
+function renderRps(){
+var c=$('gameRpsContainer');if(!c)return;
+var k='sc_rps_'+todayKey();
+var played=localStorage.getItem(k);
+var can=!played;
+c.innerHTML='<div class="game-card-modern" style="padding-top:20px;">'+
+'<span class="game-badge-status '+(can?'status-free':'status-locked')+'">'+(can?'🎮 3 جولات':'✓ لعبت اليوم')+'</span>'+
+'<div class="game-icon-circle">✊</div><h3>حجر ورقة مقص</h3>'+
+'<div class="game-desc">أفضل من 3 جولات — الفائز يربح 0.08 USDT!</div>'+
+'<div class="rps-arena">'+
+'<div class="rps-side"><div class="rps-hand" id="rpsYou">✊</div><div class="rps-label">أنت</div><div class="rps-score" id="rpsYouScore">0</div></div>'+
+'<div class="rps-vs">VS</div>'+
+'<div class="rps-side"><div class="rps-hand" id="rpsBot">✊</div><div class="rps-label">البوت</div><div class="rps-score" id="rpsBotScore">0</div></div>'+
+'</div>'+
+'<div class="rps-choices">'+
+'<button class="rps-btn" onclick="playRps(\'rock\')" '+(can?'':'disabled')+'>✊</button>'+
+'<button class="rps-btn" onclick="playRps(\'paper\')" '+(can?'':'disabled')+'>✋</button>'+
+'<button class="rps-btn" onclick="playRps(\'scissors\')" '+(can?'':'disabled')+'>✌️</button>'+
+'</div><div style="font-size:12px;color:#64748b;font-weight:700;text-align:center;">'+(can?'اختر سلاحك 🎯':'عاد غداً 🌙')+'</div></div>';
+window.rpsState={you:0,bot:0,round:0,locked:!can};
+}
+window.playRps=function(choice){
+var s=window.rpsState;if(!s||s.locked)return;
+var opts=['rock','paper','scissors'];
+var em={rock:'✊',paper:'✋',scissors:'✌️'};
+var bot=opts[Math.floor(Math.random()*3)];
+var ye=$('rpsYou'),be=$('rpsBot');
+if(ye){ye.classList.add('active');ye.innerText=em[choice];}
+if(be){be.classList.add('active');be.innerText=em[bot];}
+setTimeout(function(){
+if(ye)ye.classList.remove('active');
+if(be)be.classList.remove('active');
+var res='';
+if(choice===bot)res='tie';
+else if((choice==='rock'&&bot==='scissors')||(choice==='paper'&&bot==='rock')||(choice==='scissors'&&bot==='paper'))res='win';
+else res='lose';
+if(res==='win'){s.you++;showToast('🎉 فزت!');}
+else if(res==='lose'){s.bot++;showToast('😢 خسرت');}
+else showToast('🤝 تعادل');
+if($('rpsYouScore'))$('rpsYouScore').innerText=s.you;
+if($('rpsBotScore'))$('rpsBotScore').innerText=s.bot;
+s.round++;
+if(s.round>=3||s.you===2||s.bot===2){
+s.locked=true;
+try{localStorage.setItem('sc_rps_'+todayKey(),'1');}catch(e){}
+if(s.you>s.bot){P.usdt+=0.08;saveLocal();renderAll();showToast('🏆 فزت! +0.08 USDT');}
+else if(s.bot>s.you)showToast('😢 خسرت');
+else showToast('🤝 تعادل!');
+setTimeout(renderRps,1500);
+}
+},900);
+};
+function renderGamesAll(){
+renderDailyQuestion();
+renderWheel();
+renderLuckBox();
+renderRps();
+} 
+ function openAdModal(title, callback){
 adCallback = callback;
 var modal = $('verifiedAdModal');
 var countEl = $('adCountdownVal');
