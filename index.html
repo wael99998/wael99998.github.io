@@ -247,6 +247,12 @@ padding:8px 18px;border-radius:20px;font-size:12px;font-weight:700;display:none;
 <select class="lang-dropdown" id="langSelect" onchange="changeLanguage(this.value)">
 <option value="ar">العربية</option>
 <option value="en">English</option>
+<option value="tr">Türkçe</option>
+<option value="fa">فارسی</option>
+<option value="ku">کوردی</option>
+<option value="fr">Français</option>
+<option value="hi">हिन्दी</option>
+<option value="zh">中文</option>
 </select>
 </div>
 <div class="official-brand">
@@ -1079,50 +1085,108 @@ if($('supMsg')) $('supMsg').value = '';
 showToast('تم إرسال التذكرة 📩');
 };
  
+
 var i18nDict = {
-ar: {
+ar:{
 brand_sub:"المنظومة الرقمية للمعاملات والتعدين السحابي",
-nav_airdrop:"إنزال $SYC", nav_mining:"تعدين USDT", nav_vip:"عقود VIP",
-nav_games:"الألعاب", nav_ads:"الإعلانات", nav_ref:"الإحالة", nav_withdraw:"السحب",
-air_season:"الموسم الأول (60 يوماً) 💎", air_bal:"رصيدك الإجمالي:",
-air_conv:"يتم تحويل $SYC إلى USDT عند انتهاء الموسم",
-days:"يوم", hours:"ساعة", mins:"دقيقة", secs:"ثانية",
-air_prog:"تقدم الموسم:",
-syc_hub:"محطة تعدين $SYC ⚡", collect_syc:"جمع الأرباح",
-air_tasks:"مهام الإنزال", usdt_bal_title:"الرصيد القابل للسحب",
-speed:"السرعة", daily_prod:"الإنتاج اليومي", withdraw_btn:"سحب الأرباح", boost_btn:"مضاعفة 2X",
-server_status:"خادم USDT 🟢", active_mining:"التعدين نشط",
-cycle_timer:"مؤقت الدورة", collect_usdt:"جمع أرباح USDT",
-vip_header:"عقود VIP 👑", games_header:"الألعاب 🎮",
-tasks_header:"المهام الاجتماعية 🎬", ads_25:"25 مهمة فيديو 📺",
-ref_header:"دعوة الأصدقاء", withdraw_header:"طلب السحب",
-jackpot_title:"🔥 السحب الشهري",
-ads_seen:"إعلاناتك:", btn_jackpot:"مشاهدة إعلان 🎟️"
+nav_airdrop:"إنزال SYC",nav_mining:"تعدين USDT",nav_vip:"عقود VIP",nav_games:"الألعاب",nav_ads:"الإعلانات",nav_ref:"الإحالة",nav_withdraw:"السحب",
+air_season:"الموسم الأول (60 يوماً) 💎",air_bal:"رصيدك الإجمالي:",air_conv:"يتم تحويل SYC إلى USDT عند انتهاء الموسم",
+days:"يوم",hours:"ساعة",mins:"دقيقة",secs:"ثانية",air_prog:"تقدم الموسم:",
+syc_hub:"محطة تعدين SYC",collect_syc:"جمع الأرباح",air_tasks:"مهام الإنزال",
+usdt_bal_title:"الرصيد القابل للسحب",speed:"السرعة",daily_prod:"الإنتاج اليومي",withdraw_btn:"سحب الأرباح",boost_btn:"مضاعفة 2X",
+server_status:"خادم USDT",active_mining:"التعدين نشط",cycle_timer:"مؤقت الدورة",collect_usdt:"جمع أرباح USDT",
+vip_header:"عقود VIP",games_header:"الألعاب",tasks_header:"المهام الاجتماعية",ads_25:"25 مهمة فيديو",
+ref_header:"دعوة الأصدقاء",withdraw_header:"طلب السحب",
+jackpot_title:"السحب الشهري",ads_seen:"إعلاناتك:",btn_jackpot:"مشاهدة إعلان"
 },
-en: {
+en:{
 brand_sub:"Digital Mining & Transaction Network",
-nav_airdrop:"$SYC Airdrop", nav_mining:"USDT Mining", nav_vip:"VIP Plans",
-nav_games:"Games", nav_ads:"Ads", nav_ref:"Referral", nav_withdraw:"Withdraw",
-air_season:"Season 1 (60 Days) 💎", air_bal:"Total Balance:",
-air_conv:"$SYC converts to USDT at season end",
-days:"Days", hours:"Hours", mins:"Mins", secs:"Secs",
-air_prog:"Progress:",
-syc_hub:"$SYC Mining Station ⚡", collect_syc:"Collect",
-air_tasks:"Airdrop Tasks", usdt_bal_title:"Withdrawable Balance",
-speed:"Speed", daily_prod:"Daily Yield", withdraw_btn:"Withdraw", boost_btn:"2X Boost",
-server_status:"USDT Server 🟢", active_mining:"Mining Active",
-cycle_timer:"Cycle Timer", collect_usdt:"Collect USDT",
-vip_header:"VIP Plans 👑", games_header:"Games 🎮",
-tasks_header:"Social Tasks 🎬", ads_25:"25 Video Ads 📺",
-ref_header:"Referral Program", withdraw_header:"Withdrawal Request",
-jackpot_title:"🔥 Monthly Draw",
-ads_seen:"Ads:", btn_jackpot:"Watch Ad 🎟️"
+nav_airdrop:"SYC Airdrop",nav_mining:"USDT Mining",nav_vip:"VIP Plans",nav_games:"Games",nav_ads:"Ads",nav_ref:"Referral",nav_withdraw:"Withdraw",
+air_season:"Season 1 (60 Days) 💎",air_bal:"Total Balance:",air_conv:"SYC converts to USDT at season end",
+days:"Days",hours:"Hours",mins:"Mins",secs:"Secs",air_prog:"Progress:",
+syc_hub:"SYC Mining Station",collect_syc:"Collect",air_tasks:"Airdrop Tasks",
+usdt_bal_title:"Withdrawable Balance",speed:"Speed",daily_prod:"Daily Yield",withdraw_btn:"Withdraw",boost_btn:"2X Boost",
+server_status:"USDT Server",active_mining:"Mining Active",cycle_timer:"Cycle Timer",collect_usdt:"Collect USDT",
+vip_header:"VIP Plans",games_header:"Games",tasks_header:"Social Tasks",ads_25:"25 Video Ads",
+ref_header:"Referral Program",withdraw_header:"Withdrawal Request",
+jackpot_title:"Monthly Draw",ads_seen:"Ads:",btn_jackpot:"Watch Ad"
+},
+tr:{
+brand_sub:"Dijital Madencilik ve İşlem Ağı",
+nav_airdrop:"SYC Airdrop",nav_mining:"USDT Madencilik",nav_vip:"VIP Planlar",nav_games:"Oyunlar",nav_ads:"Reklamlar",nav_ref:"Referans",nav_withdraw:"Para Çekme",
+air_season:"Sezon 1 (60 Gün) 💎",air_bal:"Toplam Bakiye:",air_conv:"SYC sezon sonunda USDT'ye çevrilir",
+days:"Gün",hours:"Saat",mins:"Dakika",secs:"Saniye",air_prog:"İlerleme:",
+syc_hub:"SYC Madencilik İstasyonu",collect_syc:"Topla",air_tasks:"Airdrop Görevleri",
+usdt_bal_title:"Çekilebilir Bakiye",speed:"Hız",daily_prod:"Günlük Üretim",withdraw_btn:"Kazançları Çek",boost_btn:"2X Hız",
+server_status:"USDT Sunucusu",active_mining:"Madencilik Aktif",cycle_timer:"Döngü Sayacı",collect_usdt:"USDT Topla",
+vip_header:"VIP Planlar",games_header:"Oyunlar",tasks_header:"Sosyal Görevler",ads_25:"25 Video Reklam",
+ref_header:"Referans Programı",withdraw_header:"Para Çekme Talebi",
+jackpot_title:"Aylık Çekiliş",ads_seen:"Reklamlarınız:",btn_jackpot:"Reklam İzle"
+},
+fa:{
+brand_sub:"شبکه دیجیتال تراکنش و استخراج ابری",
+nav_airdrop:"ایردراپ SYC",nav_mining:"استخراج USDT",nav_vip:"پلن‌های VIP",nav_games:"بازی‌ها",nav_ads:"تبلیغات",nav_ref:"معرفی",nav_withdraw:"برداشت",
+air_season:"فصل اول (۶۰ روز) 💎",air_bal:"موجودی کل:",air_conv:"SYC در پایان فصل به USDT تبدیل می‌شود",
+days:"روز",hours:"ساعت",mins:"دقیقه",secs:"ثانیه",air_prog:"پیشرفت:",
+syc_hub:"ایستگاه استخراج SYC",collect_syc:"جمع‌آوری",air_tasks:"وظایف ایردراپ",
+usdt_bal_title:"موجودی قابل برداشت",speed:"سرعت",daily_prod:"تولید روزانه",withdraw_btn:"برداشت درآمد",boost_btn:"افزایش 2X",
+server_status:"سرور USDT",active_mining:"استخراج فعال",cycle_timer:"تایمر چرخه",collect_usdt:"جمع‌آوری USDT",
+vip_header:"پلن‌های VIP",games_header:"بازی‌ها",tasks_header:"وظایف اجتماعی",ads_25:"۲۵ تبلیغ ویدیویی",
+ref_header:"برنامه معرفی",withdraw_header:"درخواست برداشت",
+jackpot_title:"قرعه‌کشی ماهانه",ads_seen:"تبلیغات شما:",btn_jackpot:"مشاهده تبلیغ"
+},
+ku:{
+brand_sub:"تۆڕی دیجیتاڵی بۆ مامەڵە و کانکردن",
+nav_airdrop:"ئەیردراپی SYC",nav_mining:"کانکردنی USDT",nav_vip:"پلانەکانی VIP",nav_games:"یارییەکان",nav_ads:"ڕیکلامەکان",nav_ref:"بانگهێشت",nav_withdraw:"دەرهێنان",
+air_season:"وەرزی یەکەم (٦٠ ڕۆژ) 💎",air_bal:"باڵانسی گشتی:",air_conv:"SYC لە کۆتایی وەرز دەگۆڕێت بۆ USDT",
+days:"ڕۆژ",hours:"کاتژمێر",mins:"خولەک",secs:"چرکە",air_prog:"پێشکەوتن:",
+syc_hub:"وێستگەی کانکردنی SYC",collect_syc:"کۆکردنەوە",air_tasks:"ئەرکەکانی ئەیردراپ",
+usdt_bal_title:"باڵانسی دەرهێنان",speed:"خێرایی",daily_prod:"بەرهەمی ڕۆژانە",withdraw_btn:"دەرهێنان",boost_btn:"زیادکردنی 2X",
+server_status:"سێرڤەری USDT",active_mining:"کانکردن چالاکە",cycle_timer:"کاتی سووڕ",collect_usdt:"کۆکردنەوەی USDT",
+vip_header:"پلانەکانی VIP",games_header:"یارییەکان",tasks_header:"ئەرکە کۆمەڵایەتییەکان",ads_25:"٢٥ ڕیکلامی ڤیدیۆ",
+ref_header:"پرۆگرامی بانگهێشت",withdraw_header:"داواکاری دەرهێنان",
+jackpot_title:"تیروپشکی مانگانە",ads_seen:"ڕیکلامەکانت:",btn_jackpot:"بینینی ڕیکلام"
+},
+fr:{
+brand_sub:"Réseau Numérique de Minage et Transactions",
+nav_airdrop:"Airdrop SYC",nav_mining:"Minage USDT",nav_vip:"Plans VIP",nav_games:"Jeux",nav_ads:"Pubs",nav_ref:"Parrainage",nav_withdraw:"Retrait",
+air_season:"Saison 1 (60 Jours) 💎",air_bal:"Solde Total :",air_conv:"SYC sera converti en USDT à la fin de la saison",
+days:"Jours",hours:"Heures",mins:"Min",secs:"Sec",air_prog:"Progression :",
+syc_hub:"Station de Minage SYC",collect_syc:"Collecter",air_tasks:"Tâches Airdrop",
+usdt_bal_title:"Solde Retirable",speed:"Vitesse",daily_prod:"Rendement",withdraw_btn:"Retirer",boost_btn:"Boost 2X",
+server_status:"Serveur USDT",active_mining:"Minage Actif",cycle_timer:"Minuteur",collect_usdt:"Collecter USDT",
+vip_header:"Plans VIP",games_header:"Jeux",tasks_header:"Tâches Sociales",ads_25:"25 Pubs Vidéo",
+ref_header:"Programme Parrainage",withdraw_header:"Demande de Retrait",
+jackpot_title:"Tirage Mensuel",ads_seen:"Pubs :",btn_jackpot:"Regarder Pub"
+},
+hi:{
+brand_sub:"डिजिटल माइनिंग और ट्रांजैक्शन नेटवर्क",
+nav_airdrop:"SYC एयरड्रॉप",nav_mining:"USDT माइनिंग",nav_vip:"VIP प्लान",nav_games:"गेम्स",nav_ads:"विज्ञापन",nav_ref:"रेफरल",nav_withdraw:"निकासी",
+air_season:"सीज़न 1 (60 दिन) 💎",air_bal:"कुल बैलेंस:",air_conv:"सीज़न के अंत में SYC को USDT में बदला जाएगा",
+days:"दिन",hours:"घंटे",mins:"मिनट",secs:"सेकंड",air_prog:"प्रगति:",
+syc_hub:"SYC माइनिंग स्टेशन",collect_syc:"इकट्ठा करें",air_tasks:"एयरड्रॉप कार्य",
+usdt_bal_title:"निकासी योग्य बैलेंस",speed:"गति",daily_prod:"दैनिक उत्पादन",withdraw_btn:"कमाई निकालें",boost_btn:"2X स्पीड",
+server_status:"USDT सर्वर",active_mining:"माइनिंग सक्रिय",cycle_timer:"साइकल टाइमर",collect_usdt:"USDT इकट्ठा करें",
+vip_header:"VIP प्लान",games_header:"गेम्स",tasks_header:"सोशल कार्य",ads_25:"25 वीडियो विज्ञापन",
+ref_header:"रेफरल प्रोग्राम",withdraw_header:"निकासी अनुरोध",
+jackpot_title:"मासिक ड्रॉ",ads_seen:"विज्ञापन:",btn_jackpot:"विज्ञापन देखें"
+},
+zh:{
+brand_sub:"数字挖矿和交易网络",
+nav_airdrop:"SYC 空投",nav_mining:"USDT 挖矿",nav_vip:"VIP 计划",nav_games:"游戏",nav_ads:"广告",nav_ref:"推荐",nav_withdraw:"提现",
+air_season:"第 1 季（60 天）💎",air_bal:"总余额：",air_conv:"SYC 将在赛季结束时转换为 USDT",
+days:"天",hours:"小时",mins:"分钟",secs:"秒",air_prog:"进度：",
+syc_hub:"SYC 挖矿站",collect_syc:"领取",air_tasks:"空投任务",
+usdt_bal_title:"可提现余额",speed:"速度",daily_prod:"每日产量",withdraw_btn:"提取收益",boost_btn:"2X 加速",
+server_status:"USDT 服务器",active_mining:"挖矿活跃",cycle_timer:"周期计时",collect_usdt:"领取 USDT",
+vip_header:"VIP 计划",games_header:"游戏",tasks_header:"社交任务",ads_25:"25 个视频广告",
+ref_header:"推荐计划",withdraw_header:"提现申请",
+jackpot_title:"月度抽奖",ads_seen:"您的广告：",btn_jackpot:"观看广告"
 }
-};
- 
+}; 
 window.changeLanguage = function(lang){
 try{ localStorage.setItem('sc_lang', lang); }catch(e){}
-var isRtl = (lang==='ar');
+var isRtl = (lang==='ar' || lang==='fa' || lang==='ku');
 document.dir = isRtl ? 'rtl' : 'ltr';
 document.documentElement.lang = lang;
 var dict = i18nDict[lang] || i18nDict.ar;
