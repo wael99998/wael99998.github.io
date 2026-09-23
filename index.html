@@ -306,7 +306,7 @@ padding:8px 18px;border-radius:20px;font-size:12px;font-weight:700;display:none;
 </div>
 </div>
 <div class="live-unclaimed-txt" style="color:#4f46e5;">$SYC +<span id="unclaimedSyc">0.00</span></div>
-<div style="font-size:11px;color:#64748b;margin-top:3px;" id="sycMiningTimer">مؤقت دورة الـ 4 ساعات: 04:00:00 ⏱</div>
+<div style="font-size:11px;color:#64748b;margin-top:3px;" id="sycMiningTimer"><span data-ui="syc_t">مؤقت دورة الـ 4 ساعات</span>: 04:00:00 ⏱</div>
 <div style="display:flex;gap:8px;margin-top:12px;">
 <button class="btn-official-green" style="background:linear-gradient(180deg,#4f46e5,#3730a3);flex:1;" onclick="collectSycReward()">
 <span id="lbl_collect_syc">جمع الأرباح</span>
@@ -1290,6 +1290,7 @@ var sm=$('supMsg'); if(sm) sm.placeholder = ui.sup_m;
 window.applyUI=applyUI;
  
 function renderAll(){
+ try{ if(typeof applyUI==='function') applyUI(); }catch(e){}
 renderBalances();
 renderSeason();
 renderVault();
