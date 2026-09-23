@@ -433,10 +433,10 @@ padding:8px 18px;border-radius:20px;font-size:12px;font-weight:700;display:none;
 <label data-ui="wm" style="font-size:11px;font-weight:700;color:#64748b;"></label>
 <select id="withdrawMethodSelect" class="input-clean" onchange="updateWithdrawFields(this.value)">
 <option value="usdt">💎 USDT (TRC20)</option>
-<option value="google_play">🎁 بطاقة Google Play</option>
-<option value="turkish_cash">🏦 IBAN تركي</option>
-<option value="telegram_stars">⭐ نجوم تلجرام</option>
-<option value="sham_cash">🟢 شام كاش</option>
+<option value="google_play">🎁 Google Play</option>
+<option value="turkish_cash">🏦 IBAN</option>
+<option value="telegram_stars">⭐ Telegram Stars</option>
+<option value="sham_cash">🟢 Sham Cash</option>
 </select>
 <div id="dynamicWithdrawFields" style="margin:10px 0;"></div>
 <label data-ui="wa" style="font-size:11px;font-weight:700;color:#64748b;"></label>
@@ -976,12 +976,12 @@ openAdModal('مضاعف $SYC 2X', function(){ activateBoost('syc'); });
 };
  
 var VIP_PLANS = [
-{ level:1, name:'عقد النحاس (VIP 1)', price:15, daily:0.90, monthly:27, syc_bonus:150 },
-{ level:2, name:'عقد الفضة (VIP 2)', price:25, daily:1.60, monthly:48, syc_bonus:300 },
-{ level:3, name:'عقد الذهب (VIP 3)', price:50, daily:3.50, monthly:105, syc_bonus:750 },
-{ level:4, name:'عقد البلاتين (VIP 4)', price:100, daily:7.50, monthly:225, syc_bonus:1800 },
-{ level:5, name:'عقد التاج الملكي (VIP 5)', price:200, daily:16.00, monthly:480, syc_bonus:4000 },
-{ level:6, name:'عقد الحوت الماس (VIP 6)', price:500, daily:42.00, monthly:1260, syc_bonus:11000 }
+{ level:1, price:15, daily:0.90, monthly:27, syc_bonus:150, names:{ar:'عقد النحاس (VIP 1)',en:'Copper Contract (VIP 1)',tr:'Bakır Sözleşme (VIP 1)',fa:'قرارداد مس (VIP 1)',ku:'گرێبەستی مس (VIP 1)',fr:'Contrat Cuivre (VIP 1)',hi:'कॉपर कॉन्ट्रैक्ट (VIP 1)',zh:'铜合约 (VIP 1)'} },
+{ level:2, price:25, daily:1.60, monthly:48, syc_bonus:300, names:{ar:'عقد الفضة (VIP 2)',en:'Silver Contract (VIP 2)',tr:'Gümüş Sözleşme (VIP 2)',fa:'قرارداد نقره (VIP 2)',ku:'گرێبەستی زیو (VIP 2)',fr:'Contrat Argent (VIP 2)',hi:'सिल्वर कॉन्ट्रैक्ट (VIP 2)',zh:'银合约 (VIP 2)'} },
+{ level:3, price:50, daily:3.50, monthly:105, syc_bonus:750, names:{ar:'عقد الذهب (VIP 3)',en:'Gold Contract (VIP 3)',tr:'Altın Sözleşme (VIP 3)',fa:'قرارداد طلا (VIP 3)',ku:'گرێبەستی زێڕ (VIP 3)',fr:'Contrat Or (VIP 3)',hi:'गोल्ड कॉन्ट्रैक्ट (VIP 3)',zh:'黄金合约 (VIP 3)'} },
+{ level:4, price:100, daily:7.50, monthly:225, syc_bonus:1800, names:{ar:'عقد البلاتين (VIP 4)',en:'Platinum Contract (VIP 4)',tr:'Platin Sözleşme (VIP 4)',fa:'قرارداد پلاتین (VIP 4)',ku:'گرێبەستی پلاتین (VIP 4)',fr:'Contrat Platine (VIP 4)',hi:'प्लैटिनम कॉन्ट्रैक्ट (VIP 4)',zh:'铂金合约 (VIP 4)'} },
+{ level:5, price:200, daily:16.00, monthly:480, syc_bonus:4000, names:{ar:'عقد التاج الملكي (VIP 5)',en:'Royal Crown (VIP 5)',tr:'Kraliyet Tacı (VIP 5)',fa:'تاج سلطنتی (VIP 5)',ku:'تاجی شاھانە (VIP 5)',fr:'Couronne Royale (VIP 5)',hi:'रॉयल क्राउन (VIP 5)',zh:'皇家王冠 (VIP 5)'} },
+{ level:6, price:500, daily:42.00, monthly:1260, syc_bonus:11000, names:{ar:'عقد الحوت الماس (VIP 6)',en:'Diamond Whale (VIP 6)',tr:'Elmas Balina (VIP 6)',fa:'نهنگ الماس (VIP 6)',ku:'نەهەنگی ئەڵماس (VIP 6)',fr:'Baleine Diamant (VIP 6)',hi:'डायमंड व्हेल (VIP 6)',zh:'钻石鲸 (VIP 6)'} }
 ];
  
 function renderVipPlans(){
