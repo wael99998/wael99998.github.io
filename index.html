@@ -302,7 +302,7 @@ padding:8px 18px;border-radius:20px;font-size:12px;font-weight:700;display:none;
 <div class="circle-mining-outer circle-syc-outer" onclick="clickSycStation()">
 <div class="circle-mining-inner circle-syc-inner">
 <span style="font-size:24px;">💎</span>
-<span style="font-size:10px;font-weight:800;margin-top:2px;">تعدين $SYC</span>
+<span data-ui="syc_c" style="font-size:10px;font-weight:800;margin-top:2px;">تعدين SYC</span>
 </div>
 </div>
 <div class="live-unclaimed-txt" style="color:#4f46e5;">$SYC +<span id="unclaimedSyc">0.00</span></div>
@@ -312,7 +312,7 @@ padding:8px 18px;border-radius:20px;font-size:12px;font-weight:700;display:none;
 <span id="lbl_collect_syc">جمع الأرباح</span>
 </button>
 <button class="btn-official-green" style="background:#0284c7;width:auto;padding:10px;font-size:11px;" onclick="triggerSycBoost()">
-مضاعفة 2X 🎬
+ <span data-ui="sycb">مضاعفة 2X</span> 🎬
 </button>
 </div>
 </div>
@@ -338,12 +338,12 @@ padding:8px 18px;border-radius:20px;font-size:12px;font-weight:700;display:none;
 <div class="service-card" onclick="navigate('tab-withdraw', document.querySelectorAll('.nav-link-btn')[6])">
 <div class="service-icon-wrap">💳</div>
 <div class="service-title" id="lbl_withdraw_btn">سحب الأرباح</div>
-<span class="service-badge">TRC20 / بنوك</span>
+<span class="service-badge" data-ui="trc">TRC20 / بنوك</span>
 </div>
 <div class="service-card" onclick="triggerBoost()">
 <div class="service-icon-wrap" style="background:#fef3c7;border-color:#fde68a;color:#c59b27;">⚡</div>
 <div class="service-title" id="lbl_boost_btn">مضاعفة السرعة 2X</div>
-<span class="service-badge" id="boostBadge" style="background:#fef3c7;color:#b45309;">0/10 اليوم</span>
+<span class="service-badge" id="boostBadge" style="background:#fef3c7;color:#b45309;">0/10 <span data-ui="today">اليوم</span>
 </div>
 </div>
  
@@ -371,24 +371,23 @@ padding:8px 18px;border-radius:20px;font-size:12px;font-weight:700;display:none;
 <section id="tab-vip" class="tab-view">
 <div class="section-header" id="lbl_vip_header">عقود التعدين السحابي والباقات المتقدمة 👑</div>
 <div style="background:linear-gradient(145deg,#064e3b 0%,#022c22 100%);border-radius:18px;padding:16px;margin-bottom:16px;color:#fff;">
-<h3 style="margin:0 0 8px;font-size:15px;color:#fde047;font-weight:900;">💡 كيف تستفيد من عقود VIP؟</h3>
-<p style="font-size:11px;line-height:1.7;margin:0;color:#d1fae5;">
-عند تفعيل أي باقة تكتسب: مضاعفة سرعة التعدين، بونص $SYC فوري، سحب فوري بدون رسوم.
-</p>
+<h3 data-ui="vip_h" style="margin:0 0 8px;font-size:15px;color:#fde047;font-weight:900;"></h3>
+
+<p data-ui="vip_d" style="font-size:11px;line-height:1.7;margin:0;color:#d1fae5;"></p>
 </div>
 <div class="vip-benefit-card">
-<div class="vip-benefit-title">🚀 1. مضاعفة سرعة التعدين</div>
-<div class="vip-benefit-desc">إنتاج يومي يصل إلى 42$ تُضاف مباشرة لرصيدك القابل للسحب.</div>
+<div class="vip-benefit-title" data-ui="vip_b1"></div>
+<div class="vip-benefit-desc" data-ui="vip_b1d"></div>
 </div>
 <div class="vip-benefit-card">
-<div class="vip-benefit-title">🎁 2. بونص فوري من عملة $SYC</div>
-<div class="vip-benefit-desc">فور التفعيل يُصرف لك حتى +11,000 $SYC.</div>
+<div class="vip-benefit-title" data-ui="vip_b2"></div>
+<div class="vip-benefit-desc" data-ui="vip_b2d"></div>
 </div>
 <div class="vip-benefit-card">
-<div class="vip-benefit-title">⚡ 3. سحب فوري 0% رسوم</div>
-<div class="vip-benefit-desc">أولوية معالجة فورية لجميع طلبات السحب.</div>
+<div class="vip-benefit-title" data-ui="vip_b3"></div>
+<div class="vip-benefit-desc" data-ui="vip_b3d"></div>
 </div>
-<div class="section-header" style="margin-top:16px;">الباقات المتاحة</div>
+<div class="section-header" data-ui="plans" style="margin-top:16px;"></div>
 <div id="vipPlansContainer"></div>
 </section>
  
@@ -419,23 +418,19 @@ padding:8px 18px;border-radius:20px;font-size:12px;font-weight:700;display:none;
 <div class="section-header" id="lbl_ref_header">برنامج دعوة الأصدقاء 🤝</div>
 <div class="mining-hub-card" style="text-align:right;">
 <div style="background:#f0fdf4;border:1px solid #bbf7d0;padding:12px;border-radius:12px;margin-bottom:12px;font-size:12px;line-height:1.8;">
-<div>💰 <b>0.50 USDT + 50 $SYC</b> مكافأة فورية!</div>
-<div>⚡ عمولة تعدين <b>10%</b> مدى الحياة.</div>
+<div data-ui="ref1"></div>
+<div data-ui="ref2"></div>
 </div>
 <div style="background:#f8fafc;border:1px solid #cbd5e1;padding:10px;border-radius:10px;font-size:12px;text-align:center;word-break:break-all;" id="myReferralLinkDisplay">https://syriacash.net/?ref=demo</div>
-<button onclick="copyLink()" class="btn-official-green" style="margin-top:10px;">نسخ رابط الإحالة 📋</button>
+<button data-ui="refc" onclick="copyLink()" class="btn-official-green" style="margin-top:10px;"></button>
 </div>
 </section>
  
 <section id="tab-withdraw" class="tab-view">
 <div class="section-header" id="lbl_withdraw_header">طلب سحب الأرباح</div>
 <div class="mining-hub-card" style="text-align:right;">
-<div style="background:#f0fdf4;border:1px solid #bbf7d0;padding:12px;border-radius:12px;font-size:11.5px;color:#166534;margin-bottom:14px;line-height:1.7;">
-• الحد الأدنى للسحب <b>10.00 USDT</b>.<br>
-• أعضاء VIP: سحب فوري 0% رسوم.<br>
-• الحسابات العادية: رسوم 1.0 USDT.
-</div>
-<label style="font-size:11px;font-weight:700;color:#64748b;">طريقة الاستلام:</label>
+<div data-ui="wr" style="background:#f0fdf4;border:1px solid #bbf7d0;padding:12px;border-radius:12px;font-size:11.5px;color:#166534;margin-bottom:14px;line-height:1.7;"></div>
+<label data-ui="wm" style="font-size:11px;font-weight:700;color:#64748b;"></label>
 <select id="withdrawMethodSelect" class="input-clean" onchange="updateWithdrawFields(this.value)">
 <option value="usdt">💎 USDT (TRC20)</option>
 <option value="google_play">🎁 بطاقة Google Play</option>
@@ -444,9 +439,9 @@ padding:8px 18px;border-radius:20px;font-size:12px;font-weight:700;display:none;
 <option value="sham_cash">🟢 شام كاش</option>
 </select>
 <div id="dynamicWithdrawFields" style="margin:10px 0;"></div>
-<label style="font-size:11px;font-weight:700;color:#64748b;">المبلغ:</label>
+<label data-ui="wa" style="font-size:11px;font-weight:700;color:#64748b;"></label>
 <input type="number" id="withdrawAmount" placeholder="الحد الأدنى 10 USDT" class="input-clean" style="margin-bottom:14px;">
-<button id="withdrawSubmitBtn" onclick="requestWithdrawal()" class="btn-official-green">تأكيد طلب السحب 🚀</button>
+<button id="withdrawSubmitBtn" data-ui="wc" onclick="requestWithdrawal()" class="btn-official-green"></button>
 </div>
 </section>
  
@@ -468,21 +463,20 @@ padding:8px 18px;border-radius:20px;font-size:12px;font-weight:700;display:none;
  
 <div class="modal-backdrop-clean" id="aboutModal">
 <div class="modal-box-clean" style="text-align:right;">
-<h3 style="color:#005a36;font-size:17px;margin-bottom:4px;">عن منصة Syria Cash</h3>
-<p style="font-size:11.5px;color:#0f172a;line-height:1.7;margin:12px 0;">
-منصة <b>Syria Cash</b> هي المنظومة الرقمية الرائدة في التعدين السحابي بالدولار والإنزال الجوي.
-</p>
-<button class="btn-official-green" onclick="closeModal('aboutModal')">إغلاق</button>
+<h3 data-ui="about_t" style="color:#005a36;font-size:17px;margin-bottom:4px;"></h3>
+ <p data-ui="about_d" style="font-size:11.5px;color:#0f172a;line-height:1.7;margin:12px 0;"></p>
+
+<button data-ui="close" class="btn-official-green" onclick="closeModal('aboutModal')"></button>
 </div>
 </div>
  
 <div class="modal-backdrop-clean" id="supportModal">
 <div class="modal-box-clean" style="text-align:right;">
-<h3 style="color:#005a36;font-size:16px;margin-bottom:6px;">💬 الدعم الفني</h3>
+<h3 data-ui="sup_t" style="color:#005a36;font-size:16px;margin-bottom:6px;"></h3>
 <input type="text" id="supUser" placeholder="اسم المستخدم" class="input-clean" style="margin-bottom:8px;">
-<textarea id="supMsg" rows="3" placeholder="اشرح المشكلة..." class="input-clean" style="margin-bottom:12px;"></textarea>
-<button class="btn-official-green" onclick="sendSupport()">إرسال 📩</button>
-<button style="background:transparent;border:none;color:#64748b;font-size:11px;margin-top:10px;cursor:pointer;width:100%;" onclick="closeModal('supportModal')">إلغاء</button>
+<textarea id="supMsg" rows="3" placeholder="اشرح المشكلة..." class="input-clean" style="margin-bottom:12px;"></textarea>pointer;width:100%;" onclick="closeModal('supportModal')"></button>
+<button data-ui="send" class="btn-official-green" onclick="sendSupport()"></button>
+<button data-ui="cancel" style="background:transparent;border:none;color:#64748b;font-size:11px;margin-top:10px;cursor:pointer;width:100%;" onclick="closeModal('supportModal')"></button>
 </div>
 </div>
  
@@ -1090,6 +1084,14 @@ ku:{s_yt1:"شوێنکەوتنی کەناڵی YouTube",s_x1:"شوێنکەوتنی
 fr:{s_yt1:"Suivre la chaîne YouTube",s_x1:"Suivre le compte X",s_tg1:"Rejoindre la chaîne Telegram",s_yt2:"Regarder la vidéo tutorielle",ad_n:"Pub payante",ad_done:"Vu ✓",ad_watch:"Regarder 🎬",t_completed:"Terminé ✓",t_execute:"Exécuter 🚀",tk1:"💰 Retrait réussi : Utilisateur #1042 → 25,00 $",tk2:"💎 Récompense : Utilisateur #8821 → +1 200 SYC",tk3:"⚡ Minage : Utilisateur #3390 → 0,48 $/jour",tk4:"👑 Mise à niveau VIP : Utilisateur #7712 → Contrat Or"},
 hi:{s_yt1:"YouTube चैनल फॉलो करें",s_x1:"X अकाउंट फॉलो करें",s_tg1:"Telegram चैनल जॉइन करें",s_yt2:"ट्यूटोरियल वीडियो देखें",ad_n:"पेड विज्ञापन",ad_done:"देखा ✓",ad_watch:"देखें 🎬",t_completed:"पूर्ण ✓",t_execute:"निष्पादित करें 🚀",tk1:"💰 सफल निकासी: उपयोगकर्ता #1042 → $25.00",tk2:"💎 इनाम: उपयोगकर्ता #8821 → +1,200 SYC",tk3:"⚡ माइनिंग: उपयोगकर्ता #3390 → $0.48/दिन",tk4:"👑 VIP अपग्रेड: उपयोगकर्ता #7712 → गोल्ड कॉन्ट्रैक्ट"},
 zh:{s_yt1:"关注 YouTube 频道",s_x1:"关注 X 账户",s_tg1:"加入 Telegram 频道",s_yt2:"观看教程视频",ad_n:"付费广告",ad_done:"已观看 ✓",ad_watch:"观看 🎬",t_completed:"已完成 ✓",t_execute:"执行 🚀",tk1:"💰 成功提现：用户 #1042 → $25.00",tk2:"💎 奖励：用户 #8821 → +1,200 SYC",tk3:"⚡ 挖矿：用户 #3390 → $0.48/天",tk4:"👑 VIP 升级：用户 #7712 → 黄金合约"}
+,ui_ar:{trc:"TRC20 / بنوك",today:"اليوم",wr:"• الحد الأدنى للسحب <b>10.00 USDT</b>.<br>• أعضاء VIP: سحب فوري 0% رسوم.<br>• الحسابات العادية: رسوم 1.0 USDT.",wm:"طريقة الاستلام:",wa:"المبلغ:",wmin:"الحد الأدنى 10 USDT",wc:"تأكيد طلب السحب 🚀",about_t:"عن منصة Syria Cash",about_d:"منصة <b>Syria Cash</b> هي المنظومة الرقمية الرائدة في التعدين السحابي بالدولار والإنزال الجوي.",close:"إغلاق",sup_t:"💬 الدعم الفني",sup_u:"اسم المستخدم",sup_m:"اشرح المشكلة...",send:"إرسال 📩",cancel:"إلغاء",ref1:"💰 <b>0.50 USDT + 50 $SYC</b> مكافأة فورية!",ref2:"⚡ عمولة تعدين <b>10%</b> مدى الحياة.",refc:"نسخ رابط الإحالة 📋",syc_c:"تعدين SYC",syc_t:"مؤقت دورة الـ 4 ساعات: ",sycb:"مضاعفة 2X",boost_b:"مضاعفة السرعة 2X",vip_h:"💡 كيف تستفيد من عقود VIP؟",vip_d:"عند تفعيل أي باقة تكتسب: مضاعفة سرعة التعدين، بونص SYC فوري، سحب فوري بدون رسوم.",vip_b1:"🚀 1. مضاعفة سرعة التعدين",vip_b1d:"إنتاج يومي يصل إلى 42$ تُضاف مباشرة لرصيدك القابل للسحب.",vip_b2:"🎁 2. بونص فوري من عملة SYC",vip_b2d:"فور التفعيل يُصرف لك حتى +11,000 SYC.",vip_b3:"⚡ 3. سحب فوري 0% رسوم",vip_b3d:"أولوية معالجة فورية لجميع طلبات السحب.",plans:"الباقات المتاحة"}
+,ui_en:{trc:"TRC20 / Banks",today:"Today",wr:"• Minimum withdrawal 10.00 USDT.<br>• VIP: instant, 0% fee.<br>• Regular: 1.0 USDT.",wm:"Method:",wa:"Amount:",wmin:"Minimum 10 USDT",wc:"Confirm Withdrawal 🚀",about_t:"About Syria Cash",about_d:"<b>Syria Cash</b> is a leading platform for cloud mining and airdrops.",close:"Close",sup_t:"💬 Support",sup_u:"Username",sup_m:"Describe your issue...",send:"Send 📩",cancel:"Cancel",ref1:"💰 <b>$0.50 + 50 $SYC</b> instant reward!",ref2:"⚡ <b>10%</b> lifetime commission.",refc:"Copy Referral Link 📋",syc_c:"SYC Mining",syc_t:"4-hour cycle: ",sycb:"2X Boost",boost_b:"2X Speed Boost",vip_h:"💡 How to benefit from VIP?",vip_d:"Activate any plan: faster mining, SYC bonus, free withdrawal.",vip_b1:"🚀 1. Double Mining Speed",vip_b1d:"Daily production up to $42.",vip_b2:"🎁 2. Instant SYC Bonus",vip_b2d:"Get up to +11,000 SYC.",vip_b3:"⚡ 3. Instant 0% Fee",vip_b3d:"Priority processing.",plans:"Available Plans"}
+,ui_tr:{trc:"TRC20 / Bankalar",today:"Bugün",wr:"• Minimum çekim 10.00 USDT.<br>• VIP: anında, %0.<br>• Normal: 1.0 USDT.",wm:"Alım yöntemi:",wa:"Miktar:",wmin:"Minimum 10 USDT",wc:"Çekimi Onayla 🚀",about_t:"Syria Cash Hakkında",about_d:"<b>Syria Cash</b> lider bulut madenciliği platformu.",close:"Kapat",sup_t:"💬 Destek",sup_u:"Kullanıcı adı",sup_m:"Sorununuzu açıklayın...",send:"Gönder 📩",cancel:"İptal",ref1:"💰 <b>0.50$ + 50 SYC</b> ödül!",ref2:"⚡ <b>%10</b> komisyon.",refc:"Link Kopyala 📋",syc_c:"SYC Madencilik",syc_t:"4 saatlik döngü: ",sycb:"2X Artır",boost_b:"2X Hız",vip_h:"💡 VIP'den nasıl?",vip_d:"Hızlı madencilik, SYC bonusu, ücretsiz çekim.",vip_b1:"🚀 1. Çift Hız",vip_b1d:"42$/gün.",vip_b2:"🎁 2. SYC Bonusu",vip_b2d:"+11,000 SYC.",vip_b3:"⚡ 3. %0 Komisyon",vip_b3d:"Öncelik.",plans:"Mevcut Planlar"}
+,ui_fa:{trc:"TRC20 / بانک‌ها",today:"امروز",wr:"• حداقل ۱۰ USDT.<br>• VIP: فوری، ۰٪.<br>• عادی: ۱.۰ USDT.",wm:"روش دریافت:",wa:"مبلغ:",wmin:"حداقل ۱۰ USDT",wc:"تأیید برداشت 🚀",about_t:"درباره Syria Cash",about_d:"<b>Syria Cash</b> پلتفرم پیشرو.",close:"بستن",sup_t:"💬 پشتیبانی",sup_u:"نام کاربری",sup_m:"مشکل خود را...",send:"ارسال 📩",cancel:"لغو",ref1:"💰 <b>۰.۵۰ دلار + ۵۰ SYC</b>!",ref2:"⚡ <b>۱۰٪</b> کمیسیون.",refc:"کپی لینک 📋",syc_c:"استخراج SYC",syc_t:"تایمر ۴ ساعته: ",sycb:"۲ برابر",boost_b:"افزایش 2X",vip_h:"💡 چگونه از VIP؟",vip_d:"استخراج سریع، پاداش SYC.",vip_b1:"🚀 ۱. دو برابر سرعت",vip_b1d:"۴۲ دلار/روز.",vip_b2:"🎁 ۲. پاداش SYC",vip_b2d:"+۱۱٬۰۰۰ SYC.",vip_b3:"⚡ ۳. ۰٪",vip_b3d:"اولویت.",plans:"پلن‌ها"}
+,ui_ku:{trc:"TRC20 / بانکەکان",today:"ئەمڕۆ",wr:"• کەمترین ١٠ USDT.<br>• VIP: خێرا.<br>• ئاسایی: ١.٠ USDT.",wm:"شێوازی وەرگرتن:",wa:"بڕ:",wmin:"کەمترین ١٠ USDT",wc:"دڵنیابوونەوە 🚀",about_t:"دەربارەی Syria Cash",about_d:"<b>Syria Cash</b> پلاتفۆرمی پێشەنگ.",close:"داخستن",sup_t:"💬 پشتگیری",sup_u:"ناوی بەکارهێنەر",sup_m:"کێشەکەت...",send:"ناردن 📩",cancel:"هەڵوەشاندنەوە",ref1:"💰 <b>٠.٥٠ دۆلار + ٥٠ SYC</b>!",ref2:"⚡ <b>١٠٪</b> بۆ هەمیشە.",refc:"کۆپیکردن 📋",syc_c:"کانکردنی SYC",syc_t:"کاتی سووڕ:",sycb:"دوو ئەوەندە",boost_b:"2X",vip_h:"💡 چۆن سوود؟",vip_d:"کانکردنی خێراتر.",vip_b1:"🚀 ١. خێرایی",vip_b1d:"٤٢ دۆلار.",vip_b2:"🎁 ٢. بۆنس",vip_b2d:"+١١٬٠٠٠ SYC.",vip_b3:"⚡ ٣. ٠٪",vip_b3d:"گرنگی.",plans:"پلانەکان"}
+,ui_fr:{trc:"TRC20 / Banques",today:"Aujourd'hui",wr:"• Retrait min 10.00 USDT.<br>• VIP: 0%.<br>• Régulier: 1.0 USDT.",wm:"Méthode:",wa:"Montant:",wmin:"Minimum 10 USDT",wc:"Confirmer 🚀",about_t:"À propos",about_d:"<b>Syria Cash</b> plateforme leader.",close:"Fermer",sup_t:"💬 Support",sup_u:"Nom",sup_m:"Décrivez...",send:"Envoyer 📩",cancel:"Annuler",ref1:"💰 <b>0.50$ + 50 SYC</b>!",ref2:"⚡ <b>10%</b> commission.",refc:"Copier 📋",syc_c:"Minage SYC",syc_t:"Cycle 4h: ",sycb:"Boost 2X",boost_b:"Vitesse 2X",vip_h:"💡 Comment ?",vip_d:"Minage rapide, bonus SYC.",vip_b1:"🚀 1. Double Vitesse",vip_b1d:"42$/jour.",vip_b2:"🎁 2. Bonus SYC",vip_b2d:"+11 000 SYC.",vip_b3:"⚡ 3. 0%",vip_b3d:"Priorité.",plans:"Plans"}
+,ui_hi:{trc:"TRC20 / बैंक",today:"आज",wr:"• न्यूनतम 10.00 USDT.<br>• VIP: 0%.<br>• सामान्य: 1.0 USDT.",wm:"विधि:",wa:"राशि:",wmin:"न्यूनतम 10 USDT",wc:"पुष्टि 🚀",about_t:"बारे में",about_d:"<b>Syria Cash</b> अग्रणी प्लेटफ़ॉर्म।",close:"बंद",sup_t:"💬 सहायता",sup_u:"नाम",sup_m:"समस्या...",send:"भेजें 📩",cancel:"रद्द",ref1:"💰 <b>$0.50 + 50 SYC</b>!",ref2:"⚡ <b>10%</b> आजीवन।",refc:"कॉपी 📋",syc_c:"SYC माइनिंग",syc_t:"4 घंटे:",sycb:"2X",boost_b:"2X स्पीड",vip_h:"💡 कैसे?",vip_d:"तेज़ माइनिंग, SYC बोनस।",vip_b1:"🚀 1. डबल स्पीड",vip_b1d:"$42/दिन।",vip_b2:"🎁 2. बोनस",vip_b2d:"+11,000 SYC।",vip_b3:"⚡ 3. 0%",vip_b3d:"प्राथमिकता।",plans:"प्लान"}
+,ui_zh:{trc:"TRC20 / 银行",today:"今天",wr:"• 最低 10.00 USDT。<br>• VIP: 0%。<br>• 普通: 1.0 USDT。",wm:"方式：",wa:"金额：",wmin:"最低 10 USDT",wc:"确认提现 🚀",about_t:"关于",about_d:"<b>Syria Cash</b> 领先平台。",close:"关闭",sup_t:"💬 支持",sup_u:"用户名",sup_m:"描述问题...",send:"发送 📩",cancel:"取消",ref1:"💰 <b>$0.50 + 50 SYC</b>！",ref2:"⚡ <b>10%</b> 佣金。",refc:"复制 📋",syc_c:"SYC 挖矿",syc_t:"4小时:",sycb:"2X",boost_b:"2X 速度",vip_h:"💡 如何？",vip_d:"快速挖矿。",vip_b1:"🚀 1. 双倍速度",vip_b1d:"每日 $42。",vip_b2:"🎁 2. 奖励",vip_b2d:"+11,000 SYC。",vip_b3:"⚡ 3. 0%",vip_b3d:"优先。",plans:"计划"}
 };
 function t(key){
 var lang=localStorage.getItem('sc_lang')||'ar';
@@ -1239,8 +1241,46 @@ setTxt('lbl_withdraw_header', dict.withdraw_header);
 setTxt('lbl_jackpot_title', dict.jackpot_title);
 setTxt('lbl_ads_seen', dict.ads_seen);
 setTxt('btn_jackpot_action', dict.btn_jackpot);
+applyUI();
 try{ renderAll(); }catch(e){}
 };
+
+function applyUI(){
+var lang = localStorage.getItem('sc_lang') || 'ar';
+var ui = EXTRA['ui_'+lang] || EXTRA.ui_ar;
+var setUI = function(sel,key){var el=document.querySelector(sel);if(el&&ui[key])el.innerHTML=ui[key];};
+setUI('[data-ui="trc"]','trc');
+setUI('[data-ui="today"]','today');
+setUI('[data-ui="boost_b"]','boost_b');
+setUI('[data-ui="syc_c"]','syc_c');
+setUI('[data-ui="sycb"]','sycb');
+setUI('[data-ui="wr"]','wr');
+setUI('[data-ui="wm"]','wm');
+setUI('[data-ui="wa"]','wa');
+setUI('[data-ui="wc"]','wc');
+setUI('[data-ui="about_t"]','about_t');
+setUI('[data-ui="about_d"]','about_d');
+setUI('[data-ui="close"]','close');
+setUI('[data-ui="sup_t"]','sup_t');
+setUI('[data-ui="send"]','send');
+setUI('[data-ui="cancel"]','cancel');
+setUI('[data-ui="ref1"]','ref1');
+setUI('[data-ui="ref2"]','ref2');
+setUI('[data-ui="refc"]','refc');
+setUI('[data-ui="vip_h"]','vip_h');
+setUI('[data-ui="vip_d"]','vip_d');
+setUI('[data-ui="vip_b1"]','vip_b1');
+setUI('[data-ui="vip_b1d"]','vip_b1d');
+setUI('[data-ui="vip_b2"]','vip_b2');
+setUI('[data-ui="vip_b2d"]','vip_b2d');
+setUI('[data-ui="vip_b3"]','vip_b3');
+setUI('[data-ui="vip_b3d"]','vip_b3d');
+setUI('[data-ui="plans"]','plans');
+var wa=$('withdrawAmount'); if(wa) wa.placeholder = ui.wmin;
+var su=$('supUser'); if(su) su.placeholder = ui.sup_u;
+var sm=$('supMsg'); if(sm) sm.placeholder = ui.sup_m;
+}
+window.applyUI=applyUI;
  
 function renderAll(){
 renderBalances();
