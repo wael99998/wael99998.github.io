@@ -987,24 +987,31 @@ var VIP_PLANS = [
 function renderVipPlans(){
 var c = $('vipPlansContainer'); if(!c) return;
 c.innerHTML = '';
+var lang = localStorage.getItem('sc_lang') || 'ar';
 VIP_PLANS.forEach(function(p){
+var name = (p.names && p.names[lang]) || (p.names && p.names.ar) || p.name;
+var periodTxt = (lang==='ar') ? '30 يوماً | 0% Fee' : (lang==='tr') ? '30 Gün | %0 Fee' : '30 Days | 0% Fee';
+var dailyLbl = (lang==='ar') ? 'يومي' : (lang==='tr') ? 'Günlük' : 'Daily';
+var monthlyLbl = (lang==='ar') ? 'شهري' : (lang==='tr') ? 'Aylık' : 'Monthly';
+var bonusLbl = (lang==='ar') ? 'بونص' : (lang==='tr') ? 'Bonus' : 'Bonus';
+var buyLbl = (lang==='ar') ? 'تفعيل العقد' : (lang==='tr') ? 'Aktive Et' : 'Activate';
 var e = document.createElement('div');
 e.style = 'background:#fff;border:1px solid #e2e8f0;border-radius:16px;padding:14px;margin-bottom:12px;';
 e.innerHTML =
 '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">'+
 '<div>'+
-'<div style="font-size:14px;font-weight:900;color:#0f172a">'+p.name+'</div>'+
-'<div style="font-size:10px;color:#64748b">30 يوماً | سحب 0% Fee</div>'+
+'<div style="font-size:14px;font-weight:900;color:#0f172a">'+name+'</div>'+
+'<div style="font-size:10px;color:#64748b">'+periodTxt+'</div>'+
 '</div>'+
 '<div style="font-size:18px;font-weight:900;color:#005a36">$'+p.price+'</div>'+
 '</div>'+
 '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;background:#f8fafc;border-radius:10px;padding:8px;text-align:center">'+
-'<div><div style="font-size:9px;color:#64748b">يومي</div><div style="font-weight:800;font-size:11px;">'+p.daily+'$</div></div>'+
-'<div><div style="font-size:9px;color:#64748b">شهري</div><div style="font-weight:800;font-size:11px;color:#005a36;">'+p.monthly+'$</div></div>'+
-'<div><div style="font-size:9px;color:#64748b">بونص</div><div style="font-weight:800;font-size:11px;color:#0284c7;">+'+p.syc_bonus+' SYC</div></div>'+
+'<div><div style="font-size:9px;color:#64748b">'+dailyLbl+'</div><div style="font-weight:800;font-size:11px;">'+p.daily+'$</div></div>'+
+'<div><div style="font-size:9px;color:#64748b">'+monthlyLbl+'</div><div style="font-weight:800;font-size:11px;color:#005a36;">'+p.monthly+'$</div></div>'+
+'<div><div style="font-size:9px;color:#64748b">'+bonusLbl+'</div><div style="font-weight:800;font-size:11px;color:#0284c7;">+'+p.syc_bonus+' SYC</div></div>'+
 '</div>'+
 '<button class="btn-official-green" style="margin-top:9px;padding:9px;font-size:11px" onclick="buyVipPackage('+p.level+')">'+
-'تفعيل العقد ($'+p.price+' USDT) 🚀</button>';
+buyLbl+' ($'+p.price+' USDT) 🚀</button>';
 c.appendChild(e);
 });
 }
