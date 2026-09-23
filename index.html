@@ -597,10 +597,7 @@ if($('jackpotAdsProgress')) $('jackpotAdsProgress').innerText = String(P.vaultAd
 }
 function renderTicker(){
 var el = $('payoutTicker'); if(!el) return;
-var items = ['💰 سحب ناجح: مستخدم #1042 → 25.00 USDT',
-'💎 مكافأة: مستخدم #8821 → +1,200 SYC',
-'⚡ تعدين: مستخدم #3390 → 0.48 USDT/يوم',
-'👑 ترقية VIP: مستخدم #7712 → عقد الذهب'];
+var items = [t('tk1'),t('tk2'),t('tk3'),t('tk4')];
 el.innerText = (items.join('     •     ')+'     •     ').repeat(2);
 }
  
@@ -616,24 +613,24 @@ function isDone(id){ return localDone(id); }
 function renderSocialTasks(){
 var c = $('socialTasksContainer'); if(!c) return;
 c.innerHTML = '';
-SOCIAL_TASKS.forEach(function(t){
-var done = isDone(t.id);
+SOCIAL_TASKS.forEach(function(task){
+var done = isDone(task.id);
 var rw = [];
-if(Number(t.reward_usdt)>0) rw.push('+'+t.reward_usdt+' USDT');
-if(Number(t.reward_syc)>0) rw.push('+'+t.reward_syc+' $SYC');
+if(Number(task.reward_usdt)>0) rw.push('+'+task.reward_usdt+' USDT');
+if(Number(task.reward_syc)>0) rw.push('+'+task.reward_syc+' $SYC');
 var e = document.createElement('div');
 e.className = 'mining-hub-card';
 e.style = 'padding:12px;display:flex;align-items:center;gap:10px;justify-content:space-between;';
 e.innerHTML =
 '<div style="display:flex;gap:10px;align-items:center;">'+
-'<div style="font-size:26px">'+t.icon+'</div>'+
+'<div style="font-size:26px">'+task.icon+'</div>'+
 '<div style="text-align:right;">'+
-'<b style="font-size:12px">'+t.title+'</b>'+
+'<b style="font-size:12px">'+t('s_'+task.id)+'</b>'+
 '<div style="font-size:10px;color:#005a36;font-weight:bold;margin-top:3px">'+rw.join(' + ')+'</div>'+
 '</div></div>'+
 '<button class="btn-official-green" style="width:auto;padding:8px 12px;font-size:11px" '+
-(done?'disabled':'')+' onclick="completeSocialTask(\''+t.id+'\')">'+
-(done?'مكتملة ✓':'تنفيذ 🚀')+'</button>';
+(done?'disabled':'')+' onclick="completeSocialTask(\''+task.id+'\')">'+
+(done? t('t_completed') : t('t_execute'))+'</button>';
 c.appendChild(e);
 });
 }
@@ -663,12 +660,12 @@ e.className = 'service-card';
 e.style = 'display:flex;align-items:center;justify-content:space-between;gap:8px;padding:11px 12px;';
 e.innerHTML =
 '<div style="text-align:right;">'+
-'<b style="font-size:12px">📺 إعلان مأجور #'+i+'</b>'+
+'<b style="font-size:12px">📺 '+t('ad_n')+' #'+i+'</b>'+
 '<div style="font-size:9px;color:#005a36;font-weight:bold;margin-top:3px">+0.015 USDT + 5 $SYC</div>'+
 '</div>'+
 '<button class="btn-official-green" style="width:auto;padding:8px 11px;font-size:10px" '+
 (done?'disabled':'')+' onclick="completeDailyAd('+i+')">'+
-(done?'مشاهدة ✓':'مشاهدة 🎬')+'</button>';
+(done? t('ad_done') : t('ad_watch'))+'</button>';
 c.appendChild(e);
 }
 }
@@ -1084,7 +1081,21 @@ closeModal('supportModal');
 if($('supMsg')) $('supMsg').value = '';
 showToast('تم إرسال التذكرة 📩');
 };
- 
+ var EXTRA={
+ar:{s_yt1:"متابعة قناة YouTube",s_x1:"متابعة الحساب على X",s_tg1:"الانضمام لقناة Telegram",s_yt2:"مشاهدة فيديو الشرح",ad_n:"إعلان مأجور",ad_done:"مشاهدة ✓",ad_watch:"مشاهدة 🎬",t_completed:"مكتملة ✓",t_execute:"تنفيذ 🚀",tk1:"💰 سحب ناجح: مستخدم #1042 → 25.00 USDT",tk2:"💎 مكافأة: مستخدم #8821 → +1,200 SYC",tk3:"⚡ تعدين: مستخدم #3390 → 0.48 USDT/يوم",tk4:"👑 ترقية VIP: مستخدم #7712 → عقد الذهب"},
+en:{s_yt1:"Follow YouTube Channel",s_x1:"Follow Account on X",s_tg1:"Join Telegram Channel",s_yt2:"Watch Tutorial Video",ad_n:"Paid Ad",ad_done:"Watched ✓",ad_watch:"Watch 🎬",t_completed:"Completed ✓",t_execute:"Execute 🚀",tk1:"💰 Successful withdrawal: User #1042 → $25.00",tk2:"💎 Reward: User #8821 → +1,200 SYC",tk3:"⚡ Mining: User #3390 → $0.48/day",tk4:"👑 VIP upgrade: User #7712 → Gold Contract"},
+tr:{s_yt1:"YouTube Kanalını Takip Et",s_x1:"X Hesabını Takip Et",s_tg1:"Telegram Kanalına Katıl",s_yt2:"Eğitim Videosunu İzle",ad_n:"Ücretli Reklam",ad_done:"İzlendi ✓",ad_watch:"İzle 🎬",t_completed:"Tamamlandı ✓",t_execute:"Yap 🚀",tk1:"💰 Başarılı çekim: Kullanıcı #1042 → 25.00$",tk2:"💎 Ödül: Kullanıcı #8821 → +1,200 SYC",tk3:"⚡ Madencilik: Kullanıcı #3390 → 0.48$/gün",tk4:"👑 VIP yükseltme: Kullanıcı #7712 → Altın Sözleşme"},
+fa:{s_yt1:"دنبال کردن کانال YouTube",s_x1:"دنبال کردن حساب X",s_tg1:"پیوستن به کانال Telegram",s_yt2:"تماشای ویدیوی آموزشی",ad_n:"تبلیغ پولی",ad_done:"دیده شد ✓",ad_watch:"تماشا 🎬",t_completed:"تکمیل ✓",t_execute:"اجرا 🚀",tk1:"💰 برداشت موفق: کاربر #1042 → 25.00 دلار",tk2:"💎 پاداش: کاربر #8821 → +1,200 SYC",tk3:"⚡ استخراج: کاربر #3390 → 0.48 دلار/روز",tk4:"👑 ارتقا VIP: کاربر #7712 → قرارداد طلایی"},
+ku:{s_yt1:"شوێنکەوتنی کەناڵی YouTube",s_x1:"شوێنکەوتنی هەژماری X",s_tg1:"بەشداریکردن لە کەناڵی Telegram",s_yt2:"بینینی ڤیدیۆی ڕوونکردنەوە",ad_n:"ڕیکلامی پارەدان",ad_done:"بینراو ✓",ad_watch:"بینین 🎬",t_completed:"تەواوبوو ✓",t_execute:"جێبەجێکردن 🚀",tk1:"💰 دەرهێنانی سەرکەوتوو: بەکارهێنەر #1042 → 25.00 دۆلار",tk2:"💎 پاداش: بەکارهێنەر #8821 → +1,200 SYC",tk3:"⚡ کانکردن: بەکارهێنەر #3390 → 0.48 دۆلار/ڕۆژ",tk4:"👑 بەرزکردنەوەی VIP: بەکارهێنەر #7712 → گرێبەستی زێڕ"},
+fr:{s_yt1:"Suivre la chaîne YouTube",s_x1:"Suivre le compte X",s_tg1:"Rejoindre la chaîne Telegram",s_yt2:"Regarder la vidéo tutorielle",ad_n:"Pub payante",ad_done:"Vu ✓",ad_watch:"Regarder 🎬",t_completed:"Terminé ✓",t_execute:"Exécuter 🚀",tk1:"💰 Retrait réussi : Utilisateur #1042 → 25,00 $",tk2:"💎 Récompense : Utilisateur #8821 → +1 200 SYC",tk3:"⚡ Minage : Utilisateur #3390 → 0,48 $/jour",tk4:"👑 Mise à niveau VIP : Utilisateur #7712 → Contrat Or"},
+hi:{s_yt1:"YouTube चैनल फॉलो करें",s_x1:"X अकाउंट फॉलो करें",s_tg1:"Telegram चैनल जॉइन करें",s_yt2:"ट्यूटोरियल वीडियो देखें",ad_n:"पेड विज्ञापन",ad_done:"देखा ✓",ad_watch:"देखें 🎬",t_completed:"पूर्ण ✓",t_execute:"निष्पादित करें 🚀",tk1:"💰 सफल निकासी: उपयोगकर्ता #1042 → $25.00",tk2:"💎 इनाम: उपयोगकर्ता #8821 → +1,200 SYC",tk3:"⚡ माइनिंग: उपयोगकर्ता #3390 → $0.48/दिन",tk4:"👑 VIP अपग्रेड: उपयोगकर्ता #7712 → गोल्ड कॉन्ट्रैक्ट"},
+zh:{s_yt1:"关注 YouTube 频道",s_x1:"关注 X 账户",s_tg1:"加入 Telegram 频道",s_yt2:"观看教程视频",ad_n:"付费广告",ad_done:"已观看 ✓",ad_watch:"观看 🎬",t_completed:"已完成 ✓",t_execute:"执行 🚀",tk1:"💰 成功提现：用户 #1042 → $25.00",tk2:"💎 奖励：用户 #8821 → +1,200 SYC",tk3:"⚡ 挖矿：用户 #3390 → $0.48/天",tk4:"👑 VIP 升级：用户 #7712 → 黄金合约"}
+};
+function t(key){
+var lang=localStorage.getItem('sc_lang')||'ar';
+return (EXTRA[lang]&&EXTRA[lang][key])||(i18nDict[lang]&&i18nDict[lang][key])||i18nDict.ar[key]||key;
+}
+window.t=t;
 
 var i18nDict = {
 ar:{
@@ -1228,6 +1239,7 @@ setTxt('lbl_withdraw_header', dict.withdraw_header);
 setTxt('lbl_jackpot_title', dict.jackpot_title);
 setTxt('lbl_ads_seen', dict.ads_seen);
 setTxt('btn_jackpot_action', dict.btn_jackpot);
+try{ renderAll(); }catch(e){}
 };
  
 function renderAll(){
