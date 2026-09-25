@@ -822,7 +822,19 @@ var LUCK_PRIZES=[
 {label:'0.02 USDT',type:'usdt',v:0.02,emoji:'🪙'},
 {label:'0.25 USDT',type:'usdt',v:0.25,emoji:'🏆'}
 ];
-
+function renderLuckBox(){
+var c=$('gameLuckBoxContainer');if(!c)return;
+var k='sc_luck_'+todayKey();
+var op=localStorage.getItem(k);
+var g=op?'🎊':'🎁',rh='';
+if(op){try{var d=JSON.parse(op);rh='<div class="luck-result" style="display:block;background:linear-gradient(135deg,#fef3c7,#fde68a);color:#78350f;">'+d.emoji+' '+t('g_l_win')+' '+d.label+'</div>';}catch(e){}}
+c.innerHTML='<div class="game-card-modern" style="padding-top:20px;">'+
+'<span class="game-badge-status '+(!op?'status-free':'status-locked')+'">'+(!op?t('g_l_new'):t('g_l_done'))+'</span>'+
+'<div class="game-icon-circle">🎁</div><h3>'+t('g_l_t')+'</h3>'+
+'<div class="game-desc">'+t('g_l_d')+'</div>'+
+'<div class="luck-box" id="luckBox" onclick="openLuckBox()"><span class="luck-box-emoji" id="luckEmoji">'+g+'</span></div>'+
+rh+(!op?'':'<button class="btn-official-green" style="padding:12px;font-size:13px;font-weight:900;margin-top:8px;" disabled>'+t('g_l_b')+'</button>')+'</div>';
+}
 window.openLuckBox=function(){
 var k='sc_luck_'+todayKey();
 if(localStorage.getItem(k)){showToast(t('g_l_back'));return;}
