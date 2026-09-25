@@ -1250,7 +1250,14 @@ setTxt('lbl_jackpot_title', dict.jackpot_title);
 setTxt('lbl_ads_seen', dict.ads_seen);
 setTxt('btn_jackpot_action', dict.btn_jackpot);
 applyUI();
-try{ renderAll(); }catch(e){}
+try{ renderBalances(); }catch(e){}
+try{ renderSeason(); }catch(e){}
+try{ renderTicker(); }catch(e){}
+try{ renderSocialTasks(); }catch(e){}
+try{ renderAds(); }catch(e){}
+try{ renderVipPlans(); }catch(e){}
+try{ renderGamesAll(); }catch(e){}
+try{ if($('boostBadge')){var _u=(EXTRA['ui_'+lang]||EXTRA.ui_ar);$('boostBadge').innerHTML=boostUsedToday('usdt')+'/10 <span data-ui="today">'+(_u.today||'اليوم')+'</span>';} }catch(e){}
 };
 
 function applyUI(){
