@@ -1104,7 +1104,13 @@ zh:{s_yt1:"关注 YouTube 频道",s_x1:"关注 X 账户",s_tg1:"加入 Telegram 
 };
 function t(key){
 var lang=localStorage.getItem('sc_lang')||'ar';
-return (EXTRA[lang]&&EXTRA[lang][key])||(i18nDict[lang]&&i18nDict[lang][key])||i18nDict.ar[key]||key;
+if(EXTRA[lang]&&EXTRA[lang][key])return EXTRA[lang][key];
+if(EXTRA['ui_'+lang]&&EXTRA['ui_'+lang][key])return EXTRA['ui_'+lang][key];
+if(EXTRA.ar&&EXTRA.ar[key])return EXTRA.ar[key];
+if(EXTRA.ui_ar&&EXTRA.ui_ar[key])return EXTRA.ui_ar[key];
+if(i18nDict[lang]&&i18nDict[lang][key])return i18nDict[lang][key];
+if(i18nDict.ar&&i18nDict.ar[key])return i18nDict.ar[key];
+return key;
 }
 window.t=t;
 
