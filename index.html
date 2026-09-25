@@ -774,11 +774,11 @@ c.innerHTML='<div class="game-card-modern" style="padding-top:20px;">'+
 }
 window.answerDailyQ=function(i){
 var k='sc_dq_'+todayKey();
-if(localStorage.getItem(k)){showToast('أجبت اليوم، عد غداً 🌙');return;}
+if(localStorage.getItem(k)){showToast(t('g_q_back'));return;}
 var q=DAILY_QUESTIONS[getDailyQuestionIndex()];
 localStorage.setItem(k,String(i));
-if(i===q.a){P.usdt+=0.15;saveLocal();renderAll();showToast('🎉 صحيح! +0.15 USDT');}
-else{showToast('❌ خطأ، حاول غداً');}
+if(i===q.a){P.usdt+=0.15;saveLocal();renderAll();showToast(t('g_q_win'));}
+else{showToast(t('g_q_wrong'));}
 renderDailyQuestion();
 };
 
@@ -798,7 +798,7 @@ c.innerHTML='<div class="game-card-modern" style="padding-top:20px;">'+
 }
 window.spinWheel=function(){
 var last=Number(localStorage.getItem('sc_wheel_last')||0);
-if((Date.now()-last)<12*60*60*1000){showToast('انتظر ⏳');return;}
+if((Date.now()-last)<12*60*60*1000){showToast(t('g_w_wait'));return;}
 var w=$('wheelInner');if(!w)return;
 var b=$('wheelBtn');if(b)b.disabled=true;
 var idx=Math.floor(Math.random()*WHEEL_PRIZES.length);
@@ -809,7 +809,7 @@ setTimeout(function(){
 P.usdt+=prize;
 try{localStorage.setItem('sc_wheel_last',String(Date.now()));}catch(e){}
 saveLocal();renderAll();
-showToast('🎉 ربحت +'+prize.toFixed(2)+' USDT!');
+showToast('🎉 '+t('g_w_win')+' +'+prize.toFixed(2)+' USDT!');
 renderWheel();
 },5200);
 };
@@ -823,22 +823,9 @@ var LUCK_PRIZES=[
 {label:'0.25 USDT',type:'usdt',v:0.25,emoji:'🏆'}
 ];
 
-function renderLuckBox(){
-var c=$('gameLuckBoxContainer');if(!c)return;
-var k='sc_luck_'+todayKey();
-var op=localStorage.getItem(k);
-var g=op?'🎊':'🎁',rh='';
-if(op){try{var d=JSON.parse(op);rh='<div class="luck-result" style="display:block;background:linear-gradient(135deg,#fef3c7,#fde68a);color:#78350f;">'+d.emoji+' '+t('g_l_win')+' '+d.label+'</div>';}catch(e){}}
-c.innerHTML='<div class="game-card-modern" style="padding-top:20px;">'+
-'<span class="game-badge-status '+(!op?'status-free':'status-locked')+'">'+(!op?t('g_l_new'):t('g_l_done'))+'</span>'+
-'<div class="game-icon-circle">🎁</div><h3>'+t('g_l_t')+'</h3>'+
-'<div class="game-desc">'+t('g_l_d')+'</div>'+
-'<div class="luck-box" id="luckBox" onclick="openLuckBox()"><span class="luck-box-emoji" id="luckEmoji">'+g+'</span></div>'+
-rh+(!op?'':'<button class="btn-official-green" style="padding:12px;font-size:13px;font-weight:900;margin-top:8px;" disabled>'+t('g_l_b')+'</button>')+'</div>';
-}
 window.openLuckBox=function(){
 var k='sc_luck_'+todayKey();
-if(localStorage.getItem(k)){showToast('عد غداً 🌙');return;}
+if(localStorage.getItem(k)){showToast(t('g_l_back'));return;}
 var box=$('luckBox');if(!box)return;
 var em=$('luckEmoji');
 box.classList.add('opening');
@@ -850,7 +837,7 @@ try{localStorage.setItem(k,JSON.stringify({label:prize.label,emoji:prize.emoji})
 saveLocal();renderAll();
 box.classList.remove('opening');box.classList.add('opened');
 if(em)em.innerText=prize.emoji;
-showToast('🎉 ربحت '+prize.label+'!');
+showToast('🎉 '+t('g_l_win')+' '+prize.label+'!');
 setTimeout(renderLuckBox,1500);
 },1200);
 };
@@ -891,18 +878,18 @@ var res='';
 if(choice===bot)res='tie';
 else if((choice==='rock'&&bot==='scissors')||(choice==='paper'&&bot==='rock')||(choice==='scissors'&&bot==='paper'))res='win';
 else res='lose';
-if(res==='win'){s.you++;showToast('🎉 فزت!');}
-else if(res==='lose'){s.bot++;showToast('😢 خسرت');}
-else showToast('🤝 تعادل');
+if(res==='win'){s.you++;showToast(t('g_r_win'));}
+else if(res==='lose'){s.bot++;showToast(t('g_r_lose'));}
+else showToast(t('g_r_tie'));
 if($('rpsYouScore'))$('rpsYouScore').innerText=s.you;
 if($('rpsBotScore'))$('rpsBotScore').innerText=s.bot;
 s.round++;
 if(s.round>=3||s.you===2||s.bot===2){
 s.locked=true;
 try{localStorage.setItem('sc_rps_'+todayKey(),'1');}catch(e){}
-if(s.you>s.bot){P.usdt+=0.08;saveLocal();renderAll();showToast('🏆 فزت! +0.08 USDT');}
-else if(s.bot>s.you)showToast('😢 خسرت');
-else showToast('🤝 تعادل!');
+if(s.you>s.bot){P.usdt+=0.08;saveLocal();renderAll();showToast(t('g_r_winM'));}
+else if(s.bot>s.you)showToast(t('g_r_loseM'));
+else showToast(t('g_r_tie'));
 setTimeout(renderRps,1500);
 }
 },900);
