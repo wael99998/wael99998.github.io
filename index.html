@@ -1313,7 +1313,7 @@ if($('unclaimedSyc')) $('unclaimedSyc').innerText = s.toFixed(2);
 var cu = Math.floor(cycleRemain('usdt')/1000);
 if($('liveSessionTimer')) $('liveSessionTimer').innerText = pad2(Math.floor(cu/3600))+':'+pad2(Math.floor(cu%3600/60))+':'+pad2(cu%60);
 var cs = Math.floor(cycleRemain('syc')/1000);
-if($('sycMiningTimer')) $('sycMiningTimer').innerText = 'مؤقت دورة الـ 4 ساعات: '+pad2(Math.floor(cs/3600))+':'+pad2(Math.floor(cs%3600/60))+':'+pad2(cs%60)+' ⏱';
+if($('sycMiningTimer')) $('sycMiningTimer').innerText = (EXTRA['ui_'+(localStorage.getItem('sc_lang')||'ar')]||EXTRA.ui_ar).syc_t + pad2(Math.floor(cs/3600))+':'+pad2(Math.floor(cs%3600/60))+':'+pad2(cs%60)+' ⏱';
 renderSeason();
 renderDailyQuestion();
 }, 1000);
