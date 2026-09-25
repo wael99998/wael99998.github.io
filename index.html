@@ -1249,7 +1249,7 @@ setTxt('lbl_withdraw_header', dict.withdraw_header);
 setTxt('lbl_jackpot_title', dict.jackpot_title);
 setTxt('lbl_ads_seen', dict.ads_seen);
 setTxt('btn_jackpot_action', dict.btn_jackpot);
-applyUI();
+try{ applyUI(); }catch(e){}
 try{ renderBalances(); }catch(e){}
 try{ renderSeason(); }catch(e){}
 try{ renderTicker(); }catch(e){}
@@ -1293,7 +1293,7 @@ setUI('[data-ui="vip_b3d"]','vip_b3d');
 setUI('[data-ui="plans"]','plans');
  var dayMap={ar:'يوم',en:'day',tr:'gün',fa:'روز',ku:'ڕۆژ',fr:'jour',hi:'दिन',zh:'天'};
 var dayEl=document.querySelector('[data-ui="day_unit"]');
-if(dayEl) dayEl.innerText=dayMap[lang]||'day'; في 
+if(dayEl) dayEl.innerText=dayMap[lang]||'day';
 var wa=$('withdrawAmount'); if(wa) wa.placeholder = ui.wmin;
 var su=$('supUser'); if(su) su.placeholder = ui.sup_u;
 var sm=$('supMsg'); if(sm) sm.placeholder = ui.sup_m;
