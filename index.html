@@ -974,7 +974,7 @@ saveLocal(); renderAll();
 var amt = local.toFixed(kind==='usdt'?6:2);
 showToast(t('toast_collect')+' +'+amt+' '+(kind==='usdt'?'USDT':'$SYC')+' 👛');
 }
-window.collectUsdtReward = function(){ collect('usdt'); };
+window.collectSycReward = function(){ collect('syc'); };
 window.collectSycReward = function(){ collect('syc'); };ion(){ P.usdtStart = Date.now(); saveLocal(); showToast('جلسة USDT نشطة ⚡'); };
 window.clickMiningCircle = function(){ P.usdtStart = Date.now(); saveLocal(); showToast(t('toast_session_usdt')); };
 window.clickSycStation = function(){ P.sycStart = Date.now(); saveLocal(); showToast(t('toast_session_syc')); };
