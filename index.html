@@ -559,8 +559,8 @@ var start = kind==='usdt' ? P.usdtStart : P.sycStart;
 var until = kind==='usdt' ? P.boostUsdtUntil : P.boostSycUntil;
 var boosted = Date.now() < until;
 var rate = kind==='usdt' ? (boosted?0.000066:0.000033) : (boosted?0.01:0.005);
-var el = ((Date.now()-start)%CYCLE_MS)/1000;
-return Math.max(0, el*rate);
+var elapsed = Math.min(Date.now() - start, CYCLE_MS) / 1000;
+return Math.max(0, elapsed * rate);
 }
 function cycleRemain(kind){
 var start = kind==='usdt' ? P.usdtStart : P.sycStart;
