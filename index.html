@@ -480,7 +480,32 @@ padding:8px 18px;border-radius:20px;font-size:12px;font-weight:700;display:none;
 <button data-ui="cancel" class="btn-cancel-support" onclick="closeModal('supportModal')"></button>
 </div>
 </div>
- 
+<!-- شاشة تسجيل الدخول -->
+<div id="authScreen" style="position:fixed;inset:0;background:#00462a;z-index:999998;
+  display:flex;align-items:center;justify-content:center;padding:20px;">
+  <div style="background:#fff;border-radius:20px;padding:24px;width:100%;max-width:380px;">
+    <div style="text-align:center;margin-bottom:16px;">
+      <div style="font-size:44px;">🦅</div>
+      <h2 style="color:#005a36;font-size:22px;font-weight:900;margin:6px 0;">SYRIA CASH</h2>
+      <p style="color:#64748b;font-size:11px;">سجل دخولك للبدء في التعدين</p>
+    </div>
+
+    <div style="display:flex;gap:6px;margin-bottom:14px;">
+      <button id="tabLoginBtn" onclick="switchAuth('login')"
+        style="flex:1;padding:9px;border-radius:10px;border:none;background:#005a36;color:#fff;font-weight:800;font-size:12px;cursor:pointer;">دخول</button>
+      <button id="tabSignupBtn" onclick="switchAuth('signup')"
+        style="flex:1;padding:9px;border-radius:10px;border:1px solid #cbd5e1;background:#fff;color:#0f172a;font-weight:800;font-size:12px;cursor:pointer;">حساب جديد</button>
+    </div>
+
+    <div id="signupNameWrap" style="display:none;margin-bottom:8px;">
+      <input id="authUsername" class="input-clean" placeholder="اسم المستخدم">
+    </div>
+    <input id="authEmail" class="input-clean" type="email" placeholder="البريد الإلكتروني" style="margin-bottom:8px;">
+    <input id="authPassword" class="input-clean" type="password" placeholder="كلمة المرور (6+ أحرف)" style="margin-bottom:12px;">
+    <button id="authSubmitBtn" class="btn-official-green" onclick="handleAuthSubmit()">تسجيل الدخول</button>
+    <p id="authError" style="color:#ef4444;font-size:11px;text-align:center;margin-top:8px;min-height:16px;"></p>
+  </div>
+</div> 
 <nav class="official-bottom-nav">
 <div class="nav-link-btn active" onclick="navigate('tab-airdrop', this)">
 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path></svg>
@@ -514,6 +539,33 @@ padding:8px 18px;border-radius:20px;font-size:12px;font-weight:700;display:none;
  
 <script>
 'use strict';
+ // ================== إعداد Supabase ==================
+const SUPABASE_URL = 'https://tvypczferwkqnehhynwd.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR2eXBjemZlcndrcW5laGh5bndkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODg4MDgzODIsImV4cCI6MjEwNDM4NDM4Mn0.FdqKYNSHlyj27B1XzyXnmaIxM2poHi2OBXFmz2kh-eY';
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+let CURRENT_USER = null;
+let syncTimer = null;
+
+function saveState() {
+  saveLocal();
+  if (!CURRENT_USER) return;
+  clearTimeout(syncTimer);
+  syncTimer = setTimeout(async () => {
+    try {
+      await sb.from('profiles').update({
+        usdt_balance: P.usdt,
+        syc_balance: P.syc,
+        vip_level: P.vipLevel,
+        vault_ads: P.vaultAds,
+        boost_usdt_until: P.boostUsdtUntil,
+        boost_syc_until: P.boostSycUntil,
+        usdt_start: P.usdtStart,
+        syc_start: P.sycStart
+      }).eq('id', CURRENT_USER.id);
+    } catch (e) { console.warn('sync err', e); }
+  }, 1500);
+}
  
 var CYCLE_MS = 4*60*60*1000;
 var BOOST_MS = 10*60*1000;
@@ -1355,17 +1407,114 @@ renderDailyQuestion();
 }, 1000);
 }
  
-function boot(){
-loadLocal();
-renderAll();
-startLoop();
-try{
-var sel = $('langSelect');
-var saved = localStorage.getItem('sc_lang') || 'ar';
-if(sel) sel.value = saved;
-changeLanguage(saved);
-}catch(e){}
-updateWithdrawFields('usdt');
+// ================== نظام تسجيل الدخول ==================
+let authMode = 'login';
+
+window.switchAuth = function(mode) {
+  authMode = mode;
+  const lb = $('tabLoginBtn'), sb2 = $('tabSignupBtn');
+  const nw = $('signupNameWrap'), btn = $('authSubmitBtn');
+  if (mode === 'login') {
+    lb.style.background = '#005a36'; lb.style.color = '#fff'; lb.style.border = 'none';
+    sb2.style.background = '#fff'; sb2.style.color = '#0f172a'; sb2.style.border = '1px solid #cbd5e1';
+    nw.style.display = 'none';
+    btn.innerText = 'تسجيل الدخول';
+  } else {
+    sb2.style.background = '#005a36'; sb2.style.color = '#fff'; sb2.style.border = 'none';
+    lb.style.background = '#fff'; lb.style.color = '#0f172a'; lb.style.border = '1px solid #cbd5e1';
+    nw.style.display = 'block';
+    btn.innerText = 'إنشاء حساب';
+  }
+  $('authError').innerText = '';
+};
+
+window.handleAuthSubmit = async function() {
+  const email = $('authEmail').value.trim();
+  const pass = $('authPassword').value;
+  const user = $('authUsername').value.trim();
+  const errEl = $('authError');
+  const btn = $('authSubmitBtn');
+  errEl.innerText = '';
+
+  if (!email || !pass) { errEl.innerText = 'املأ البريد وكلمة المرور'; return; }
+  if (pass.length < 6) { errEl.innerText = 'كلمة المرور 6 أحرف على الأقل'; return; }
+
+  btn.disabled = true;
+  btn.innerText = '...';
+
+  try {
+    if (authMode === 'signup') {
+      const { error } = await sb.auth.signUp({
+        email, password: pass,
+        options: { data: { username: user || email.split('@')[0] } }
+      });
+      if (error) throw error;
+      showToast('تم إنشاء الحساب!');
+    } else {
+      const { error } = await sb.auth.signInWithPassword({ email, password: pass });
+      if (error) throw error;
+    }
+  } catch (e) {
+    errEl.innerText = e.message || 'حدث خطأ';
+  } finally {
+    btn.disabled = false;
+    btn.innerText = authMode === 'login' ? 'تسجيل الدخول' : 'إنشاء حساب';
+  }
+};
+
+async function initSession() {
+  const { data: { session } } = await sb.auth.getSession();
+  if (session && session.user) {
+    CURRENT_USER = session.user;
+    await loadProfileFromCloud();
+    $('authScreen').style.display = 'none';
+  } else {
+    $('authScreen').style.display = 'flex';
+  }
+}
+
+async function loadProfileFromCloud() {
+  if (!CURRENT_USER) return;
+  const { data, error } = await sb.from('profiles')
+    .select('*').eq('id', CURRENT_USER.id).single();
+  if (error || !data) { console.warn('profile load', error); return; }
+
+  P.usdt = Number(data.usdt_balance ?? P.usdt);
+  P.syc = Number(data.syc_balance ?? P.syc);
+  P.vipLevel = data.vip_level || 0;
+  P.vaultAds = data.vault_ads || 0;
+  P.boostUsdtUntil = Number(data.boost_usdt_until || 0);
+  P.boostSycUntil = Number(data.boost_syc_until || 0);
+  P.usdtStart = Number(data.usdt_start || Date.now());
+  P.sycStart = Number(data.syc_start || Date.now());
+  P.referralCode = data.referral_code || 'demo';
+  P.createdAt = new Date(data.created_at).getTime() || Date.now();
+  saveLocal();
+  renderAll();
+}
+
+sb.auth.onAuthStateChange(async (event, session) => {
+  if (session?.user) {
+    CURRENT_USER = session.user;
+    await loadProfileFromCloud();
+    $('authScreen').style.display = 'none';
+  } else {
+    CURRENT_USER = null;
+    $('authScreen').style.display = 'flex';
+  }
+});
+ function boot(){
+  loadLocal();
+  renderAll();
+  startLoop();
+  try{
+    var sel = $('langSelect');
+    var saved = localStorage.getItem('sc_lang') || 'ar';
+    if(sel) sel.value = saved;
+    changeLanguage(saved);
+  }catch(e){}
+  updateWithdrawFields('usdt');
+  initSession();   // ← السطر الجديد الوحيد
 }
  
 if(document.readyState === 'loading'){
