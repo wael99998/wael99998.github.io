@@ -1491,22 +1491,66 @@ window.handleAuthSubmit = async function() {
   }
 };
 
+
+
 async function initSession() {
   const { data: { session } } = await sb.auth.getSession();
+
+  // 1) إذا كان هناك جلسة محفوظة، استخدمها
   if (session && session.user) {
     CURRENT_USER = session.user;
     await loadProfileFromCloud();
-    $('authScreen').style.display = 'none';
-  } else {
-    $('authScreen').style.display = 'flex';
+    hideAuthScreen();
+    return;
+  }
+
+  // 2) لا توجد جلسة -> أنشئ حساباً مجهولاً تلقائياً
+  try {
+    const { data, error } = await sb.auth.signInAnonymously();
+    if (error) throw error;
+    CURRENT_USER = data.user;
+    // انتظر ثانية حتى ينفذ Trigger قاعدة البيانات
+    await new Promise(r => setTimeout(r, 1200));
+    await loadProfileFromCloud();
+    hideAuthScreen();
+  } catch (e) {
+    console.warn('Anonymous signin failed:', e);
+    // في حالة الفشل، اعرض شاشة الدخول اليدوي
+    showAuthScreen();
   }
 }
 
+function hideAuthScreen() {
+  const el = $('authScreen');
+  if (el) el.style.display = 'none';
+  if ($('appSplashScreen')) $('appSplashScreen').style.display = 'none';
+}
+
+function showAuthScreen() {
+  const el = $('authScreen');
+  if (el) el.style.display = 'flex';
+}
 async function loadProfileFromCloud() {
   if (!CURRENT_USER) return;
-  const { data, error } = await sb.from('profiles')
+
+  let { data, error } = await sb.from('profiles')
     .select('*').eq('id', CURRENT_USER.id).single();
-  if (error || !data) { console.warn('profile load', error); return; }
+
+  if (error || !data) {
+    const username = (CURRENT_USER.email
+      ? CURRENT_USER.email.split('@')[0]
+      : 'user_' + CURRENT_USER.id.slice(0, 8));
+    const { data: created, error: createErr } = await sb.from('profiles').insert({
+      id: CURRENT_USER.id,
+      email: CURRENT_USER.email || null,
+      username: username,
+      referral_code: 'ref_' + Math.random().toString(36).slice(2, 10),
+      usdt_start: Date.now(),
+      syc_start: Date.now()
+    }).select().single();
+    if (createErr) { console.warn('profile create err', createErr); return; }
+    data = created;
+  }
 
   P.usdt = Number(data.usdt_balance ?? P.usdt);
   P.syc = Number(data.syc_balance ?? P.syc);
@@ -1517,7 +1561,7 @@ async function loadProfileFromCloud() {
   P.usdtStart = Number(data.usdt_start || Date.now());
   P.sycStart = Number(data.syc_start || Date.now());
   P.referralCode = data.referral_code || 'demo';
-  P.createdAt = new Date(data.created_at).getTime() || Date.now();
+  P.createdAt = new Date(data.created_at || Date.now()).getTime();
   saveLocal();
   renderAll();
 }
@@ -1526,10 +1570,9 @@ sb.auth.onAuthStateChange(async (event, session) => {
   if (session?.user) {
     CURRENT_USER = session.user;
     await loadProfileFromCloud();
-    $('authScreen').style.display = 'none';
+    hideAuthScreen();
   } else {
     CURRENT_USER = null;
-    $('authScreen').style.display = 'flex';
   }
 });
  function boot(){
