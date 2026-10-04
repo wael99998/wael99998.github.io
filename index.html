@@ -472,6 +472,37 @@ padding:8px 18px;border-radius:20px;font-size:12px;font-weight:700;display:none;
 <button data-ui="close" class="btn-official-green" onclick="closeModal('aboutModal')"></button>
 </div>
 </div>
+ <!-- نافذة حسابي -->
+<div class="modal-backdrop-clean" id="accountModal">
+  <div class="modal-box-clean" style="text-align:right;">
+    <div style="text-align:center;margin-bottom:14px;">
+      <div style="font-size:40px;">👤</div>
+      <h3 style="color:#005a36;font-size:16px;margin:6px 0;">حسابي</h3>
+    </div>
+
+    <div id="accountStatusBox" style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:12px;padding:12px;font-size:12px;margin-bottom:14px;line-height:1.7;">
+      <div style="font-weight:700;color:#166534;">✅ حسابك محمي بالبريد</div>
+      <div id="accountEmailDisplay" style="color:#64748b;font-size:11px;margin-top:4px;"></div>
+    </div>
+
+    <div id="linkFormBox">
+      <p style="font-size:11px;color:#64748b;line-height:1.6;margin-bottom:10px;">
+        اربط بريدك وكلمة مرور لتصبح قادراً على استعادة حسابك وأرصدتك.
+      </p>
+      <label style="font-size:11px;font-weight:700;color:#64748b;">البريد الإلكتروني</label>
+      <input type="email" id="accEmail" class="input-clean" placeholder="example@mail.com" style="margin-bottom:8px;">
+      <label style="font-size:11px;font-weight:700;color:#64748b;">كلمة المرور</label>
+      <input type="password" id="accPassword" class="input-clean" placeholder="6 أحرف على الأقل" style="margin-bottom:8px;">
+      <label style="font-size:11px;font-weight:700;color:#64748b;">تأكيد كلمة المرور</label>
+      <input type="password" id="accPasswordConfirm" class="input-clean" placeholder="أعد كتابتها" style="margin-bottom:12px;">
+      <button class="btn-official-green" onclick="linkEmailToAccount()">حفظ الحساب 🔗</button>
+      <p id="accError" style="color:#ef4444;font-size:11px;text-align:center;margin-top:8px;min-height:16px;"></p>
+    </div>
+
+    <button class="btn-cancel-support" onclick="closeModal('accountModal')">إغلاق</button>
+  </div>
+</div>
+ 
  
 <div class="modal-backdrop-clean" id="supportModal">
 <div class="modal-box-clean" style="text-align:right;">
@@ -1618,6 +1649,55 @@ sb.auth.onAuthStateChange(async (event, session) => {
     CURRENT_USER = null;
   }
 });
+// ================== نافذة حسابي ==================
+window.openAccountModal = async function() {
+  openModal('accountModal');
+
+  const { data: { user } } = await sb.auth.getUser();
+  const statusBox = $('accountStatusBox');
+  const formBox = $('linkFormBox');
+  const emailDisplay = $('accountEmailDisplay');
+
+  if (user && user.email) {
+    if (statusBox) statusBox.style.display = 'block';
+    if (emailDisplay) emailDisplay.innerText = user.email;
+    if (formBox) formBox.style.display = 'none';
+  } else {
+    if (statusBox) statusBox.style.display = 'none';
+    if (formBox) formBox.style.display = 'block';
+  }
+};
+
+window.linkEmailToAccount = async function() {
+  const email = $('accEmail').value.trim();
+  const pass = $('accPassword').value;
+  const confirm = $('accPasswordConfirm').value;
+  const errEl = $('accError');
+  errEl.innerText = '';
+
+  if (!email || !pass) { errEl.innerText = 'املأ جميع الحقول'; return; }
+  if (pass.length < 6) { errEl.innerText = 'كلمة المرور 6 أحرف على الأقل'; return; }
+  if (pass !== confirm) { errEl.innerText = 'كلمتا المرور غير متطابقتين'; return; }
+
+  try {
+    const { error } = await sb.auth.updateUser({
+      email: email,
+      password: pass
+    });
+    if (error) throw error;
+
+    if (CURRENT_USER) {
+      await sb.from('profiles').update({ email: email }).eq('id', CURRENT_USER.id);
+    }
+
+    showToast('✅ تم ربط حسابك بنجاح!');
+    closeModal('accountModal');
+  } catch (e) {
+    let msg = e.message || 'حدث خطأ';
+    if (msg.includes('already been registered')) msg = 'هذا البريد مسجل مسبقاً';
+    errEl.innerText = '❌ ' + msg;
+  }
+}; 
  function boot(){
   loadLocal();
   renderAll();
