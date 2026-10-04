@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
- 
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" defer></script> 
 <style>
 :root{
 --bg-light:#f4f6f9;--primary-green:#005a36;--primary-dark:#00462a;
@@ -502,6 +502,7 @@ padding:8px 18px;border-radius:20px;font-size:12px;font-weight:700;display:none;
     </div>
     <input id="authEmail" class="input-clean" type="email" placeholder="البريد الإلكتروني" style="margin-bottom:8px;">
     <input id="authPassword" class="input-clean" type="password" placeholder="كلمة المرور (6+ أحرف)" style="margin-bottom:12px;">
+   <div id="turnstile-container" style="margin-top:10px; margin-bottom:10px; display:flex; justify-content:center;"></div>
     <button id="authSubmitBtn" class="btn-official-green" onclick="handleAuthSubmit()">تسجيل الدخول</button>
     <p id="authError" style="color:#ef4444;font-size:11px;text-align:center;margin-top:8px;min-height:16px;"></p>
   </div>
@@ -1406,7 +1407,26 @@ renderSeason();
 renderDailyQuestion();
 }, 1000);
 }
- 
+// ================== إعداد الكابتشا (Turnstile) ==================
+window.turnstileToken = null;
+
+function renderTurnstile() {
+  const container = document.getElementById('turnstile-container');
+  if (container && window.turnstile) {
+    if (container.innerHTML !== '') return;
+    window.turnstile.render(container, {
+      sitekey: '0x4AAAAAAFNcwQmcvfKJ2pN6',
+      callback: function(token) { window.turnstileToken = token; },
+      'expired-callback': function() { window.turnstileToken = null; }
+    });
+  }
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', renderTurnstile);
+} else {
+  renderTurnstile();
+} 
 // ================== نظام تسجيل الدخول ==================
 let authMode = 'login';
 
@@ -1438,6 +1458,7 @@ window.handleAuthSubmit = async function() {
 
   if (!email || !pass) { errEl.innerText = 'املأ البريد وكلمة المرور'; return; }
   if (pass.length < 6) { errEl.innerText = 'كلمة المرور 6 أحرف على الأقل'; return; }
+  if (!window.turnstileToken) { errEl.innerText = 'الرجاء إكمال التحقق من الكابتشا'; return; }
 
   btn.disabled = true;
   btn.innerText = '...';
@@ -1446,16 +1467,24 @@ window.handleAuthSubmit = async function() {
     if (authMode === 'signup') {
       const { error } = await sb.auth.signUp({
         email, password: pass,
-        options: { data: { username: user || email.split('@')[0] } }
+        options: {
+          data: { username: user || email.split('@')[0] },
+          captchaToken: window.turnstileToken
+        }
       });
       if (error) throw error;
       showToast('تم إنشاء الحساب!');
     } else {
-      const { error } = await sb.auth.signInWithPassword({ email, password: pass });
+      const { error } = await sb.auth.signInWithPassword({
+        email,
+        password: pass,
+        options: { captchaToken: window.turnstileToken }
+      });
       if (error) throw error;
     }
   } catch (e) {
     errEl.innerText = e.message || 'حدث خطأ';
+    if (window.turnstile) { window.turnstile.reset(); window.turnstileToken = null; }
   } finally {
     btn.disabled = false;
     btn.innerText = authMode === 'login' ? 'تسجيل الدخول' : 'إنشاء حساب';
