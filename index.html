@@ -1415,7 +1415,7 @@ function renderTurnstile() {
   if (container && window.turnstile) {
     if (container.innerHTML !== '') return;
     window.turnstile.render(container, {
-      sitekey: '1x00000000000000000000AA',
+      sitekey: '0x4AAAAAAFNcwQmcvfKJ2pN6',
       callback: function(token) { window.turnstileToken = token; },
       'expired-callback': function() { window.turnstileToken = null; }
     });
