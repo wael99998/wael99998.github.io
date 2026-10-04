@@ -8,7 +8,8 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" defer></script> 
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/@fingerprintjs/fingerprintjs@4/dist/fp.min.js"></script>
 <style>
 :root{
 --bg-light:#f4f6f9;--primary-green:#005a36;--primary-dark:#00462a;
@@ -1494,32 +1495,73 @@ window.handleAuthSubmit = async function() {
 
 
 async function initSession() {
-  const { data: { session } } = await sb.auth.getSession();
-
   // 1) إذا كان هناك جلسة محفوظة، استخدمها
+  const { data: { session } } = await sb.auth.getSession();
   if (session && session.user) {
     CURRENT_USER = session.user;
     await loadProfileFromCloud();
+    await ensureDeviceIdSaved();
     hideAuthScreen();
     return;
   }
 
-  // 2) لا توجد جلسة -> أنشئ حساباً مجهولاً تلقائياً
+  // 2) لا توجد جلسة -> احصل على بصمة الجهاز أولاً
+  let deviceId = null;
+  try {
+    if (window.FingerprintJS) {
+      const fp = await FingerprintJS.load();
+      const result = await fp.get();
+      deviceId = result.visitorId;
+    }
+  } catch (e) { console.warn('fingerprint err', e); }
+
+  // احفظ البصمة في localStorage أيضاً
+  if (deviceId) {
+    try { localStorage.setItem('sc_device_id', deviceId); } catch(e){}
+  } else {
+    try { deviceId = localStorage.getItem('sc_device_id'); } catch(e){}
+  }
+
+  // 3) افحص هل هذا الجهاز موجود مسبقاً في profiles
+  if (deviceId) {
+    const { data: existing } = await sb.from('profiles')
+      .select('id').eq('device_id', deviceId).maybeSingle();
+    if (existing) {
+      console.warn('Device already registered:', deviceId);
+      showAuthScreen();
+      return;
+    }
+  }
+
+  // 4) جهاز جديد -> أنشئ حساباً مجهولاً
   try {
     const { data, error } = await sb.auth.signInAnonymously();
     if (error) throw error;
     CURRENT_USER = data.user;
-    // انتظر ثانية حتى ينفذ Trigger قاعدة البيانات
     await new Promise(r => setTimeout(r, 1200));
     await loadProfileFromCloud();
+    await ensureDeviceIdSaved();
     hideAuthScreen();
   } catch (e) {
     console.warn('Anonymous signin failed:', e);
-    // في حالة الفشل، اعرض شاشة الدخول اليدوي
     showAuthScreen();
   }
 }
 
+// حفظ device_id في البروفايل إذا لم يكن موجوداً
+async function ensureDeviceIdSaved() {
+  if (!CURRENT_USER) return;
+  let deviceId = null;
+  try { deviceId = localStorage.getItem('sc_device_id'); } catch(e){}
+  if (!deviceId || !window.FingerprintJS) return;
+
+  const { data } = await sb.from('profiles').select('device_id')
+    .eq('id', CURRENT_USER.id).single();
+  if (data && !data.device_id) {
+    await sb.from('profiles').update({ device_id: deviceId })
+      .eq('id', CURRENT_USER.id);
+  }
+}
 function hideAuthScreen() {
   const el = $('authScreen');
   if (el) el.style.display = 'none';
